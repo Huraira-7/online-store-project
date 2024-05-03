@@ -1,0 +1,19 @@
+.update-status {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .update-status select {
+    padding: 5px;
+  }
+  
+  
+   button:hover {
+    background-color: #bad2ec;
+  }
+
+  label, .fileinput{
+    font-size:1.5rem
+  }
