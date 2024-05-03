@@ -5,15 +5,16 @@ import { useSelector } from "react-redux";                      //npm i
 
 //import components
 import Error from './comps/Error/error';
-import Protected from './comps/Protected/Protected';
+import Downtime from './comps/Downtime/Downtime';
 
+// import Protected from './comps/Protected/Protected';
 //import pages
-import Login from './views/Login/login';
-import Register from './views/Register/register';
+// import Login from './views/Login/login';
+// import Register from './views/Register/register';
+// import ChangePassword from './views/ChangePassword/changepassword';
 import Home from './views/Home/home';
-import Browse from './views/Browse/browse';
+import Contact from './views/Contact/contact';
 import Profile from './views/Profile/profile';
-import ChangePassword from './views/ChangePassword/changepassword';
 
 
 
@@ -26,18 +27,17 @@ function App() {
       <BrowserRouter>
           <Routes>
               <Route path="/"           element={ <Home/> }        />   
-              <Route path="/login"   element={ <Login/>   }   />   
+              {/* <Route path="/login"   element={ <Login/>   }   />   
               <Route path="/register"   element={ <Register />  }   /> 
               <Route path="/changepassword"       
                      element={  Protected(isAuth,<ChangePassword/>)   }    
-              /> 
+              />  */}
               <Route path="/profile"      
                     element = { <Profile/>} 
                     //  element={  Protected(isAuth,<Profile/>)  }     
               />
-              <Route path="/browse"       
-                     element={  Protected(isAuth,<Browse/>)  }    
-              />
+              <Route path="/contact" element={ <Contact/>  }  />
+              <Route path="/downtime" element={ <Downtime/>  }  />
               <Route path="*"  element={ <Error />  } />
           </Routes>
         </BrowserRouter>

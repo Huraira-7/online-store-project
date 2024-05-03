@@ -11,7 +11,7 @@ function Sidebar({cartopen, setCartOpen, handleCloseCart}) {
   )
   
   const cart = ['something']
-  const [qtys,qty] = useState([])
+  const [qtys,setQtys] = useState([])
 
 
   function handleMinus(e){
@@ -20,8 +20,8 @@ function Sidebar({cartopen, setCartOpen, handleCloseCart}) {
   }
   function handleAdd(e){
     e.preventDefault()
-
   }
+
   function handleDelete(e){
     e.preventDefault()
 
@@ -57,9 +57,9 @@ function Sidebar({cartopen, setCartOpen, handleCloseCart}) {
             </div>
             <Separator className='bg-red-400/30' />
             <div className="flex flex-col space-y-16 p-8">
-              {works.map((artwork) => (
-                <div className='flex'>
-                  <figure key={artwork.artist} className="shrink-0 w-[200px]">
+              {works.map((artwork,idx) => (
+                <div key={idx} className='flex'>
+                  <figure className="shrink-0 w-[200px]">
                     <div className="overflow-hidden rounded-md">
                       <img
                         src={artwork.art}
@@ -85,7 +85,7 @@ function Sidebar({cartopen, setCartOpen, handleCloseCart}) {
                           type="text"
                           // id="cartInput"
                           value = {1}
-                          // onChange={(e)=>(setSearchQuery(e.target.value))}
+                          onChange={(e)=>(setQtys(e.target.value))}
                           className={`flex text-center w-7/12 h-full px-8 text-black text-4xl focus:outline-none`}
                         />
                         <button className={`focus:outline-none px-2 bg-white rounded-r-lg `} onClick={(e)=>handleAdd(e)}><FaPlus className='text-4xl' /></button>

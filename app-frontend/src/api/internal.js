@@ -45,70 +45,7 @@ export const changepassword = async (data) => {
 };
 
 
-// trade APIS  ------------------------------------------------------------------------
-
-export const createtrade = async (data) => {
-    let response;
-  
-    try {  response = await api.post("/createtrade", data); } 
-    catch (error) {  return error; }
-  
-    return response;
-};
-
-export const gettradesandoffersforthisuser = async (data) => {
-    let response;
-  
-    try {  response = await api.post("/gettradesandoffersforthisuser", data); } 
-    catch (error) {  return error; }
-  
-    return response;
-};
-
-export const getongoingtrades = async (data) => {
-  let response;
-  try { response = await api.post("/getongoingtrades",data); } 
-  catch (error) { return error; }
-
-  return response;
-};
-
-export const acceptoffer = async (data) => {
-  let response;
-  try { response = await api.post("/acceptoffer",data); } 
-  catch (error) { return error; }
-
-  return response;
-};
-
-export const declineoffer = async (data) => {
-  let response;
-  try { response = await api.post("/declineoffer",data); } 
-  catch (error) { return error; }
-
-  return response;
-};
-
-// offer APIS  ------------------------------------------------------------------------
-
-export const getoffersforthistradeifthisuserownsthistrade = async (data) => {
-  let response;
-  try { response = await api.post("/getoffersforthistradeifthisuserownsthistrade",data); } 
-  catch (error) { return error; }
-
-  return response;
-};
-
-export const sendoffer = async (data) => {
-  let response;
-  try { response = await api.post("/sendoffer",data); } 
-  catch (error) { return error; }
-
-  return response;
-};
-
-
-
+// product APIS  ------------------------------------------------------------------------
 
 export const addproduct = async (data) => {
   let response;
@@ -143,6 +80,49 @@ export const fetchallproducts = async () => {
 
   return response;
 };
+
+export const editproduct = async (data) => {
+  let response;
+  try { response = await api.post("/editproduct",data); } 
+  catch (error) { return error; }
+
+  return response;
+};
+
+export const editproductaddphoto = async (data) => {
+  let response;
+  // try { response = await api.post("/addproduct",data); } 
+  try {
+    response = axios.post('http://localhost:3000/editproductaddphoto', data, {
+      headers: {
+        'accept': 'application/json',
+        'Accept-Language': 'en-US,en;q=0.8',
+        'Content-Type': `multipart/form-data; boundary=${data._boundary}`,
+      }})
+  }
+  catch (error) { return error; }
+
+  return response;
+};
+
+
+export const deleteproduct = async (data) => {
+  let response;
+  try { response = await api.post("/deleteproduct",data); } 
+  catch (error) { return error; }
+
+  return response;
+};
+
+
+export const fetchinitialdata = async () => {
+  let response;
+  try { response = await api.post("/fetchinitialdata"); } 
+  catch (error) { return error; }
+
+  return response;
+};
+
 
 
 

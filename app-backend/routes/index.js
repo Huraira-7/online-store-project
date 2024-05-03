@@ -19,9 +19,17 @@ const router = express.Router();
 
 router.post('/addproduct',upload.single('file'),productController.addproduct);
 
-router.post('/fetchproductbycategory',productController.fetchproductbycategory)
+router.post('/fetchproductbycategory',productController.fetchproductbycategory);
 
-router.post('/fetchallproducts',productController.fetchallproducts) 
+router.post('/fetchallproducts',productController.fetchallproducts);
+
+router.post('/editproduct',productController.editproduct); 
+
+router.post('/editproductaddphoto',upload.single('file'),productController.editproductaddphoto);
+
+router.post('/deleteproduct',productController.deleteproduct); 
+
+router.post('/fetchinitialdata',productController.fetchinitialdata); 
 
 
 

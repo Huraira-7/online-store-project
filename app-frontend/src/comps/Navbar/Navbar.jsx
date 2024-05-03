@@ -1,33 +1,9 @@
-// import { logout } from '../../api/internal';
-// import { resetUser } from "../../store/userSlice";
-// import { useNavigate } from 'react-router-dom';
-// import { useDispatch } from 'react-redux';
-  
-  //     const navigate = useNavigate();
-  //     const dispatch = useDispatch();
-  
-  //     async function handleLogout(){
-    //         // const data = {username };
-    //         // await delactiveuser(data);
-    //         await logout();
-    //         dispatch(resetUser());
-    //         navigate("/");
-    //     }
-    
-  
-  
-/**
- * v0 by Vercel.
- * @see https://v0.dev/t/RGbAywU2kFf
- * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
-*/
 import { useState } from "react";
 import  "./navbar.css";
- // import Link from "next/link"
 
 function Navbar({colorScheme, search, setSearch, searchQuery, setSearchQuery, setSearchRes, cartopen, setCartOpen}) {
 
-  async function handleOpenSearch(){
+  async function handleOpenSearch() {
     console.log("open-search")
     const maindiv = document.getElementById('maindiv');
     if(maindiv.scrollTop !== 0){
@@ -52,6 +28,7 @@ function Navbar({colorScheme, search, setSearch, searchQuery, setSearchQuery, se
     const sidebardiv = document.getElementById('sidebardiv')
     sidebardiv.classList.remove('hidden')
     sidebardiv.classList.add('z-40')
+    // sidebardiv.classList.add('transit')
   }
 
   return (
@@ -72,7 +49,7 @@ function Navbar({colorScheme, search, setSearch, searchQuery, setSearchQuery, se
               </button>
             </div>
           ) : (
-            <header id="hdr" className={`${colorScheme}  shadow-sm dark:bg-gray-950 dark:text-gray-50 h-52`} >
+            <header id="hdr" className={`${colorScheme}  shadow-sm dark:bg-gray-950 dark:text-gray-50 h-96`} >
               <div className="flex h-36 mx-0 items-center justify-between px-4 md:px-6 w-full">
                 <button className=" rounded-md p-2 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800">
                   <MenuIcon className="h-8 w-8" />

@@ -9,11 +9,11 @@
     padding: 5px;
   }
   
-  
-   button:hover {
+  .btn:hover{
     background-color: #bad2ec;
   }
 
   label, .fileinput{
     font-size:1.5rem
   }
+

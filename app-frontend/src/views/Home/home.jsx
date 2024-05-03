@@ -5,7 +5,7 @@ import Autoplay from "embla-carousel-autoplay"
 import { ScrollArea,ScrollBar } from "@/components/ui/scroll-area"
 import { Helmet } from 'react-helmet';
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
-
+import { fetchinitialdata } from '../../api/internal';
 import Navbar from '../../comps/Navbar/Navbar'
 import Sidebar from '../../comps/Sidebar/Sidebar';
 import Footer from '../../comps/Footer/Footer'
@@ -41,12 +41,12 @@ function Home() {
   //window is NOT scrolling (hence should not add event listener to window) 
   // since overflow-auto/overflow-scroll is allowed on maindiv (so add event listener to it)
 
-  useEffect(() => {
-    if (!api) { return; }
-  }, [api])
+  // useEffect(() => {
+  //   if (!api) { return; }
+  // }, [api])
 
   useEffect(() => {
-    
+    // fetchinitialdata  
   }, []) //fetch all items by title 
 
   useEffect(() => {
