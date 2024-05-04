@@ -30,7 +30,7 @@ const productController = {
     },
 
     async editproduct(req,res,next) {
-        const {_id,title,description,price,is_out_stock,imgdel} = req.body
+        const {_id,title,description,price,is_out_stock,best_selling,imgdel} = req.body
         try{
             let product = await Product.findById(_id);
             product.title = title;
@@ -38,6 +38,7 @@ const productController = {
             if(product.price != price) {  product.oldprice = product.price;  }
             product.price = price;
             product.is_out_stock = is_out_stock;
+            product.best_selling = best_selling;
             for (var i in product.images) {
                 product.images[i]['is_deleted'] = imgdel[i];
             }
@@ -47,7 +48,7 @@ const productController = {
     },
 
     async editproductaddphoto(req,res,next) {
-        const {_id,title,description,price,is_out_stock,imgdel} = req.body
+        const {_id,title,description,price,is_out_stock,best_selling,imgdel} = req.body
         try{
             let product = await Product.findById(_id);
             product.title = title;
@@ -55,6 +56,7 @@ const productController = {
             if(product.price != price) {  product.oldprice = product.price;  }
             product.price = price;
             product.is_out_stock = is_out_stock;
+            product.best_selling = best_selling;
             for (var i in product.images) {
                 product.images[i]['is_deleted'] = imgdel[i];
             }
@@ -93,11 +95,15 @@ const productController = {
     },
 
     async fetchinitialdata(req,res,next){
+        let products; 
+        let titles = [];
+        let categoriesdone = []; //one product, latest product, best selling product from all categories
+        try {
+            products = await Product.find();
+            for (var i in products) {  titles.push(products[i].title) }   // fetch ids,titles of all products to use for search
+            return res.status(200).json({ titles, });
+        }  catch(e) {  console.log("one",e); return next(e);  }
         // fetch home page navbar images
-        // fetch ids,titles of all products to use for search
-        // fetch one product from all categories
-        // fetch latest products from all categories
-        // fetch best selling products from all categories
         // save it to redux state on home page so reloading isnt required when come back to home page 
     }
 }

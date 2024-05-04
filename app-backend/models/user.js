@@ -2,15 +2,10 @@ import mongoose from 'mongoose';
 const {Schema} = mongoose;
 
 const userSchema = new Schema({
-    username: {type: String, required: true},
-    password: {type: String, required: true},
-    num_owned_items: {type: Number, required: true},
-    cash: {type: Number, required: true},
-    trades : {
-        type: [mongoose.SchemaTypes.ObjectId], // Array of ObjectIds referencing Trades
-        ref: 'Trade',                          // Reference the Trade model
-        required: true,
-    },
+    email: {type: String, required: true},
+    role : {type: String, required: true}, //employee OR customer,
+    active  : {type: Boolean, required: true}, //true for all customers, false if admin updates their email id
+
 },
     {timestamps: true}
 );

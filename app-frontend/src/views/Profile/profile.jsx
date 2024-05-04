@@ -21,24 +21,34 @@ function Profile() {
   const [pids, setPids] = useState([]) 
   const [prices, setPrices] = useState([]);
   const [stocktoggle, setStockToggle] = useState([]);
+  const [bestselltoggle, setBestsellToggle] = useState([]);
   const [imgtoggle, setImgToggle] = useState([]);
   const [files,setFiles] = useState([])
   const [selected, setSelected] = useState("Earrings");
   const [error, setError] = useState("");
-  const [isOpen, setIsOpen] = useState(false);
-  const [isOpen2, setIsOpen2] = useState(false);
+  const [isOpen, setIsOpen] = useState([]);
+  const [isOpen2, setIsOpen2] = useState([]);
   const allowedFileExtensions = ['jpg','jpeg','png','bmp','gif','tiff']
 
 
   const handleContinueClickSaveChanges = async (e,idx) => {
+    console.log(idx)
     await handleEditProd(e,idx);
-    setIsOpen(false); // Close the dialog manually
+    handlesetIsOpen(false,idx); // Close the dialog manually
   };
 
   const handleContinueClickDelete = async (e,idx) => {
     await handleDelProd(e,idx);
-    setIsOpen2(false); // Close the dialog manually
+    handlesetIsOpen2(false,idx); // Close the dialog manually
   };
+
+  function handlesetIsOpen(flag,idx){
+    setIsOpen([...isOpen.slice(0, idx), !isOpen[idx], ...isOpen.slice(idx + 1)]); 
+  }
+
+  function handlesetIsOpen2(flag,idx){
+    setIsOpen2([...isOpen2.slice(0, idx), !isOpen2[idx], ...isOpen2.slice(idx + 1)]); 
+  }
 
 
   const handlesetFile = (e) => {
@@ -97,6 +107,12 @@ function Profile() {
     setStockToggle([...stocktoggle.slice(0, index), !stocktoggle[index], ...stocktoggle.slice(index + 1)]); // Update descriptions at specific index
   };
 
+  const handleBestselltoggle = (event) => {
+    const { id } = event.target;
+    const index = parseInt(id.split('-')[1], 10);
+    setBestsellToggle([...bestselltoggle.slice(0, index), !bestselltoggle[index], ...bestselltoggle.slice(index + 1)]); // Update descriptions at specific index
+  };
+
   const handleImgtoggle = (event) => {
     const { id } = event.target;
     const arrayindex = parseInt(id.split('-')[1], 10);
@@ -120,7 +136,9 @@ function Profile() {
       return;
     }
     const _id = pids[idx]
-    const data = {_id, title: newtitle, description: newdesc, price: newprice, imgdel: imgtoggle[idx], is_out_stock :stocktoggle[idx]} 
+    const data = {_id, title: newtitle, description: newdesc, price: newprice, imgdel: imgtoggle[idx], is_out_stock :stocktoggle[idx] , best_selling: bestselltoggle[idx]} 
+    console.log("index",idx)
+    console.log(data)
     let resp;
     if (files[idx] == undefined){ //normal edit product
       console.log("no new img file",data)
@@ -189,7 +207,7 @@ function Profile() {
     try  { 
       console.log("handling add products-----",title,desc,price,selected);
       const response = await addproduct(data);
-      console.log("response-----",response);
+      console.log("response status-----",response.status);
       if (response.status !== 201) { 
          if (response.code === "ERR_BAD_REQUEST") {  // display error message
         console.log("setting error-----",response.response.status); 
@@ -219,8 +237,10 @@ function Profile() {
         let ds = []
         let ids = []
         let instks = []
+        let bsts = []
         let imgtoggles = []
         let filez = []
+        let openarr = []
         for (var idx in resp.data.products){
           let p = resp.data.products[idx]
           ts.push(p.title)
@@ -228,7 +248,9 @@ function Profile() {
           ds.push(p.description)
           ids.push(p._id)
           instks.push(p.is_out_stock)
+          bsts.push(p.best_selling)
           filez.push(undefined)
+          openarr.push(false)
           let imgs = p.images
           let isimgdeleted = []
           for (var idx2 in imgs){
@@ -244,6 +266,9 @@ function Profile() {
         setStockToggle(instks)
         setImgToggle(imgtoggles)
         setFiles(filez)
+        setBestsellToggle(bsts)
+        setIsOpen(openarr)
+        setIsOpen2(openarr)
       } else if (response.code === "ERR_BAD_REQUEST") {  // display error message
         console.log("setting error-----",response.response.status); 
         if (response.response.status === 404) {setError("error 404 Server is offline");}
@@ -304,13 +329,13 @@ function Profile() {
     {products.length>0 && products.map((_prod, index) => (
         <div key={index} className='w-inherit p-6'>
         <div className=' flex'>
-              <li key={index} className='list-none'>
+              <li className='list-none'>
                 <span className='text-xl text-wrap'>
                  <span className='text-3xl flex justify-between'>
                     Product {index+1} 
-                    <AlertDialog open={isOpen2}>
+                    <AlertDialog open={isOpen2[index]}>
                       <AlertDialogTrigger>
-                          <MdDelete className='cursor-pointer text-4xl hover:bg-red-400' onClick={() => setIsOpen2(true)}/>
+                          <MdDelete className='cursor-pointer text-4xl hover:bg-red-400' onClick={() => handlesetIsOpen2(true,index)}/>
                       </AlertDialogTrigger>
                       <AlertDialogContent>
                         <AlertDialogHeader>
@@ -320,7 +345,7 @@ function Profile() {
                           </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
-                          <AlertDialogCancel onClick={() => setIsOpen2(false)}>Cancel</AlertDialogCancel>
+                          <AlertDialogCancel onClick={() => handlesetIsOpen2(false,index)}>Cancel</AlertDialogCancel>
                           <AlertDialogAction onClick={(e)=>handleContinueClickDelete(e,index)} >Continue</AlertDialogAction>
                         </AlertDialogFooter>
                       </AlertDialogContent>
@@ -338,9 +363,14 @@ function Profile() {
                     <label htmlFor={`desc-${index}`} className='flex justify-center mb-4' >Description:</label>
                     <textarea id={`d-${index}`} rows={6} cols={40}  value = {descs[index]} onChange={handleDescChange}  />
                   </div> 
-                  <Toggle id={`s-${index}`} aria-label="Toggle bold" className='border border-red-900' onClick={handleStocktoggle}>
-                    { stocktoggle[index] ?  'Mark As In Stock' : 'Mark as Out of Stock'}
-                  </Toggle>
+                  <div className='flex justify-between'>
+                    <Toggle id={`s-${index}`} aria-label="Toggle bold" className='border border-red-900' onClick={handleStocktoggle}>
+                      { stocktoggle[index] ?  'Mark As In Stock' : 'Mark as Out of Stock'}
+                    </Toggle>
+                    <Toggle id={`sell-${index}`} aria-label="Toggle bold" className='border border-red-900' onClick={handleBestselltoggle}>
+                      { bestselltoggle[index] ?  'Mark As Normal Product' : 'Mark As Best Selling'}
+                    </Toggle>
+                  </div>
                   </span>
                 </li>
                 <ScrollArea className="mt-16 w-full whitespace-nowrap">
@@ -366,9 +396,9 @@ function Profile() {
           </ScrollArea>
           </div>
           <div className='flex justify-center py-8 '>
-              <AlertDialog open={isOpen}>
+              <AlertDialog open={isOpen[index]}>
               <AlertDialogTrigger>
-                <div className='p-4 bg-white rounded-lg flex text-3xl' onClick={() => setIsOpen(true)} >  
+                <div className='p-4 bg-white rounded-lg flex text-3xl' onClick={() => handlesetIsOpen(true,index)} >  
                   Save Changes
                 </div>
               </AlertDialogTrigger>
@@ -380,13 +410,12 @@ function Profile() {
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                  <AlertDialogCancel onClick={() => setIsOpen(false)}>Cancel</AlertDialogCancel>
+                  <AlertDialogCancel onClick={() => handlesetIsOpen(false,index)}>Cancel</AlertDialogCancel>
                   <AlertDialogAction onClick={(e)=>handleContinueClickSaveChanges(e,index)} >Continue</AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>
-          </div>
-         
+          </div>     
         </div>
     ))}
     </div>

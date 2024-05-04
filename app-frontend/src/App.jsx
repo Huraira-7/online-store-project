@@ -15,6 +15,8 @@ import Downtime from './comps/Downtime/Downtime';
 import Home from './views/Home/home';
 import Contact from './views/Contact/contact';
 import Profile from './views/Profile/profile';
+import TnC from './views/TnC/TnC';
+import OrderCancellation from './views/OrderCancellation/OrderCancellation';
 
 
 
@@ -38,6 +40,8 @@ function App() {
               />
               <Route path="/contact" element={ <Contact/>  }  />
               <Route path="/downtime" element={ <Downtime/>  }  />
+              <Route path="/termsandconditions" element={ <TnC/>  }  />
+              <Route path="/ordercancellation" element={ <OrderCancellation/>  }  />
               <Route path="*"  element={ <Error />  } />
           </Routes>
         </BrowserRouter>

@@ -5,10 +5,10 @@ import Autoplay from "embla-carousel-autoplay"
 import { ScrollArea,ScrollBar } from "@/components/ui/scroll-area"
 import { Helmet } from 'react-helmet';
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
-import { fetchinitialdata } from '../../api/internal';
 import Navbar from '../../comps/Navbar/Navbar'
 import Sidebar from '../../comps/Sidebar/Sidebar';
 import Footer from '../../comps/Footer/Footer'
+import { fetchinitialdata } from '../../api/internal';
 import './home.css'
 import { works,halfworks } from '@/assets/randomdata';
 
@@ -83,7 +83,7 @@ function Home() {
       if(currentScrollY > 200){
           if(currentScrollY > lastScroll ){
               // console.log("setting -208")
-              hdr.style.top = '-208px'
+              hdr.style.top = '-270px'
           } else {
             // console.log("setting 0")
               hdr.style.top = '0'
@@ -357,7 +357,7 @@ function Home() {
             </div>
           </section>
           <section className="px-4 md:px-6 py-12">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8">
               <div className="relative group rounded-lg shadow-lg hover:shadow-xl transition-transform duration-300 ease-in-out hover:-translate-y-2">
               {/* <Link className="absolute inset-0 z-10" href="#">
                 <span className="sr-only">View</span>
@@ -399,93 +399,9 @@ function Home() {
                 <h3 className="font-bold text-xl">Dresses</h3>
                 <p className="text-sm text-gray-500">Elegant and chic</p>
               </div>
-            </div>
-            <div className="relative group rounded-lg shadow-lg hover:shadow-xl transition-transform duration-300 ease-in-out hover:-translate-y-2">
-              {/* <Link className="absolute inset-0 z-10" href="#">
-                <span className="sr-only">View</span>
-              </Link> */}
-              <img
-                alt="Shoes"
-                className="object-cover w-full h-auto"
-                height={400}
-                src="/placeholder.svg"
-                style={{
-                  aspectRatio: "500/400",
-                  objectFit: "cover",
-                }}
-                width={500}
-              />
-              <div className="bg-white p-4 dark:bg-gray-950">
-                <h3 className="font-bold text-xl">Shoes</h3>
-                <p className="text-sm text-gray-500">Comfortable and stylish</p>
-              </div>
-            </div>
+            </div>    
             </div>
             </section>
-            <section className=" px-4 md:px-6 py-12">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div className="relative group rounded-lg shadow-lg hover:shadow-xl transition-transform duration-300 ease-in-out hover:-translate-y-2">
-              {/* <Link className="absolute inset-0 z-10" href="#">
-                <span className="sr-only">View</span>
-              </Link> */}
-              <img
-                alt="Jackets"
-                className="object-cover w-full h-auto"
-                height={400}
-                src="/placeholder.svg"
-                style={{
-                  aspectRatio: "500/400",
-                  objectFit: "cover",
-                }}
-                width={500}
-              />
-              <div className="bg-white p-4 dark:bg-gray-950">
-                <h3 className="font-bold text-xl">Jackets</h3>
-                <p className="text-sm text-gray-500">Warm and fashionable</p>
-              </div>
-            </div>
-            <div className="relative group rounded-lg shadow-lg hover:shadow-xl transition-transform duration-300 ease-in-out hover:-translate-y-2">
-              {/* <Link className="absolute inset-0 z-10" href="#">
-                <span className="sr-only">View</span>
-              </Link> */}
-              <img
-                alt="Scarfs"
-                className="object-cover w-full h-auto"
-                height={400}
-                src="/placeholder.svg"
-                style={{
-                  aspectRatio: "500/400",
-                  objectFit: "cover",
-                }}
-                width={500}
-              />
-              <div className="bg-white p-4 dark:bg-gray-950">
-                <h3 className="font-bold text-xl">Scarfs</h3>
-                <p className="text-sm text-gray-500">Complete your look</p>
-              </div>
-            </div>
-            <div className="relative group rounded-lg shadow-lg hover:shadow-xl transition-transform duration-300 ease-in-out hover:-translate-y-2">
-              {/* <Link className="absolute inset-0 z-10" href="#">
-                <span className="sr-only">View</span>
-              </Link> */}
-              <img
-                alt="Sleeves"
-                className="object-cover w-full h-auto"
-                height={400}
-                src="/placeholder.svg"
-                style={{
-                  aspectRatio: "500/400",
-                  objectFit: "cover",
-                }}
-                width={500}
-              />
-              <div className="bg-white p-4 dark:bg-gray-950">
-                <h3 className="font-bold text-xl">Sleeves</h3>
-                <p className="text-sm text-gray-500">Complete your look</p>
-              </div>
-            </div>
-          </div>
-        </section>  
         <section className="px-4 md:px-6 py-12">
           <span className="text-3xl font-bold flex justify-center ">Fresh Arrivals</span>
           <ScrollArea className="mt-16 w-full whitespace-nowrap">

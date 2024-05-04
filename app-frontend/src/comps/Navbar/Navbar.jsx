@@ -49,33 +49,30 @@ function Navbar({colorScheme, search, setSearch, searchQuery, setSearchQuery, se
               </button>
             </div>
           ) : (
-            <header id="hdr" className={`${colorScheme}  shadow-sm dark:bg-gray-950 dark:text-gray-50 h-96`} >
-              <div className="flex h-36 mx-0 items-center justify-between px-4 md:px-6 w-full">
+            <header id="hdr" className={`${colorScheme}  shadow-sm dark:bg-gray-950 dark:text-gray-50 h-90`} >
+              <div className="flex h-52 mx-0 items-center justify-between px-4 md:px-6 w-full">
                 <button className=" rounded-md p-2 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800">
-                  <MenuIcon className="h-8 w-8" />
+                  <MenuIcon className="h-11 w-11" />
                   <span className="sr-only">Toggle navigation</span>
                 </button>
-                <div className="text-4xl cursor-pointer">Bling  💎 Boutique</div>
+                <div className="text-5xl cursor-pointer">Bling  💎 Boutique</div>
                 <div className="flex items-center gap-2">
                   <button className="searchbarr rounded-md p-2 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800"  onClick={handleOpenSearch}>
-                    <SearchIcon className="h-8 w-8 searchbarr" />
+                    <SearchIcon className="h-11 w-11 searchbarr" />
                     <span className="sr-only">Open search</span>
                   </button>
                   <button className="rounded-md p-2 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800" onClick={handleOpenCart}>
-                    <ShoppingCartIcon className="h-8 w-8" />
+                    <ShoppingCartIcon className="h-11 w-11" />
                     <span className="sr-only">Open cart</span>
                   </button>
                 </div>
               </div>
               <div className="flex text-center justify-center items-center px-4 md:px-6 py-2">
-                  <span className="mr-4 pb-2 text-2xl cursor-pointer">Clothes</span>
-                  <span className="mr-4 pb-2 text-2xl cursor-pointer">Jackets</span>
-                  <span className="mr-4 pb-2 text-2xl cursor-pointer">Shorts</span>
-                  <span className="mr-4 pb-2 text-2xl cursor-pointer">Knickers</span>
-                  <span className="mr-4 pb-2 text-2xl cursor-pointer">Pants</span>
-                  <span className="mr-4 pb-2 text-2xl cursor-pointer">Shirts</span>
-                  <span className="mr-4 pb-2 text-2xl cursor-pointer">Boots</span>
-                  <span className="pb-2 text-2xl cursor-pointer">Scarfs</span>
+                  <span className="mr-4 pb-2 text-3xl cursor-pointer">Earrings</span>
+                  <span className="mr-4 pb-2 text-3xl cursor-pointer">Rings</span>
+                  <span className="mr-4 pb-2 text-3xl cursor-pointer">Necklace</span>
+                  <span className="mr-4 pb-2 text-3xl cursor-pointer">Bracelet</span>
+                  <span className="mr-4 pb-2 text-3xl cursor-pointer">Beauty</span>
                 </div>
             </header>
           )}

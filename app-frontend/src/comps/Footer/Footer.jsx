@@ -3,20 +3,22 @@ import facebook from '../../assets/fb.png'
 import insta from '../../assets/insta.jpeg'
 import tiktok from '../../assets/tiktok.png'
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 
 function Footer(props) {
+  const navigate = useNavigate();
   return (
-    <footer className={`bottom-0 left-0 right-0 pt-2 ${props.colorScheme}`}>
+    <footer className={`bottom-0 left-0 right-0 pt-2 overflow-auto ${props.colorScheme}`}>
     <div className="flex h-36 mx-0 items-center justify-between px-4 md:px-6 w-full">
         <div className="py-10 px-96 text-5xl text-nowrap  cursor-pointer"> Bling  💎 Boutique </div>
         <div className="flex items-center gap-8">
-          <button className="py-3 px-6 hover:underline">
+          <button className="py-3 px-6 hover:underline" onClick={()=>navigate('/contact',{replace:true})}>
             <span className="text-3xl">Contact us</span>
           </button>
-          <button className="py-3 px-6 hover:underline"> 
+          <button className="py-3 px-6 hover:underline"onClick={()=>navigate('/ordercancellation',{replace:true})}> 
             <span className="text-3xl">Order cancellation</span>
           </button>
-          <button className="py-3 px-6 hover:underline">
+          <button className="py-3 px-6 hover:underline"onClick={()=>navigate('/termsandconditions',{replace:true})}>
             <span className="text-3xl">Terms & conditions</span>
           </button>
         </div>

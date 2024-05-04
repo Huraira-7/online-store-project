@@ -49,7 +49,7 @@ function Contact() {
 
 
   return (
-    <div className='overflow-auto'>
+    <div className='fixed top-0 bottom-0 left-0 right-0 overflow-auto'>
       <Navbar colorScheme={navbarfootercolorscheme} />
       <div className='flex flex-col items-center'>
       <h3 id="contacthdr" className='text-6xl pt-8 mr-16'> Contact Us </h3>
@@ -61,7 +61,7 @@ function Contact() {
               <Textarea placeholder="Type your message here." value = {comment} onChange = { (e) => setComment(e.target.value)} className='w-[700px] text-3xl p-10 h-64' />
           </div>
       </form>
-      <Button type="submit" Submit className='mb-8 mr-16 text-3xl p-10 rounded-full' onClick={handlesubmitForm}>  Submit </Button> 
+      <Button type="submit" className='mb-8 mr-16 text-3xl p-10 rounded-full' onClick={handlesubmitForm}>  Submit </Button> 
       </div>
       <Footer colorScheme={navbarfootercolorscheme}/>
     </div>
