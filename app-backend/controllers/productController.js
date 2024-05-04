@@ -97,14 +97,25 @@ const productController = {
     async fetchinitialdata(req,res,next){
         let products; 
         let titles = [];
-        let categoriesdone = []; //one product, latest product, best selling product from all categories
+        let latestproducts;
+        let bestselling;
+        let categorywise = {};
+        // const categories = new Set(['Earrings', 'Necklace', 'Bracelet', 'Beauty', 'Rings']); // Set of valid categories
         try {
             products = await Product.find();
-            for (var i in products) {  titles.push(products[i].title) }   // fetch ids,titles of all products to use for search
-            return res.status(200).json({ titles, });
+            if(products.length>0){
+                for (const item of products) {
+                    if (!categorywise[item.category]) { categorywise[item.category] = item; }
+                }
+                for (var i in products) {  titles.push({'title':products[i].title,'category':products[i].category,'img':products[i].images[0].imagestring}) }   // fetch ids,titles of all products to use for search
+                latestproducts = products.sort((a, b) => b.date - a.date).slice(0, 5);  //store fresh arrivals
+                bestselling = products.filter(item => item.best_selling === true);   //store best selling products
+            }
+            return res.status(200).json({ titles, latestproducts, bestselling, categorywise });
         }  catch(e) {  console.log("one",e); return next(e);  }
         // fetch home page navbar images
-        // save it to redux state on home page so reloading isnt required when come back to home page 
+        // fetch home page titles on top
+        // save all of it to redux state on home page so reloading isnt required when come back to home page 
     }
 }
 

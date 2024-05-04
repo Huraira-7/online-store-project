@@ -1,4 +1,4 @@
-export const works = [
+export var works = [
     {
       artist: "Ornella Binni",
       art: "https://images.unsplash.com/photo-1465869185982-5a1a7522cbcb?auto=format&fit=crop&w=300&q=80",
@@ -37,7 +37,7 @@ export const works = [
     },
   ]
   
-export const halfworks = [
+export var halfworks = [
   {
     artist: "Ornella Binni",
     art: "https://images.unsplash.com/photo-1465869185982-5a1a7522cbcb?auto=format&fit=crop&w=300&q=80",

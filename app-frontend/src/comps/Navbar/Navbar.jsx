@@ -1,13 +1,15 @@
-import { useState } from "react";
+// import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import  "./navbar.css";
 
 function Navbar({colorScheme, search, setSearch, searchQuery, setSearchQuery, setSearchRes, cartopen, setCartOpen}) {
+  const maindiv = document.getElementById('maindiv');
+  const navigate = useNavigate();
 
   async function handleOpenSearch() {
     console.log("open-search")
-    const maindiv = document.getElementById('maindiv');
     if(maindiv.scrollTop !== 0){
-      document.getElementById('maindiv').scrollTo({
+      maindiv.scrollTo({
         top: 0,
         behavior: 'smooth',
       });
@@ -49,13 +51,13 @@ function Navbar({colorScheme, search, setSearch, searchQuery, setSearchQuery, se
               </button>
             </div>
           ) : (
-            <header id="hdr" className={`${colorScheme}  shadow-sm dark:bg-gray-950 dark:text-gray-50 h-90`} >
+            <header id="hdr" className={`${colorScheme}  shadow-sm dark:bg-gray-950 dark:text-gray-50 h-90 overflow-auto`} >
               <div className="flex h-52 mx-0 items-center justify-between px-4 md:px-6 w-full">
                 <button className=" rounded-md p-2 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800">
                   <MenuIcon className="h-11 w-11" />
                   <span className="sr-only">Toggle navigation</span>
                 </button>
-                <div className="text-5xl cursor-pointer">Bling  💎 Boutique</div>
+                <div className="text-5xl cursor-pointer" onClick={()=>navigate('/',{replace:true})}>Bling  💎 Boutique</div>
                 <div className="flex items-center gap-2">
                   <button className="searchbarr rounded-md p-2 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800"  onClick={handleOpenSearch}>
                     <SearchIcon className="h-11 w-11 searchbarr" />
@@ -68,11 +70,14 @@ function Navbar({colorScheme, search, setSearch, searchQuery, setSearchQuery, se
                 </div>
               </div>
               <div className="flex text-center justify-center items-center px-4 md:px-6 py-2">
-                  <span className="mr-4 pb-2 text-3xl cursor-pointer">Earrings</span>
-                  <span className="mr-4 pb-2 text-3xl cursor-pointer">Rings</span>
-                  <span className="mr-4 pb-2 text-3xl cursor-pointer">Necklace</span>
-                  <span className="mr-4 pb-2 text-3xl cursor-pointer">Bracelet</span>
-                  <span className="mr-4 pb-2 text-3xl cursor-pointer">Beauty</span>
+                  <span className="mr-4 pb-2 text-3xl cursor-pointer" onClick={()=>navigate('/',{replace:true})}> Home</span>
+                  <span className="mr-4 pb-2 text-3xl cursor-pointer" onClick={()=>navigate('/',{replace:true})}> Shop</span>
+                  <span className="mr-4 pb-2 text-3xl cursor-pointer" onClick={()=>navigate('/category/earrings',{replace:true})} > Earrings</span>
+                  <span className="mr-4 pb-2 text-3xl cursor-pointer" onClick={()=>navigate('/category/rings',{replace:true})} > Rings</span>
+                  <span className="mr-4 pb-2 text-3xl cursor-pointer" onClick={()=>navigate('/category/necklace',{replace:true})}> Necklace</span>
+                  <span className="mr-4 pb-2 text-3xl cursor-pointer" onClick={()=>navigate('/category/bracelet',{replace:true})} > Bracelet</span>
+                  <span className="mr-4 pb-2 text-3xl cursor-pointer" onClick={()=>navigate('/category/beauty',{replace:true})} > Beauty</span>
+                  <span className="mr-4 pb-2 text-3xl cursor-pointer">Sale</span>
                 </div>
             </header>
           )}

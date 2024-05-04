@@ -1,16 +1,12 @@
 import {useEffect, useState} from 'react'
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import Navbar from '../../comps/Navbar/Navbar'
-import Footer from '../../comps/Footer/Footer';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
-import { Replace } from 'lucide-react';
 // import {  } from '../../api/internal';
 // import { useSelector } from 'react-redux';
 
 function Contact() {
-  const navbarfootercolorscheme = 'bg-rose-400';
   const [name, setName] = useState('');
   const [comment, setComment] = useState('');
   const [email, setEmail] = useState("");
@@ -49,8 +45,8 @@ function Contact() {
 
 
   return (
-    <div className='fixed top-0 bottom-0 left-0 right-0 overflow-auto'>
-      <Navbar colorScheme={navbarfootercolorscheme} />
+    <div className='mt-16 overflow-auto'>
+      {/* <Navbar colorScheme={navbarfootercolorscheme} /> */}
       <div className='flex flex-col items-center'>
       <h3 id="contacthdr" className='text-6xl pt-8 mr-16'> Contact Us </h3>
       <form onSubmit={handlesubmitForm} id="contactform" className='text-left mt-8 rounded-md p-8'>
@@ -63,7 +59,7 @@ function Contact() {
       </form>
       <Button type="submit" className='mb-8 mr-16 text-3xl p-10 rounded-full' onClick={handlesubmitForm}>  Submit </Button> 
       </div>
-      <Footer colorScheme={navbarfootercolorscheme}/>
+      {/* <Footer colorScheme={navbarfootercolorscheme}/> */}
     </div>
   )
 }

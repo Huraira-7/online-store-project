@@ -10,17 +10,17 @@ function Footer(props) {
   return (
     <footer className={`bottom-0 left-0 right-0 pt-2 overflow-auto ${props.colorScheme}`}>
     <div className="flex h-36 mx-0 items-center justify-between px-4 md:px-6 w-full">
-        <div className="py-10 px-96 text-5xl text-nowrap  cursor-pointer"> Bling  💎 Boutique </div>
+        <div className="py-10 px-96 text-5xl text-nowrap  cursor-pointer" onClick={()=>navigate('/',{replace:true})}> Bling  💎 Boutique </div>
         <div className="flex items-center gap-8">
-          <button className="py-3 px-6 hover:underline" onClick={()=>navigate('/contact',{replace:true})}>
+          <div className="py-3 px-6 hover:underline " onClick={()=>navigate('/contact',{replace:true})}>
             <span className="text-3xl">Contact us</span>
-          </button>
-          <button className="py-3 px-6 hover:underline"onClick={()=>navigate('/ordercancellation',{replace:true})}> 
+          </div>
+          <div className="py-3 px-6 hover:underline "onClick={()=>navigate('/ordercancellation',{replace:true})}> 
             <span className="text-3xl">Order cancellation</span>
-          </button>
-          <button className="py-3 px-6 hover:underline"onClick={()=>navigate('/termsandconditions',{replace:true})}>
+          </div>
+          <div className="py-3 px-6 hover:underline "onClick={()=>navigate('/termsandconditions',{replace:true})}>
             <span className="text-3xl">Terms & conditions</span>
-          </button>
+          </div>
         </div>
       </div>
       <div className="flex text-3xl pt-4 pb-2 px-4 md:px-20 md:pt-12"> Subscribe to our emails </div>
@@ -52,7 +52,7 @@ function Footer(props) {
         </div>
         <div className="row flex justify-center">
           <div className="flex text-2xl py-4 px-4 md:px-20 md:pt-12 md:pb-6">
-            © 2024, <span className='cursor-pointer px-2 '>   Bling Boutique   </span> | Design & Developed by <button className='hover:underline px-2'> Huraira Anwer </button>
+            © 2024, <span className='cursor-pointer px-2 '>   Bling Boutique   </span> | Design & Developed by <div className='hover:underline px-2'> Huraira Anwer </div>
           </div> 
         </div>
     </footer>

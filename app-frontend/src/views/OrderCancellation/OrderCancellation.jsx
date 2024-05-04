@@ -2,7 +2,11 @@
 
 function OrderCancellation() {
   return (
-    <div>Order Cancellation Policy</div>
+    <div className="min-h-screen">
+      <div>
+        Order Cancellation Policy
+      </div>
+    </div>
   )
 }
 

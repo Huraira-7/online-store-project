@@ -269,10 +269,10 @@ function Profile() {
         setBestsellToggle(bsts)
         setIsOpen(openarr)
         setIsOpen2(openarr)
-      } else if (response.code === "ERR_BAD_REQUEST") {  // display error message
-        console.log("setting error-----",response.response.status); 
-        if (response.response.status === 404) {setError("error 404 Server is offline");}
-        if (response.response.status === 500) {setError("error 500 Internal Server Error");}      
+      } else if (resp.code === "ERR_BAD_REQUEST") {  // display error message
+        console.log("setting error-----",resp.response.status); 
+        // if (resp.response.status === 404) {setError("error 404 Server is offline");}
+        // if (resp.response.status === 500) {setError("error 500 Internal Server Error");}      
       } 
     };
     fetchData();
@@ -345,8 +345,8 @@ function Profile() {
                           </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
-                          <AlertDialogCancel onClick={() => handlesetIsOpen2(false,index)}>Cancel</AlertDialogCancel>
-                          <AlertDialogAction onClick={(e)=>handleContinueClickDelete(e,index)} >Continue</AlertDialogAction>
+                          <AlertDialogCancel  className='text-4xl' onClick={() => handlesetIsOpen2(false,index)}>Cancel</AlertDialogCancel>
+                          <AlertDialogAction  className='text-4xl' onClick={(e)=>handleContinueClickDelete(e,index)} >Continue</AlertDialogAction>
                         </AlertDialogFooter>
                       </AlertDialogContent>
                     </AlertDialog>
@@ -410,8 +410,8 @@ function Profile() {
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                  <AlertDialogCancel onClick={() => handlesetIsOpen(false,index)}>Cancel</AlertDialogCancel>
-                  <AlertDialogAction onClick={(e)=>handleContinueClickSaveChanges(e,index)} >Continue</AlertDialogAction>
+                  <AlertDialogCancel  className='text-2xl' onClick={() => handlesetIsOpen(false,index)}>Cancel</AlertDialogCancel>
+                  <AlertDialogAction  className='text-2xl' onClick={(e)=>handleContinueClickSaveChanges(e,index)} >Continue</AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>
