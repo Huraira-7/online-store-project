@@ -26,6 +26,17 @@ header{
     transition: transform 0.5s ease-in-out
 }
 
+/* styles.css */
+.unset-max-width {
+    max-width: unset !important; /* Remove potential max-width restrictions */
+}
+  
+
+/* .scrollbar-none::-webkit-scrollbar {
+    display: none;
+} */
+
+
 /* .cat{
     font-family: 
 } */

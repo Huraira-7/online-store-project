@@ -4,6 +4,7 @@ import { Separator } from "@/components/ui/separator"
 import { works,halfworks } from '@/assets/randomdata';
 import { FaPlus,FaMinus } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
+import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger} from "@/components/ui/sheet"
 
 function Sidebar({cartopen, setCartOpen, handleCloseCart}) {
   const tags = Array.from({ length: 100 }).map(

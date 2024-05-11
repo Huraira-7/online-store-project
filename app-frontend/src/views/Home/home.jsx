@@ -1,4 +1,7 @@
 import  {useEffect, useState} from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { addItem, setUser , resetUser} from '../../store/userSlice';
+
 import { Button } from "@/components/ui/button"
 import { CarouselItem, CarouselContent, CarouselPrevious, CarouselNext, Carousel } from "@/components/ui/carousel"
 import Autoplay from "embla-carousel-autoplay"
@@ -7,14 +10,11 @@ import { Separator } from "@/components/ui/separator"
 
 import { Helmet } from 'react-helmet';
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
-// import Navbar from '../../comps/Navbar/Navbar'
-// import Footer from '../../comps/Footer/Footer'
-import Sidebar from '../../comps/Sidebar/Sidebar';
 import { fetchinitialdata } from '../../api/internal';
 import './home.css'
 // import { works,halfworks } from '@/assets/randomdata';
 
-function Home({cartopen,setCartOpen,handleCloseCart,search,searchQuery,searchRes,navbarfootercolorscheme,pagecolorscheme,setTitles}) {
+function Home({cartopen,setCartOpen,handleCloseCart,search,searchQuery,searchRes,navbarfootercolorscheme,pagecolorscheme,setTitles,cartbadge, setCartbadge}) {
   const totalSlides = 4
   const [categorywise, setCategorywise] = useState([])
   const [bestselling, setBestselling] = useState([])
@@ -22,11 +22,19 @@ function Home({cartopen,setCartOpen,handleCloseCart,search,searchQuery,searchRes
   const [currimg, setCurrimg] = useState([0,0,0,0,0]) //initial pictures for all categories
   
   const [api, setApi] = useState()  //CarouselApi
+  const dispatch = useDispatch();
+  
+  const user = useSelector((state) => state.user);
+  console.log(user)
 
-  // useEffect(() => {
-  //   if (!api) { return; }
-  // }, [api])
-
+  useEffect(() => {
+    if (user.cart === undefined){
+      dispatch(setUser({_id: generateRandomId()}));
+    } else {
+      setCartbadge(user.cart.length)
+    }
+  }, [user])
+  
   const handleHoverImg = (event) => {
     const { id } = event.target;
     const index = parseInt(id.split('-')[1], 10);
@@ -38,6 +46,11 @@ function Home({cartopen,setCartOpen,handleCloseCart,search,searchQuery,searchRes
     let imgg = document.getElementById(id)
     // console.log(imgg.classList)
     // imgg.classList.add('bg-red-900')
+  };
+
+  window.onbeforeunload = function (e) { //not at page change but at reload
+      // dispatch(resetUser()) 
+      // fetch data again for latest info?
   };
 
   useEffect(() => {
@@ -64,12 +77,27 @@ function Home({cartopen,setCartOpen,handleCloseCart,search,searchQuery,searchRes
 
   const handlePreviousClick = () => {
     if(api.canScrollPrev()) {api.scrollPrev()} else {api.scrollTo(totalSlides-1,false,1)}
+    dispatch(resetUser())
   };
+
+  function generateRandomId() {
+    const randomNum = Math.floor(Math.random() * (99999999 - 10000000 + 1)) + 10000000;
+    return randomNum.toString().padStart(8, '0');
+  }
+
+  const handleAddItem = (e,prod) => {
+    // console.log("adding item")
+    e.preventDefault()
+    console.log(prod)
+    let temp = {...prod}
+    temp['qty'] = 1
+    dispatch(addItem(temp));
+    setCartbadge((prevbadge)=>prevbadge+1)
+  }
   
 
   return (
     <>
-    <Sidebar cartopen = {cartopen} setCartOpen={setCartOpen} handleCloseCart={handleCloseCart}/>
     <div >
           <Helmet>
             {/* {add SEO tags over here ....} */}
@@ -358,12 +386,21 @@ function Home({cartopen,setCartOpen,handleCloseCart,search,searchQuery,searchRes
                       height={500}
                     />
                   </div>
-                  <figcaption className="pt-2 text-xl text-muted-foreground">
-                    Category: {"  "}
+                  <figcaption className="pt-2 text-3xl mt-4 text-muted-foreground text-center">
+                     {"  "}
                     <span className="font-semibold text-foreground">
-                    {`${latestprod.category}`}
+                    {`${latestprod.title}`} 
                     </span>
                   </figcaption>
+                  <figcaption className="pt-2 text-3xl mt-4 text-muted-foreground text-center">
+                    Rs {"  "}
+                    <span className="text-foreground">
+                    {`${latestprod.price}`} 
+                    </span>
+                  </figcaption>
+                  <div className='flex justify-center my-8'>
+                    <button className='noscalebtn px-16 py-8 text-4xl bg-white rounded-md outline-none hover:outline-black outline-4' onClick={(e)=>handleAddItem(e,latestprod)}> Add to Cart</button>
+                  </div>
                 </figure>
               ))}
             </div>
@@ -386,12 +423,21 @@ function Home({cartopen,setCartOpen,handleCloseCart,search,searchQuery,searchRes
                       height={500}
                     />
                   </div>
-                  <figcaption className="pt-2 text-xl text-muted-foreground">
-                    Category: {"  "}
+                  <figcaption className="pt-2 text-3xl text-center mt-4 text-muted-foreground">
+                     {"  "}
                     <span className="font-semibold text-foreground">
-                      {`${bestprod.category}`}
+                      {`${bestprod.title}`}
                     </span>
                   </figcaption>
+                  <figcaption className="pt-2 text-3xl mt-4 text-muted-foreground text-center">
+                    Rs {"  "}
+                    <span className="text-foreground">
+                    {`${bestprod.price}`} 
+                    </span>
+                  </figcaption>
+                  <div className='flex justify-center my-8'>
+                    <button className='noscalebtn px-16 py-8 text-4xl bg-white rounded-md outline-none hover:outline-black outline-4' onClick={(e)=>handleAddItem(e,bestprod)}> Add to Cart</button>
+                  </div>
                 </figure>
               ))}
             </div>

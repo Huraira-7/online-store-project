@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom'
 function Footer(props) {
   const navigate = useNavigate();
   return (
-    <footer className={`bottom-0 left-0 right-0 pt-2 overflow-auto ${props.colorScheme}`}>
+    <footer className={`bottom-0 left-0 right-0 pt-2 overflow-auto ${props.navbarfootercolorscheme}`}>
     <div className="flex h-36 mx-0 items-center justify-between px-4 md:px-6 w-full">
         <div className="py-10 px-96 text-5xl text-nowrap  cursor-pointer" onClick={()=>navigate('/',{replace:true})}> Bling  💎 Boutique </div>
         <div className="flex items-center gap-8">

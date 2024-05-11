@@ -6,22 +6,26 @@ import { useState,useEffect } from 'react';
 //import components
 import Error from './comps/Error/error';
 import Downtime from './comps/Downtime/Downtime';
-import Navbar from './comps/Navbar/Navbar';
-import Footer from './comps/Footer/Footer';
+// import Navbar from './comps/Navbar/Navbar';
+// import Footer from './comps/Footer/Footer';
 
 // import Protected from './comps/Protected/Protected';
 //import pages
 // import Login from './views/Login/login';
 // import Register from './views/Register/register';
 // import ChangePassword from './views/ChangePassword/changepassword';
-import Home from './views/Home/home';
-import Category from './views/Category/Category';
-import Product from './views/Product/Product';
-import Contact from './views/Contact/contact';
+
+// import Category from './views/Category/Category';
+// import Home from './views/Home/home';
+// import Product from './views/Product/Product';
+// import Contact from './views/Contact/contact';
+// import TnC from './views/TnC/TnC';
+// import OrderCancellation from './views/OrderCancellation/OrderCancellation';
+
 import Checkout from './views/Checkout/Checkout';
-import TnC from './views/TnC/TnC';
-import OrderCancellation from './views/OrderCancellation/OrderCancellation';
 import Profile from './views/Profile/profile';
+
+import Layout from './lib/PageLayout';
 
 
 
@@ -41,6 +45,7 @@ function App() {
     const [searchQuery,setSearchQuery] = useState('')
     const [searchRes,setSearchRes] = useState([])
     const [lastScroll,setlastScroll] = useState(0)
+    const [cartbadge, setCartbadge] = useState(0)
 
     const hdr=document.getElementById('hdr')
     //window is NOT scrolling (hence should not add event listener to window) 
@@ -70,23 +75,23 @@ function App() {
       }, [searchQuery]) //fetch all items by title 
     
       useEffect(() => {
-        if(maindiv){
-          if(cartopen){
-            maindiv.style.opacity = '0.6'
-            maindiv.style.overflow = 'hidden'
-          } else {
-            maindiv.style.opacity = '1'
-            maindiv.style.overflow = 'auto'
-          }
-        }
+        // if(maindiv){
+        //   if(cartopen){
+        //     maindiv.style.opacity = '0.6'
+        //     maindiv.style.overflow = 'hidden'
+        //   } else {
+        //     maindiv.style.opacity = '1'
+        //     maindiv.style.overflow = 'auto'
+        //   }
+        // }
       }, [cartopen]) //update opacities at cart open/close
 
     
     function handleCloseCart(){
       setCartOpen(false)
-      const sidebardiv = document.getElementById('sidebardiv')
-      sidebardiv.classList.remove('z-40')
-      sidebardiv.classList.add('hidden')
+      // const sidebardiv = document.getElementById('sidebardiv')
+      // sidebardiv.classList.remove('z-40')
+      // sidebardiv.classList.add('hidden')
     }
 
     const handleScroll = async () => {
@@ -146,68 +151,86 @@ function App() {
         }
       };
 
+    const navbarfooterprops = {
+      navbarfootercolorscheme: navbarfootercolorscheme,
+      search: search,
+      setSearch: setSearch,
+      searchQuery: searchQuery,
+      setSearchQuery: setSearchQuery,
+      setSearchRes: setSearchRes,
+      cartopen : cartopen,
+      setCartOpen: setCartOpen,
+      handleCloseCart: handleCloseCart,
+      cartbadge: cartbadge,
+      setCartbadge: setCartbadge
+    }
+
     return (
     <div id="maindiv" className="fixed top-0 bottom-0 left-0 right-0 overflow-auto" onScroll = {handleScroll} onClick = {(e)=>handleClick(e)}>
       <BrowserRouter>
           <Routes>
               <Route path="/"           element={ 
                 <>
-                  <Navbar colorScheme={navbarfootercolorscheme} search={search} setSearch={setSearch} searchQuery={searchQuery} setSearchQuery={setSearchQuery} setSearchRes={setSearchRes} cartopen = {cartopen} setCartOpen={setCartOpen}/>
-                  <Home cartopen={cartopen} setCartOpen={setCartOpen} handleCloseCart={handleCloseCart} search={search} searchQuery={searchQuery} searchRes={searchRes} navbarfootercolorscheme={navbarfootercolorscheme} pagecolorscheme={pagecolorscheme} setTitles={setTitles} suggestions={suggestions}/> 
-                  <Footer colorScheme={navbarfootercolorscheme}/>
+                <Layout pagename='home' {...navbarfooterprops}  pagecolorscheme={pagecolorscheme} searchRes={searchRes}  setTitles={setTitles} suggestions={suggestions} />
+                  {/* <Navbar colorScheme={navbarfootercolorscheme} search={search} setSearch={setSearch} searchQuery={searchQuery} setSearchQuery={setSearchQuery} setSearchRes={setSearchRes} cartopen = {cartopen} setCartOpen={setCartOpen}  handleCloseCart={handleCloseCart}/>
+                    <Home cartopen={cartopen} setCartOpen={setCartOpen} handleCloseCart={handleCloseCart} search={search} searchQuery={searchQuery} searchRes={searchRes} navbarfootercolorscheme={navbarfootercolorscheme} pagecolorscheme={pagecolorscheme} setTitles={setTitles} suggestions={suggestions}/> 
+                  <Footer colorScheme={navbarfootercolorscheme}/> */}
                 </>
-              }/>   
+              }/>  
+               
               {categories.map((category,idx) => (
                 <Route key={idx} path={`/category/${category}`} 
                   element={
                     <>
-                      <Navbar colorScheme={navbarfootercolorscheme} search={search} setSearch={setSearch} searchQuery={searchQuery} setSearchQuery={setSearchQuery} setSearchRes={setSearchRes} cartopen = {cartopen} setCartOpen={setCartOpen}/>
+                    <Layout pagename='category/${category}' {...navbarfooterprops} category={category} />
+                      {/* <Navbar colorScheme={navbarfootercolorscheme} search={search} setSearch={setSearch} searchQuery={searchQuery} setSearchQuery={setSearchQuery} setSearchRes={setSearchRes} cartopen = {cartopen} setCartOpen={setCartOpen}  handleCloseCart={handleCloseCart}/>
                         <Category category={category} />
-                      <Footer colorScheme={navbarfootercolorscheme}/>
+                      <Footer colorScheme={navbarfootercolorscheme}/> */}
                     </>
                   } />
               ))}
-              {/* <Route path="/category/earrings" element={ 
-                  <>
-                        <Category/> 
-                </>
-              }  /> USE category/:id */}
-               <Route path="/category/*" element={<Error /> } />
+
               <Route path="/product" element={ 
-                  <>
-                    <Navbar colorScheme={navbarfootercolorscheme} search={search} setSearch={setSearch} searchQuery={searchQuery} setSearchQuery={setSearchQuery} setSearchRes={setSearchRes} cartopen = {cartopen} setCartOpen={setCartOpen}/>
+                <>
+                  <Layout pagename='product' {...navbarfooterprops} />
+                    {/* <Navbar colorScheme={navbarfootercolorscheme} search={search} setSearch={setSearch} searchQuery={searchQuery} setSearchQuery={setSearchQuery} setSearchRes={setSearchRes} cartopen = {cartopen} setCartOpen={setCartOpen}/>
                         <Product/> 
-                    <Footer colorScheme={navbarfootercolorscheme}/>
+                      <Footer colorScheme={navbarfootercolorscheme}/> */}
                 </>
               }  />
               <Route path="/contact" element={ 
-                  <>
-                    <Navbar colorScheme={navbarfootercolorscheme} search={search} setSearch={setSearch} searchQuery={searchQuery} setSearchQuery={setSearchQuery} setSearchRes={setSearchRes} cartopen = {cartopen} setCartOpen={setCartOpen}/>
+                <>
+                  <Layout pagename='contact' {...navbarfooterprops} />
+                    {/* <Navbar colorScheme={navbarfootercolorscheme} search={search} setSearch={setSearch} searchQuery={searchQuery} setSearchQuery={setSearchQuery} setSearchRes={setSearchRes} cartopen = {cartopen} setCartOpen={setCartOpen}/>
                         <Contact/> 
-                    <Footer colorScheme={navbarfootercolorscheme}/>
+                      <Footer colorScheme={navbarfootercolorscheme}/> */}
                   </>
               }  />
               <Route path="/termsandconditions" element={ 
-                  <>
-                    <Navbar colorScheme={navbarfootercolorscheme} search={search} setSearch={setSearch} searchQuery={searchQuery} setSearchQuery={setSearchQuery} setSearchRes={setSearchRes} cartopen = {cartopen} setCartOpen={setCartOpen}/>
+                <>
+                <Layout pagename='termsandconditions' {...navbarfooterprops} />
+                    {/* <Navbar colorScheme={navbarfootercolorscheme} search={search} setSearch={setSearch} searchQuery={searchQuery} setSearchQuery={setSearchQuery} setSearchRes={setSearchRes} cartopen = {cartopen} setCartOpen={setCartOpen}/>
                         <TnC/> 
-                    <Footer colorScheme={navbarfootercolorscheme}/>
+                      <Footer colorScheme={navbarfootercolorscheme}/> */}
                 </>
                }  />
               <Route path="/ordercancellation" element={ 
-                  <>
-                    <Navbar colorScheme={navbarfootercolorscheme} search={search} setSearch={setSearch} searchQuery={searchQuery} setSearchQuery={setSearchQuery} setSearchRes={setSearchRes} cartopen = {cartopen} setCartOpen={setCartOpen}/>
+                <>
+                <Layout pagename='ordercancellation' {...navbarfooterprops} />
+                    {/* <Navbar colorScheme={navbarfootercolorscheme} search={search} setSearch={setSearch} searchQuery={searchQuery} setSearchQuery={setSearchQuery} setSearchRes={setSearchRes} cartopen = {cartopen} setCartOpen={setCartOpen}/>
                         <OrderCancellation/> 
-                    <Footer colorScheme={navbarfootercolorscheme}/>
+                      <Footer colorScheme={navbarfootercolorscheme}/> */}
                 </>
                }  />
-               <Route path="/checkout" element={ <Checkout/> }  />
 
+
+               <Route path="/checkout" element={ <Checkout/> }  />
                <Route path="/profile"      
                     element = { <Profile/>} 
                     //  element={  Protected(isAuth,<Profile/>)  }     
                />
               <Route path="/downtime" element={ <Downtime/>  }  />
+              <Route path="/category/*" element={<Error /> } />
               <Route path="*"  element={ <Error />  } />
           </Routes>
         </BrowserRouter>
