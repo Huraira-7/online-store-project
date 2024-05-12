@@ -224,7 +224,7 @@ function App() {
                }  />
 
 
-               <Route path="/checkout" element={ <Checkout/> }  />
+               <Route path="/checkout" element={ <Checkout setCartbadge={setCartbadge}/> }  />
                <Route path="/profile"      
                     element = { <Profile/>} 
                     //  element={  Protected(isAuth,<Profile/>)  }     

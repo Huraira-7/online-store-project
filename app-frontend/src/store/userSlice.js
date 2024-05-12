@@ -2,9 +2,9 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   _id: "",
+  cart : []
   // username: "",
   // auth: false,
-  cart : []
 };
 
 //save homepage data also in state
@@ -60,6 +60,9 @@ const userSlice = createSlice({
         }
       }
     },
+    emptyCart: (state) => {
+      state.cart = []
+    },
     resetUser: (state) => {
       state._id = "";
       state.cart = [];
@@ -67,7 +70,7 @@ const userSlice = createSlice({
   },
 });
 
-export const { setUser, addItem, incrementItem, decrementItem, removeItem, setItemquantity, resetUser } = userSlice.actions;
+export const { setUser, addItem, incrementItem, decrementItem, removeItem, setItemquantity, emptyCart, resetUser } = userSlice.actions;
 
 export default userSlice.reducer;
 

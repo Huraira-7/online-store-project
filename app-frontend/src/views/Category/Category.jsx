@@ -4,6 +4,11 @@ import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, Pagi
 import { fetchproductbycategory } from '@/api/internal'
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue,} from "@/components/ui/select"
+import {  useNavigate } from 'react-router-dom';
+import Popper from '@mui/material/Popper';
+import { GrCheckboxSelected, GrCheckbox } from "react-icons/gr";
+import { Separator } from "@/components/ui/separator"
+import { Input } from "@/components/ui/input"
 import './category.css'
 
 
@@ -14,6 +19,8 @@ function Category({category}) {
   const [page,currentPage] = useState(1)
   const [pages,setPages] = useState([1])
   const [numpages,setNumpages] = useState(1)
+  const [selected,setSelected] = useState('')
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,10 +32,11 @@ function Category({category}) {
         let tmp = resp.data.products
         let dup = [...tmp]
         let dup2 = tmp.concat(dup)
-        setProducts(dup2.concat(dup2))
-        setFilteredproducts(dup2.concat(dup2).slice(0, 6))
+        let dup3 = dup2.concat(dup2)
+        setProducts(dup3)
+        setFilteredproducts(dup3.slice(0, 6))
 
-        let np = Math.ceil(dup2.concat(dup2).length/6)  // resp.data.products.length/6
+        let np = Math.ceil(dup3.length/6)  // resp.data.products.length/6
         setNumpages(np)
 
         let tmparr = [1]
@@ -51,47 +59,6 @@ function Category({category}) {
     
   }, [])
 
-  function handlePageMove(e,pnum) {
-    e.preventDefault()
-    const diff= Math.abs(page-pnum) //either 1 or 2
-    console.log("move to ",pnum, "from ", page, "diff=",diff )
-    if(pnum> page){
-      if(pages[pages.length-1]!==numpages){
-          console.log("nxt")
-          if(diff==1){ setPages(prevState => prevState.map(value => value + 1));  }
-          else {   
-            if(pages[pages.length-1]!==numpages-1){ console.log("upd2");
-              setPages(prevState => prevState.map(value => value + 2));
-            }
-          }
-      }
-      
-      let index;
-      if(diff==1){ index = page*6 }
-      else       { index = (page+1)*6 } 
-      const endIndex = Math.min(products.length, index + 6);
-      setFilteredproducts(products.slice(index,endIndex))
-      console.log("start,end",index,endIndex,products.length)
-      currentPage(pnum)
-      return;
-    } 
-    if (pnum < page){
-      for(let i=0; i<diff; i++) {
-        if(pages[0]!==1){
-          console.log("prev")
-          setPages(prevState => prevState.map(value => value - 1));
-        }
-      }
-      let index;
-      if(diff==1){ index = (page-1)*6 }
-      else       { index = (page-2)*6 } 
-      const startIndex = Math.max(0, index - 6);
-      setFilteredproducts(products.slice(startIndex,index))
-      console.log("start,end",startIndex,index,products.length)
-      currentPage(pnum)
-      return;
-    }
-  }
 
   function handleNextPg(e) {
     e.preventDefault()
@@ -119,36 +86,134 @@ function Category({category}) {
     currentPage((oldpg) => oldpg-1)
   }
   
+
+  function showProduct(prod){
+    navigate('/product', { state:{product: btoa(JSON.stringify(prod))} })
+  } 
+
+  function handleSelection(value) {
+    if(page!==1){
+      currentPage(1)
+      setPages([1,2,3])
+    }
+    let sorttype = value.split(' ')[0]
+    let sortdir = ['A','old','low'].includes(value.split(' ')[1])
+    let sortdirection = sortdir ? 'ascending' : 'descending'
+    // console.log(sorttype)
+    // console.log(sortdir)
+    console.log(sorttype, sortdirection)
+    let sortedData;
+    if(sorttype === 'Price,'){
+      sortedData = [...products].sort((a, b) => a.price - b.price); 
+    } else if (sorttype === 'Date,'){
+      sortedData = [...products].sort((a, b) => a.date - b.date); 
+    } else { //Alphabetically
+      sortedData = [...products].sort((a, b) => {
+        const nameA = a.title.toLowerCase(); // Sort by lowercase names for case-insensitive order
+        const nameB = b.title.toLowerCase();
+        return nameA.localeCompare(nameB); // Use localeCompare for proper string comparison
+      });
+    }
+    // console.log(sortedData)
+    if(sortdirection === 'descending') {  sortedData = sortedData.slice().reverse() }
+    // console.log(sortedData)
+    setProducts(sortedData)
+    setFilteredproducts(sortedData.slice(0,6))
+  }
+
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorEl2, setAnchorEl2] = useState(null);
+  const open = Boolean(anchorEl);
+  const open2 = Boolean(anchorEl2)
+  const [p1, setp1] = useState()
+  const [p2, setp2] = useState()
+
+  function handlesetP1(val) {
+    if (!isNaN(parseInt(val))) {
+      if(parseInt(val)>0){
+        setp1(parseInt(val));
+      } 
+    } 
+  }
+
+  function handlesetP2(val) {
+    if (!isNaN(parseInt(val))) {
+      console.log(val)
+      if(parseInt(val)>0){
+        setp2(parseInt(val));
+      } 
+    } 
+  }
+
+  const handleAvailClick = (event) => {
+    setAnchorEl(anchorEl ? null : event.currentTarget);
+  };
+
+  const handlePriceClick = (event) => {
+    setAnchorEl2(anchorEl2 ? null : event.currentTarget);
+  };
+
+  const closeSort = () => {
+    if(open) { setAnchorEl(null);  }
+    if(open2){ setAnchorEl2(null);  }
+  }
+
+
   return (
-    <div className='min-h-screen mb-52'>
+    <div className='min-h-screen mb-52' onClick={closeSort}>
       <div className='flex flex-col m-16'>
-        <span className='text-5xl'>{category}</span>
+        <span className='text-6xl'>{category}</span>
         <div className='text-3xl mt-20 flex justify-between'>
           <div className='flex'>
             <span className='mr-8'> Filter:  </span>
             <span className='flex cursor-pointer mr-8'> 
               <span className='pr-4 hover:underline'>Availability </span>
-              <IoIosArrowDown className='mt-1'/>
+              <IoIosArrowDown className='mt-1' onClick={handleAvailClick}/>
+              <Popper  open={open} anchorEl={anchorEl}>
+                  <div className='bg-slate-100 mt-4 flex flex-col px-6 py-8 rounded-md outline outline-blue-200'>
+                    <div className='flex justify-between'>
+                      <span className='text-2xl'> {selected === '' ? 0 : 1} selected </span>
+                      <span className='hover:underline cursor-pointer text-2xl' onClick={()=>setSelected('')}> Reset </span>
+                    </div>
+                    <Separator className='bg-slate-300 mt-4' />
+                    <div className='flex justify-between gap-8 mt-8'>
+                      {selected === 'in' ? <GrCheckboxSelected size={30}/> : <GrCheckbox size={30} onClick={()=>setSelected('in')} /> }
+                      <span className='text-3xl text-gray-700'> In stock (23) </span>     
+                    </div>
+                    <div className='flex justify-between gap-8'>
+                      {selected === 'out' ? <GrCheckboxSelected size={30}/> : <GrCheckbox size={30} onClick={()=>setSelected('out')}  /> }
+                      <span className='text-3xl text-gray-700'> Out of stock (17) </span>
+                    </div>
+                  </div>
+              </Popper>
             </span>
             <span className='flex cursor-pointer'> 
               <span className='pr-4 hover:underline'>Price </span>
-              <IoIosArrowDown className='mt-1'/>
+              <IoIosArrowDown className='mt-1' onClick={handlePriceClick}/>
+              <Popper  open={open2} anchorEl={anchorEl2}>
+                  <div className='text-xl gap-6 flex mt-4 px-4 py-8  rounded-md outline outline-blue-200'>
+                      <span className='text-3xl'> Rs. </span>
+                      <Input placeholder='From' type='number' value={p1} onChange = { (e) => handlesetP1(e.target.value)}  className='placeholder:text-2xl text-2xl'/>
+                      <span className='text-3xl'> Rs. </span>
+                      <Input placeholder='To'  type='number'  value={p2} onChange = { (e) => handlesetP2(e.target.value)}  className='placeholder:text-2xl text-2xl'/>
+                  </div>
+              </Popper>
             </span>
           </div>
           <div className='flex'>
             <span className='mr-8'> Sort By:  </span>
             <span className='flex cursor-pointer mr-8'> 
-            <Select>
+            <Select onValueChange={(val)=>handleSelection(val)}>
               <SelectTrigger className='noscalebtn text-2xl w-72'>
-                <SelectValue placeholder="Alphabetically, A to Z" />
+                <SelectValue  placeholder="Choose how to filter" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value='l' className="text-2xl">Price, low to high</SelectItem>
-                <SelectItem value='d' className="text-2xl">Price, high to low</SelectItem>
-                <SelectItem value='sys' className="text-2xl ">Date, old to new</SelectItem>
-                <SelectItem value='sys2' className="text-2xl ">Date, new to old</SelectItem>
-                <SelectItem value='sys4' className="text-2xl ">Alphabetically, A to Z</SelectItem> 
-                <SelectItem value='sys3' className="text-2xl ">Alphabetically, Z to A</SelectItem> 
+                <SelectItem value='Price, low to high' className="text-2xl">Price, low to high</SelectItem>
+                <SelectItem value='Price, high to low' className="text-2xl">Price, high to low</SelectItem>
+                <SelectItem value='Date, old to new' className="text-2xl ">Date, old to new</SelectItem>
+                <SelectItem value='Date, new to old' className="text-2xl ">Date, new to old</SelectItem>
+                <SelectItem value='Alphabetically, A to Z' className="text-2xl ">Alphabetically, A to Z</SelectItem> 
+                <SelectItem value='Alphabetically, Z to A' className="text-2xl ">Alphabetically, Z to A</SelectItem> 
               </SelectContent>
             </Select>
               {/* <span className='pr-4'>Alphabetically, A to Z </span>
@@ -158,9 +223,9 @@ function Category({category}) {
           </div>
         </div>
         <section className='mt-26 px-4 md:px-6 py-16'>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 space-y-36">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 space-y-52">
             {filteredproducts.length>0 && filteredproducts.map((product, index) => (
-              <div key={index} className="relative group rounded-lg shadow-lg hover:shadow-xl transition-transform duration-300 ease-in-out hover:-translate-y-2">
+              <div key={index} className="relative group rounded-lg shadow-lg hover:shadow-xl transition-transform duration-300 ease-in-out hover:-translate-y-2" onClick={()=> showProduct(product)}>
                 {/* {console.log(product.images[0].imagestring)} */}
                 <img
                 alt={`${product.title}`}
@@ -169,8 +234,8 @@ function Category({category}) {
                 style={{ aspectRatio: "4/4" }}
               />
               <div className="bg-white mt-8 p-8 dark:bg-gray-950">
-                <h3 className="font-bold text-xl">{product.title}</h3> 
-                <p className="text-sm text-gray-500">{product.description}</p> 
+                <h3 className="font-bold text-center text-3xl">{product.title}</h3> 
+                <p className="mt-8 text-2xl text-center text-gray-500">Rs {product.price.toLocaleString()}</p> 
               </div>
               </div>
             ))}
@@ -186,7 +251,7 @@ function Category({category}) {
             { pages.map((pg,idx)=>(
               <PaginationItem key={idx}>
                 {pg === page ? <PaginationLink href="#" isActive={true} className='text-2xl'>{pg}</PaginationLink>
-                 : <PaginationLink href="#" isActive={false} className='text-2xl' onClick={(e) => handlePageMove(e,idx+1)}>{pg}</PaginationLink>
+                 : <PaginationLink href="#" isActive={false} className='text-2xl'>{pg}</PaginationLink>
                 }
               </PaginationItem>
             ))}

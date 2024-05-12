@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {  useDispatch, useSelector } from 'react-redux';
-import { decrementItem, incrementItem, setItemquantity, removeItem } from '../../store/userSlice';
+import { removeItem } from '../../store/userSlice';
 
 import { Sheet, SheetClose, SheetContent, SheetTrigger} from "@/components/ui/sheet"
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 import { Separator } from "@/components/ui/separator"
 import Badge from '@mui/material/Badge';
-import { FaPlus,FaMinus } from "react-icons/fa";
+
 import { MdDelete } from "react-icons/md";
 
 import  "./navbar.css";
@@ -15,6 +15,7 @@ import youtube from '../../assets/youtube.png'
 import facebook from '../../assets/fb.png'
 import insta from '../../assets/insta.jpeg'
 import tiktok from '../../assets/tiktok.png'
+import Quantity from "@/lib/Quantity";
 
 function Navbar({navbarfootercolorscheme, search, setSearch, searchQuery, setSearchQuery, setSearchRes, cartopen, setCartOpen, handleCloseCart, cartbadge, setCartbadge}) {
   const maindiv = document.getElementById('maindiv');
@@ -70,39 +71,13 @@ function Navbar({navbarfootercolorscheme, search, setSearch, searchQuery, setSea
   const cart = user.cart
   const [qtys,setQtys] = useState([])
 
-  function handlesetQty(e,index){
-    let prod = cart[index]
-    if (!isNaN(parseInt(e.target.value)) && parseInt(e.target.value) >= 1) {
-      let totalpryce = tp - (prod.price * qtys[index])
-      totalpryce += (prod.price * parseInt(e.target.value))
-      setTp(totalpryce)
-      dispatch(setItemquantity({prod, qty: parseInt(e.target.value)}))
-      setQtys([...qtys.slice(0, index), parseInt(e.target.value) , ...qtys.slice(index + 1)]);
-    }
-  }
-
-  function handleMinus(e,index){
-    e.preventDefault()
-    if (qtys[index]-1>0) {
-      let prod = cart[index]
-      dispatch(decrementItem(prod))
-      setQtys([...qtys.slice(0, index), qtys[index]-1, ...qtys.slice(index + 1)]);
-      setTp((oldprice) => oldprice - prod.price)
-    }
-  }
-  function handleAdd(e,index){
-    e.preventDefault()
-    let prod = cart[index]
-    dispatch(incrementItem(prod))
-    setQtys([...qtys.slice(0, index), qtys[index]+1, ...qtys.slice(index + 1)]);
-    setTp((oldprice) => oldprice + prod.price)
-  }
 
   function handleDelete(e,index){
     e.preventDefault()
     let prod = cart[index]
     setTp((oldprice) => oldprice - (prod.price*prod.qty))
     dispatch(removeItem(prod))
+    setCartbadge((prevbadge)=>prevbadge-1)
   }
 
   function handleCheckOut(e){
@@ -256,7 +231,8 @@ function Navbar({navbarfootercolorscheme, search, setSearch, searchQuery, setSea
                                       <div className='flex flex-col px-8 py-4'>
                                         <span className='text-2xl'> {prod.title} </span>
                                         <span className='text-2xl mt-4 text-gray-600'> Rs. {(prod.price).toLocaleString()}</span>
-                                        <div className={`h-28 mt-4 w-[350px] flex`} >
+                                        <Quantity tp={tp} setTp={setTp} qtys={qtys} setQtys={setQtys} idx={idx}/>
+                                        {/* <div className={`h-28 mt-4 w-[350px] flex`} >
                                           <button className={`focus:outline-none px-2 bg-white rounded-l-lg noscalebtn outline-none hover:outline-black outline-2`} onClick={(e)=>handleMinus(e,idx)}><FaMinus className='text-4xl' /></button>
                                             <input
                                               type="text"
@@ -267,7 +243,7 @@ function Navbar({navbarfootercolorscheme, search, setSearch, searchQuery, setSea
                                             />
                                             {console.log(qtys)}
                                             <button className={`focus:outline-none px-2 bg-white rounded-r-lg noscalebtn outline-none hover:outline-black outline-2 `} onClick={(e)=>handleAdd(e,idx)}><FaPlus className='text-4xl' /></button>
-                                        </div>
+                                        </div> */}
                                       </div>
                                       <div className='flex flex-col py-4'>
                                         <span className='text-2xl font-semibold text-nowrap '> Rs. {(qtys[idx]*prod.price).toLocaleString()} </span>
