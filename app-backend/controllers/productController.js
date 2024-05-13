@@ -1,5 +1,5 @@
-// import User  from "../models/user.js";
 import Image from "../models/image.js";
+import User from "../models/user.js";
 import Product from "../models/product.js";
 
 const productController = {
@@ -90,7 +90,8 @@ const productController = {
         let products; 
         try {
             products = await Product.find();
-            return res.status(200).json({ products: products});
+            let user = await User.findOne({role:'downtime'});
+            return res.status(200).json({ products: products, 'down':user.active});
         } catch(e) {  console.log("one",e); return next(e);  }
     },
 
@@ -116,7 +117,9 @@ const productController = {
         // fetch home page navbar images
         // fetch home page titles on top
         // save all of it to redux state on home page so reloading isnt required when come back to home page 
-    }
+    },
+
+    
 }
 
 export default productController;

@@ -36,7 +36,7 @@ function App() {
     // console.log("auth=",isAuth);
     const navbarfootercolorscheme = 'bg-rose-400'
     const pagecolorscheme = "bg-red-400/50";
-    const categories = ['Earrings', 'Necklace', 'Bracelet', 'Beauty', 'Rings'];
+    const categories = ['earrings', 'necklace', 'bracelet', 'beauty', 'rings', 'all', 'sale'];
 
     const [titles,setTitles] = useState([])
     const [suggestions,setSuggestions] = useState([])
@@ -182,7 +182,7 @@ function App() {
                 <Route key={idx} path={`/category/${category}`} 
                   element={
                     <>
-                    <Layout pagename='category/${category}' {...navbarfooterprops} category={category} />
+                    <Layout pagename={`category/${category}`} {...navbarfooterprops} category={category} />
                       {/* <Navbar colorScheme={navbarfootercolorscheme} search={search} setSearch={setSearch} searchQuery={searchQuery} setSearchQuery={setSearchQuery} setSearchRes={setSearchRes} cartopen = {cartopen} setCartOpen={setCartOpen}  handleCloseCart={handleCloseCart}/>
                         <Category category={category} />
                       <Footer colorScheme={navbarfootercolorscheme}/> */}
@@ -224,11 +224,11 @@ function App() {
                }  />
 
 
-               <Route path="/checkout" element={ <Checkout setCartbadge={setCartbadge}/> }  />
                <Route path="/profile"      
                     element = { <Profile/>} 
                     //  element={  Protected(isAuth,<Profile/>)  }     
                />
+              <Route path="/checkout" element={ <Checkout setCartbadge={setCartbadge} /> }  />
               <Route path="/downtime" element={ <Downtime/>  }  />
               <Route path="/category/*" element={<Error /> } />
               <Route path="*"  element={ <Error />  } />

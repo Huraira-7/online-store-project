@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
 import Badge from '@mui/material/Badge';
 import { GrRadialSelected } from "react-icons/gr";
+import { sendorderconfirmationemail } from '@/api/internal';
 // import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue,} from "@/components/ui/select"
 
 function Checkout({setCartbadge}) {
@@ -21,18 +22,21 @@ function Checkout({setCartbadge}) {
   const[lname,setLname] = useState('')
   const[city,setCity] = useState('')
   const[address,setAddress] = useState('')
-  const[phone,setPhone] = useState()
+  const[phone,setPhone] = useState('')
   const[postcode,setPostCode] = useState()
   const [paymentmethod, setPaymentMethod] = useState('COD')
 
-  function handleOpenCart(){
-    //nav to home page, open cart
-  }
+  // function handleOpenCart(){
+  //   // setCartopen(true)
+  //   // navigate('/',{replace:true})
+  //   //nav to home page, open cart
+  // }
 
   useEffect(() => {
     const calculateTotalPrice = async () => {
       console.log("calculating total price",cart)
       let total = 0
+      if(cart.length === 0) {navigate('/',{replace:true})}
       for (var i in cart){
         let p = cart[i];
         let newprice = p.price * p.qty
@@ -47,7 +51,7 @@ function Checkout({setCartbadge}) {
   function handlesetPhone(val){ 
     if (!isNaN(parseInt(val))) {
       if(parseInt(val)>=0){
-        setPhone(parseInt(val));
+        setPhone(val);
       } else {
 
       }
@@ -67,28 +71,46 @@ function Checkout({setCartbadge}) {
     }
   }
 
-  function handleCheckOut() {
+  async function handleCheckOut() {
     //show payment details when clicked on online transfer
-    setCartbadge(0)
-    dispatch(emptyCart())
-    navigate('/',{replace:true})
+    if(fname === '' || lname === '' || email === '' || phone === '' || city === '' || address == '' || postcode === ''){
+      return;
+    }
+    if(phone[0] < 0 && String(phone).length !== 11 && /^\d+$/.test(phone) !== true){
+      return;
+    }
+    const emailInput = document.getElementById('checkoutmail');
+    if (!emailInput.validity.valid) { 
+      return;
+    }
+    //maybe test on city (allow select option for some cities only) ??
+
+    console.log(cart)
+    const message = `Customer Name: ${fname} ${lname} \n Customer Email: ${email} \n Customer Phone Number: ${phone} 
+                    Customer Address: ${address}, ${city}, ${postcode}
+                    This email is to inform you that your order of  ${cart.map(item => ` ${item.qty}  ${item.title} , `).join('')} for Rs. ${tp} has been successfully placed at Bling Boutique
+                    Please expect it to be delivered within 3 to 5 working days \n`
+    const body = {message , email}
+    console.log(body)
+    const resp = await sendorderconfirmationemail(body);
+    if(resp.status === 200 ){  
+      setCartbadge(0)
+      dispatch(emptyCart())
+      navigate('/',{replace:true})   
+    }
   }
 
   return (
     <div className='overflow-y-auto'>
       <div className='my-8 mx-32 flex justify-between'>
-        <div className='text-5xl font-semibold cursor-pointer' > Bling Boutique </div> {/* onClick={navigate('/',{replace:true})} */}
-        <button className="rounded-md p-2 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800" onClick={handleOpenCart}>
-                <ShoppingCartIcon className="h-11 w-11" />
-                <span className="sr-only">Open cart</span>
-        </button>
+        <div className='text-5xl mb-4 font-semibold cursor-pointer h-11' > Bling Boutique </div> {/* onClick={navigate('/',{replace:true})} */}
       </div>
       <Separator className='bg-slate-300' />
       <div className='flex'>
-          <div className='w-6/12 mb-36'>
+          <div className='w-6/12 mb-64'>
             <div className='ml-8 mt-16 w-11/12  h-screen flex flex-col gap-4'>
               <span className='text-3xl font-semibold'>Contact</span>
-              <Input type="email" placeholder="Email" value = {email} onChange = { (e) => setEmail(e.target.value)} className='p-7 mt-8 placeholder:text-2xl text-2xl focus:outline-blue-500' />
+              <Input type="email" id="checkoutmail" placeholder="Email" value = {email} onChange = { (e) => setEmail(e.target.value)} className='p-7 mt-8 placeholder:text-2xl text-2xl focus:outline-blue-500' />
               <Input type="phone" placeholder="Mobile Phone Number" value = {phone} onChange = { (e) => handlesetPhone(e.target.value)} className='p-7 placeholder:text-2xl text-2xl focus:outline-blue-500' />
               <span className='text-3xl font-semibold mt-16'>Delivery</span>
               <div className='flex gap-8 mt-8'>
@@ -114,6 +136,13 @@ function Checkout({setCartbadge}) {
                 <span> Online Transfer </span>
                 {paymentmethod === 'OT' ?  <GrRadialSelected /> : '' }
               </div>
+              {paymentmethod === 'OT' && 
+                <div className='flex flex-col mt-8 items-left text-2xl'>
+                   <span className='text-center text-3xl'> Transfer Details </span>
+                   <span> Bank Account: </span>
+                   <span> Whatsapp screenshot to this number</span>
+                </div>
+              }
               <span onClick={handleCheckOut} className='mt-8 cursor-pointer hover:scale-105 flex justify-center bg-blue-600 p-10 text-4xl text-white text-center rounded-lg'>
                 Complete Order
               </span>     
@@ -159,25 +188,5 @@ function Checkout({setCartbadge}) {
   )
 }
 
-function ShoppingCartIcon(props) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <circle cx="8" cy="21" r="1" />
-      <circle cx="19" cy="21" r="1" />
-      <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
-    </svg>
-  )
-}
 
 export default Checkout

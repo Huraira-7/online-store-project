@@ -138,7 +138,7 @@ function Navbar({navbarfootercolorscheme, search, setSearch, searchQuery, setSea
                       <span className="py-12 px-8  text-5xl cursor-pointer hover:bg-red-200 rounded-full" onClick={()=>navigate('/category/beauty',{replace:true})} > Beauty</span>
                     </SheetClose>
                     <SheetClose asChild> 
-                      <span className="py-12 px-8  text-5xl cursor-pointer hover:bg-red-200 rounded-full" onClick={()=>navigate('/sale',{replace:true})}> Sale </span>
+                      <span className="py-12 px-8  text-5xl cursor-pointer hover:bg-red-200 rounded-full" onClick={()=>navigate('/category/sale',{replace:true})}> Sale </span>
                     </SheetClose>
                      </div>
                      <Separator className='bg-red-400/30' />
@@ -286,7 +286,7 @@ function Navbar({navbarfootercolorscheme, search, setSearch, searchQuery, setSea
                   <span className="mr-4 pb-2 text-3xl cursor-pointer" onClick={()=>navigate('/category/necklace',{replace:true})}> Necklace</span>
                   <span className="mr-4 pb-2 text-3xl cursor-pointer" onClick={()=>navigate('/category/bracelet',{replace:true})} > Bracelet</span>
                   <span className="mr-4 pb-2 text-3xl cursor-pointer" onClick={()=>navigate('/category/beauty',{replace:true})} > Beauty</span>
-                  <span className="mr-4 pb-2 text-3xl cursor-pointer" onClick={()=>navigate('/sale',{replace:true})}> Sale</span>
+                  <span className="mr-4 pb-2 text-3xl cursor-pointer" onClick={()=>navigate('/category/sale',{replace:true})}> Sale</span>
                 </div>
             </header>
           )}

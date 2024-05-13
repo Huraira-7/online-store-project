@@ -12,6 +12,7 @@ import { Helmet } from 'react-helmet';
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 import { fetchinitialdata } from '../../api/internal';
 import './home.css'
+import { Navigate, useNavigate } from 'react-router-dom';
 // import { works,halfworks } from '@/assets/randomdata';
 
 function Home({cartopen,setCartOpen,handleCloseCart,search,searchQuery,searchRes,navbarfootercolorscheme,pagecolorscheme,setTitles,cartbadge, setCartbadge}) {
@@ -23,6 +24,7 @@ function Home({cartopen,setCartOpen,handleCloseCart,search,searchQuery,searchRes
   
   const [api, setApi] = useState()  //CarouselApi
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   
   const user = useSelector((state) => state.user);
   console.log(user)
@@ -88,11 +90,14 @@ function Home({cartopen,setCartOpen,handleCloseCart,search,searchQuery,searchRes
   const handleAddItem = (e,prod) => {
     // console.log("adding item")
     e.preventDefault()
-    console.log(prod)
-    let temp = {...prod}
-    temp['qty'] = 1
-    dispatch(addItem(temp));
-    setCartbadge((prevbadge)=>prevbadge+1)
+    if(prod.is_out_stock === false){
+      console.log(prod)
+      let temp = {...prod}
+      temp['qty'] = 1
+      dispatch(addItem(temp));
+      let cartt = user.cart
+      setCartbadge(cartt.length)
+    }
   }
   
 
@@ -270,6 +275,7 @@ function Home({cartopen,setCartOpen,handleCloseCart,search,searchQuery,searchRes
                   aspectRatio: "500/400",
                   objectFit: "cover",
                 }}
+                onClick={()=>navigate('/category/earrings')}
               />
               <div className="bg-white p-4 dark:bg-gray-950">
                 <h3 className="font-bold text-xl">Earrings</h3>
@@ -291,6 +297,7 @@ function Home({cartopen,setCartOpen,handleCloseCart,search,searchQuery,searchRes
                   aspectRatio: "500/400",
                   objectFit: "cover",
                 }}
+                onClick={()=>navigate('/category/bracelet')}
               />
               <div className="bg-white p-4 dark:bg-gray-950">
                 <h3 className="font-bold text-xl">Bracelet</h3>
@@ -312,6 +319,7 @@ function Home({cartopen,setCartOpen,handleCloseCart,search,searchQuery,searchRes
                   aspectRatio: "500/400",
                   objectFit: "cover",
                 }}
+                onClick={()=>navigate('/category/beauty')}
               />
               <div className="bg-white p-4 dark:bg-gray-950">
                 <h3 className="font-bold text-xl">Beauty</h3>
@@ -337,6 +345,7 @@ function Home({cartopen,setCartOpen,handleCloseCart,search,searchQuery,searchRes
                   aspectRatio: "500/400",
                   objectFit: "cover",
                 }}
+                onClick={()=>navigate('/category/rings')}
               />
               <div className="bg-white p-4 dark:bg-gray-950">
                 <h3 className="font-bold text-xl">Rings</h3>
@@ -360,6 +369,7 @@ function Home({cartopen,setCartOpen,handleCloseCart,search,searchQuery,searchRes
                   aspectRatio: "500/400",
                   objectFit: "cover",
                 }}
+                onClick={()=>navigate('/category/necklace')}
               />
               <div className="bg-white p-4 dark:bg-gray-950">
                 <h3 className="font-bold text-xl">Necklaces</h3>
@@ -386,20 +396,35 @@ function Home({cartopen,setCartOpen,handleCloseCart,search,searchQuery,searchRes
                       height={500}
                     />
                   </div>
+                  { latestprod.is_out_stock ? 
+                    <div className="p-4 bg-pink-500/80 w-9/12 text-center m-auto cursor-pointer relative bottom-20 rounded-full text-3xl">
+                      Sold
+                    </div> : <div className="p-7 w-9/12 text-center m-auto cursor-pointer relative bottom-20 rounded-full text-3xl">
+                    </div> 
+                  }
                   <figcaption className="pt-2 text-3xl mt-4 text-muted-foreground text-center">
                      {"  "}
                     <span className="font-semibold text-foreground">
                     {`${latestprod.title}`} 
                     </span>
                   </figcaption>
+                  {   latestprod.oldprice  && latestprod.oldprice > latestprod.price ?  
+                        <figcaption className="line-through pt-2 text-3xl mt-4 text-muted-foreground text-center">
+                          Rs {"  "}
+                          <span className="text-foreground">
+                          {`${latestprod.oldprice.toLocaleString()}`} 
+                          </span>
+                        </figcaption> 
+                    :  <figcaption className="mt-16"></figcaption> 
+                  }
                   <figcaption className="pt-2 text-3xl mt-4 text-muted-foreground text-center">
                     Rs {"  "}
                     <span className="text-foreground">
-                    {`${latestprod.price}`} 
+                    {`${latestprod.price.toLocaleString()}`} 
                     </span>
                   </figcaption>
                   <div className='flex justify-center my-8'>
-                    <button className='noscalebtn px-16 py-8 text-4xl bg-white rounded-md outline-none hover:outline-black outline-4' onClick={(e)=>handleAddItem(e,latestprod)}> Add to Cart</button>
+                    <button className={`'noscalebtn px-16 py-8 ${latestprod.is_out_stock ? 'cursor-not-allowed' : 'cursor-pointer'} text-4xl bg-white rounded-md outline-none hover:outline-black outline-4'`} onClick={(e)=>handleAddItem(e,latestprod)}> Add to Cart</button>
                   </div>
                 </figure>
               ))}
@@ -423,20 +448,35 @@ function Home({cartopen,setCartOpen,handleCloseCart,search,searchQuery,searchRes
                       height={500}
                     />
                   </div>
+                  { bestprod.is_out_stock ? 
+                    <div className="p-4 bg-pink-500/80 w-9/12 text-center m-auto cursor-pointer relative bottom-20 rounded-full text-3xl">
+                      Sold
+                    </div> : <div className="p-7 w-9/12 text-center m-auto cursor-pointer relative bottom-20 rounded-full text-3xl">
+                    </div> 
+                  }
                   <figcaption className="pt-2 text-3xl text-center mt-4 text-muted-foreground">
                      {"  "}
                     <span className="font-semibold text-foreground">
                       {`${bestprod.title}`}
                     </span>
                   </figcaption>
+                  {   bestprod.oldprice && bestprod.oldprice > bestprod.price ?  
+                        <figcaption className="line-through pt-2 text-3xl mt-4 text-muted-foreground text-center">
+                          Rs {"  "}
+                          <span className="text-foreground">
+                          {`${bestprod.oldprice.toLocaleString()}`} 
+                          </span>
+                        </figcaption> 
+                    :  <figcaption className="mt-16"></figcaption> 
+                  }
                   <figcaption className="pt-2 text-3xl mt-4 text-muted-foreground text-center">
                     Rs {"  "}
                     <span className="text-foreground">
-                    {`${bestprod.price}`} 
+                    {`${bestprod.price.toLocaleString()}`} 
                     </span>
                   </figcaption>
                   <div className='flex justify-center my-8'>
-                    <button className='noscalebtn px-16 py-8 text-4xl bg-white rounded-md outline-none hover:outline-black outline-4' onClick={(e)=>handleAddItem(e,bestprod)}> Add to Cart</button>
+                    <button className={`'noscalebtn px-16 py-8 text-4xl ${bestprod.is_out_stock ? 'cursor-not-allowed' : 'cursor-pointer'} bg-white rounded-md outline-none hover:outline-black outline-4'`} onClick={(e)=>handleAddItem(e,bestprod)}> Add to Cart</button>
                   </div>
                 </figure>
               ))}

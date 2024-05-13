@@ -21,6 +21,13 @@ const userSlice = createSlice({
     },
     addItem: (state,action) => {
       const prod = action.payload;
+      for (var i in state.cart){
+        let p = state.cart[i]
+        if (p._id === prod._id){ 
+          state.cart[i].qty +=1 ;
+          return;
+        }
+      }
       state.cart.push(prod)
     },
     removeItem: (state,action) => {

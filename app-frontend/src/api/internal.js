@@ -7,51 +7,29 @@ const api = axios.create({
   },
 });
 
-//basic user authentication APIS  ------------------------------------------------------------------------
-
-export const login = async (data) => {
-  let response;
-
-  try { response = await api.post("/login", data); }
-  catch (error) { return error; }
-
-  return response;
-};
-
-export const register = async (data) => {
-  let response;
-
-  try {  response = await api.post("/register", data); } 
-  catch (error) {  return error; }
-
-  return response;
-};
-
-export const logout = async () => {
-  let response;
-  try { response = await api.post("/logout"); } 
-  catch (error) { return error; }
-
-  return response;
-};
-
-export const changepassword = async (data) => {
-    let response;
-  
-    try {  response = await api.post("/changepassword", data); } 
-    catch (error) {  return error; }
-  
-    return response;
-};
-
 
 // product APIS  ------------------------------------------------------------------------
 
 export const addproduct = async (data) => {
   let response;
-  // try { response = await api.post("/addproduct",data); } 
   try {
     response = axios.post('http://localhost:3000/addproduct', data, {
+      headers: {
+        'accept': 'application/json',
+        'Accept-Language': 'en-US,en;q=0.8',
+        'Content-Type': `multipart/form-data; boundary=${data._boundary}`,
+      }})
+  }
+  catch (error) { return error; }
+
+  return response;
+};
+
+
+export const editproductaddphoto = async (data) => {
+  let response;
+  try {
+    response = axios.post('http://localhost:3000/editproductaddphoto', data, {
       headers: {
         'accept': 'application/json',
         'Accept-Language': 'en-US,en;q=0.8',
@@ -89,22 +67,6 @@ export const editproduct = async (data) => {
   return response;
 };
 
-export const editproductaddphoto = async (data) => {
-  let response;
-  // try { response = await api.post("/addproduct",data); } 
-  try {
-    response = axios.post('http://localhost:3000/editproductaddphoto', data, {
-      headers: {
-        'accept': 'application/json',
-        'Accept-Language': 'en-US,en;q=0.8',
-        'Content-Type': `multipart/form-data; boundary=${data._boundary}`,
-      }})
-  }
-  catch (error) { return error; }
-
-  return response;
-};
-
 
 export const deleteproduct = async (data) => {
   let response;
@@ -126,44 +88,95 @@ export const fetchinitialdata = async () => {
 
 
 
+//email  APIs ----------------------------------------------------
+
+export const sendorderconfirmationemail = async (data) => {
+  let response;
+  try { response = await api.post("/sendorderconfirmationemail",data); } 
+  catch (error) { return error; }
+
+  return response;
+};
+
+export const sendformsubmissionemail = async (data) => {
+  let response;
+  try { response = await api.post("/sendformsubmissionemail",data); } 
+  catch (error) { return error; }
+
+  return response;
+};
+
+export const changemail = async (data) => {
+  let response;
+  try { response = await api.post("/changemail",data); } 
+  catch (error) { return error; }
+
+  return response;
+};
+
+export const addemail = async (data) => {
+  let response;
+  try { response = await api.post("/addemail",data); } 
+  catch (error) { return error; }
+
+  return response;
+};
+
+export const getallemails = async () => {
+  let response;
+  try { response = await api.post("/getallemails"); } 
+  catch (error) { return error; }
+
+  return response;
+};
+
+export const changedowntime = async () => {
+  let response;
+  try { response = await api.post("/changedowntime"); } 
+  catch (error) { return error; }
+
+  return response;
+};
 
 
 
 
+//basic user authentication APIS  ------------------------------------------------------------------------
 
-
-//active users data APIS  ------------------------------------------------------------------------
-
-// export const setactiveuser = async (data) => {
+// export const login = async (data) => {
 //   let response;
 
-//   try { response = await api.post("/setactiveuser", data); } 
+//   try { response = await api.post("/login", data); }
 //   catch (error) { return error; }
 
 //   return response;
 // };
 
-// export const delactiveuser = async (data) => {
+// export const register = async (data) => {
 //   let response;
 
-//   try { response = await api.post("/delactiveuser", data); } 
+//   try {  response = await api.post("/register", data); } 
+//   catch (error) {  return error; }
+
+//   return response;
+// };
+
+// export const logout = async () => {
+//   let response;
+//   try { response = await api.post("/logout"); } 
 //   catch (error) { return error; }
 
 //   return response;
 // };
 
-// export const getactiveusers = async () => {
-//   let response;
-
-//   try { response = await api.post("/getactiveusers"); } 
-//   catch (error) { return error; }
-
-//   return response;
+// export const changepassword = async (data) => {
+//     let response;
+  
+//     try {  response = await api.post("/changepassword", data); } 
+//     catch (error) {  return error; }
+  
+//     return response;
 // };
-
-
-
-
 
 
 

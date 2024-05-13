@@ -35,11 +35,14 @@ function Product({setCartbadge}) {
 
   function handleAddItem(e){
     e.preventDefault()
-    console.log(product)
-    let temp = {...product}
-    temp['qty'] = qty
-    dispatch(addItem(temp));
-    setCartbadge((prevbadge)=>prevbadge+1)
+    if(product.is_out_stock === false){
+      console.log(product)
+      let temp = {...product}
+      temp['qty'] = qty
+      dispatch(addItem(temp));
+      let cartt = user.cart
+      setCartbadge(cartt.length)
+    }
   }
 
 
@@ -80,7 +83,7 @@ function Product({setCartbadge}) {
               {console.log(qty)}
               <button className={`focus:outline-none px-2 pr-8 bg-red-900/40 rounded-r-lg noscalebtn outline-none hover:outline-black outline-2 hover:rounded-lg `} onClick={(e)=>handleAdd(e)}><FaPlus className='text-4xl' /></button>
           </div>
-          <span  className="hover:scale-105 flex cursor-pointer justify-center py-8 px-6 rounded-lg bg-black w-[500px] focus:outline-none" onClick={(e)=>handleAddItem(e)}>
+          <span  className={`hover:scale-105 flex ${product.is_out_stock ? 'cursor-not-allowed' : 'cursor-pointer'} justify-center py-8 px-6 rounded-lg bg-black w-[500px] focus:outline-none`} onClick={(e)=>handleAddItem(e)}>
             <span className='text-white text-3xl'> Add to Cart </span>
           </span>
           <pre className='text-3xl leading-loose text-slate-700'> {product.description}  </pre>

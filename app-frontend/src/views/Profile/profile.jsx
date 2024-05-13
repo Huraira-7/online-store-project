@@ -2,8 +2,9 @@ import {useEffect, useState} from 'react';
 import { MdDelete } from "react-icons/md";
 import { Toggle } from "@/components/ui/toggle"
 import { ScrollArea,ScrollBar } from "@/components/ui/scroll-area"
+import { Input } from "@/components/ui/input"
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger} from "@/components/ui/alert-dialog"
-import {  addproduct, fetchallproducts, editproduct, editproductaddphoto, deleteproduct} from '../../api/internal';
+import {  addproduct, fetchallproducts, editproduct, editproductaddphoto, deleteproduct, getallemails, changemail, changedowntime} from '../../api/internal';
 import './profile.css'
 
 
@@ -29,6 +30,9 @@ function Profile() {
   const [isOpen, setIsOpen] = useState([]);
   const [isOpen2, setIsOpen2] = useState([]);
   const allowedFileExtensions = ['jpg','jpeg','png','bmp','gif','tiff']
+
+  const [isdown, setIsdown] = useState(false)
+  const [newmail, setNewmail] = useState('')
 
 
   const handleContinueClickSaveChanges = async (e,idx) => {
@@ -120,6 +124,36 @@ function Profile() {
     // console.log(id,arrayindex,elemindex)
     setImgToggle([...imgtoggle.slice(0, arrayindex), [...imgtoggle[arrayindex].slice(0,elemindex),!imgtoggle[arrayindex][elemindex],...imgtoggle[arrayindex].slice(elemindex+1)], ...imgtoggle.slice(arrayindex + 1)]); // Update descriptions at specific index
   };
+
+  async function updateEmail(e){
+    e.preventDefault()
+    if(newmail !== ''){
+      const emailInput = document.getElementById('newmail');
+      // console.log(emailInput.validity.valid)
+      if (emailInput.validity.valid) {
+        console.log("valid email")
+        const body = {email: newmail}
+        const resp = await changemail(body);
+        console.log(resp)
+      } else {
+        console.log("invalid email")
+      }
+    }
+    setNewmail('')
+  }
+
+  async function getEmailList(e){
+    e.preventDefault()
+    const resp = await getallemails();
+    console.log(resp)
+  }
+
+  async function toggleDowntime(e){
+    e.preventDefault()
+    setIsdown(!isdown)
+    const resp = await changedowntime();
+    console.log(resp)
+  }
 
   async function handleEditProd(e,idx){
     //show alert dialog
@@ -232,6 +266,7 @@ function Profile() {
       console.log(resp)
       if(resp.status === 200){
         setProducts(resp.data.products)
+        setIsdown(resp.data.down)
         let ts = []
         let ps = []
         let ds = []
@@ -287,7 +322,21 @@ function Profile() {
 
   return (
     <div className='fixed top-0 right-0 left-0 bottom-0 overflow-auto'>
-    <div className='absolute right-0 top-0 text-3xl p-4 bg-yellow-200 w-[400px] rounded-lg '>
+    <div className='flex flex-col items-center mb-10'>
+      <h2 className='text-2xl text-center font-bold mt-5'> Admin Section </h2>
+      <span className='mt-10 text-xl'> The button below is used to switch off / bring back on a website for all users (except admin) </span>
+      <Toggle aria-label="Toggle bold" className='border w-52 border-red-900 mt-5' onClick={toggleDowntime}>
+                { isdown ?  'Bring Website Back up' : 'Enable Website Downtime'}
+      </Toggle>
+      <span className='mt-10 text-xl'> The input field below is used to change your <b>GMAIL</b> where you receive all website related emails (order placement emails, list of user emails, contact form submission emails ) </span>
+      <div className="flex gap-4 mt-5">
+        <Input type="email" id="newmail" placeholder="Email" value = {newmail} onChange = { (e) => setNewmail(e.target.value)}  className='w-[700px] text-3xl p-7'/>
+        <span className='p-4 text-2xl bg-blue-300 rounded-full cursor-pointer' onClick={updateEmail}>Change Email</span>
+      </div>
+      <span className='mt-5 text-xl'> The button below is used to get list all user emails to your email address </span>
+      <span className=' mt-5 p-4 text-2xl bg-blue-500 rounded-lg cursor-pointer' onClick={getEmailList}>Get Email List</span>
+    </div>
+    <div className='absolute right-0 top-70 text-3xl p-4 bg-yellow-200 w-[400px] rounded-lg '>
       Note: You can only add one picture while adding a product (however you can add more images and even remove images below in the Edit Products section)
     </div>
     <div className='flex flex-col justify-center items-center bg-red-100'>
