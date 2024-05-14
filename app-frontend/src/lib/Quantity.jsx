@@ -35,14 +35,14 @@ function Quantity({setTp, setQtys, qtys, tp, idx}) {
         setTp((oldprice) => oldprice + prod.price)
       }
   return (
-    <div className={`h-28 mt-4 w-[350px] flex`} >
-        <button className={`focus:outline-none px-2 bg-white rounded-l-lg noscalebtn outline-none hover:outline-black outline-2`} onClick={(e)=>handleMinus(e,idx)}><FaMinus className='text-4xl' /></button>
+    <div className={`h-28 mt-4 w-[350px] flex max-[750px]:w-[200px]`} >
+        <button className={`focus:outline-none px-2  bg-white rounded-l-lg noscalebtn outline-none hover:outline-black outline-2`} onClick={(e)=>handleMinus(e,idx)}><FaMinus className='text-4xl' /></button>
         <input
             type="text"
             // id="cartInput"
             value = {qtys[idx]}
             onChange={(e)=>handlesetQty(e,idx)}
-            className={`flex text-center w-7/12 h-full px-8 text-black text-4xl focus:outline-none`}
+            className={`flex text-center w-7/12 max-[750px]:w-5/12 h-full px-8 text-black text-4xl focus:outline-none`}
         />
         {console.log(qtys)}
         <button className={`focus:outline-none px-2 bg-white rounded-r-lg noscalebtn outline-none hover:outline-black outline-2 `} onClick={(e)=>handleAdd(e,idx)}><FaPlus className='text-4xl' /></button>

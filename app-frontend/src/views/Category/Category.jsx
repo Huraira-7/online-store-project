@@ -5,10 +5,13 @@ import { fetchproductbycategory, fetchallproducts } from '@/api/internal'
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue,} from "@/components/ui/select"
 import {  useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { GrCheckboxSelected, GrCheckbox } from "react-icons/gr";
 import { Separator } from "@/components/ui/separator"
 import { Input } from "@/components/ui/input"
+import ClickAwayListener from 'react-click-away-listener';
 import Popper from '@mui/material/Popper';
+
 import './category.css'
 
 
@@ -21,10 +24,16 @@ function Category({category}) {
   const [pages,setPages] = useState([1])
   const [numpages,setNumpages] = useState(1)
   const [selected,setSelected] = useState('')
+
   const navigate = useNavigate();
+  const down = useSelector((state) => state.user.down);
 
   useEffect(() => {
     const fetchData = async () => {
+      if(down === true ) { 
+        navigate('/downtime',{replace:true}) 
+        return
+      }
       console.log("fetching products of category",category)
       const cc = capitalize(category)
       const data = {category: cc}
@@ -200,69 +209,92 @@ function Category({category}) {
   }
 
   const handleAvailClick = (event) => {
-    setAnchorEl(anchorEl ? null : event.currentTarget);
+    // setAnchorEl(anchorEl ? null : event.currentTarget);
+    handleClick(event)
   };
 
   const handlePriceClick = (event) => {
-    setAnchorEl2(anchorEl2 ? null : event.currentTarget);
+    // setAnchorEl2(anchorEl2 ? null : event.currentTarget);
+    handleClick2(event)
   };
-
-  const closeSort = (e) => {
-    // if(open) { setAnchorEl(null);  }
-    // if(open2){ setAnchorEl2(null);  }
-  }
 
   function capitalize(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
 
+  const handleClick = (e) => {  
+    setAnchorEl(anchorEl ? null : e.currentTarget);
+    setAnchorEl2(anchorEl2 ? null : e.currentTarget)
+  }
+  const handleClickAway = (e) => { 
+    if(!open) {return;}
+    setAnchorEl(anchorEl ? null : e.currentTarget);
+  };
+  
+  const handleClick2 = (e) => {  
+    setAnchorEl(anchorEl ? null : e.currentTarget)
+    setAnchorEl2(anchorEl2 ? null : e.currentTarget);
+  };
+  const handleClickAway2 = (e) => { 
+    if(!open2) {return;} 
+    setAnchorEl2(anchorEl2 ? null : e.currentTarget);
+  }
+
   return (
-    <div className='min-h-screen mb-52' onClick={closeSort}>
+    <div className='min-h-screen mb-52'>
       <div className='flex flex-col m-16'>
         <span className='text-6xl'>{capitalize(category) } {category === 'all' ? 'Products' : ''}</span>
         <div className='text-3xl mt-20 flex justify-between'>
           <div className='flex'>
             <span className='mr-8'> Filter:  </span>
             <span className='flex cursor-pointer mr-8'> 
-              <span className='pr-4 hover:underline'>Availability </span>
-              <IoIosArrowDown className='mt-1' onClick={handleAvailClick}/>
-              <Popper open={open} anchorEl={anchorEl}>
-                  <div className='bg-slate-100 mt-4 flex flex-col px-6 py-8 rounded-md outline outline-blue-200'>
-                    <div className='flex justify-between'>
-                      <span className='text-2xl'> {selected === '' ? 0 : 1} selected </span>
-                      <span className='hover:underline cursor-pointer text-2xl' onClick={()=>setSelected('')}> Reset </span>
-                    </div>
-                    <Separator className='bg-slate-300 mt-4' />
-                    <div className='flex justify-between gap-8 mt-8'>
-                      {selected === 'in' ? <GrCheckboxSelected size={30}/> : <GrCheckbox size={30} onClick={()=>setSelected('in')} /> }
-                      <span className='text-3xl text-gray-700'> In stock (23) </span>     
-                    </div>
-                    <div className='flex justify-between gap-8'>
-                      {selected === 'out' ? <GrCheckboxSelected size={30}/> : <GrCheckbox size={30} onClick={()=>setSelected('out')}  /> }
-                      <span className='text-3xl text-gray-700'> Out of stock (17) </span>
-                    </div>
-                    <div className='text-2xl text-center p-3 cursor-pointer hover:scale-105 mt-2 bg-red-100 rounded-full' onClick={filterbyStock}>
-                      Apply Filter
-                    </div>
-                  </div>
-              </Popper>
+              <span className='pr-4 hover:underline'  >Availability </span>
+              <ClickAwayListener onClickAway={handleClickAway}>
+                <div onClick={(e) => handleAvailClick(e)}>
+                  <IoIosArrowDown className='mt-1' />
+                  <Popper open={open} anchorEl={anchorEl} >
+                      <div className='bg-slate-100 mt-4 flex flex-col px-6 py-8 rounded-md outline outline-blue-200'>
+                        <div className='flex justify-between'>
+                          <span className='text-2xl'> {selected === '' ? 0 : 1} selected </span>
+                          <span className='hover:underline cursor-pointer text-2xl' onClick={()=>setSelected('')}> Reset </span>
+                        </div>
+                        <Separator className='bg-slate-300 mt-4' />
+                        <div className='flex justify-between gap-8 mt-8'>
+                          {selected === 'in' ? <GrCheckboxSelected size={30}/> : <GrCheckbox size={30} onClick={()=>setSelected('in')} /> }
+                          <span className='text-3xl text-gray-700'> In stock (23) </span>     
+                        </div>
+                        <div className='flex justify-between gap-8'>
+                          {selected === 'out' ? <GrCheckboxSelected size={30}/> : <GrCheckbox size={30} onClick={()=>setSelected('out')}  /> }
+                          <span className='text-3xl text-gray-700'> Out of stock (17) </span>
+                        </div>
+                        <div className='text-2xl text-center p-3 cursor-pointer hover:scale-105 mt-2 bg-red-100 rounded-full' onClick={filterbyStock}>
+                          Apply Filter
+                        </div>
+                      </div>
+                  </Popper>
+                </div>
+              </ClickAwayListener>
             </span>
             <span className='flex cursor-pointer'> 
               <span className='pr-4 hover:underline'>Price </span>
-              <IoIosArrowDown className='mt-1' onClick={handlePriceClick}/>
-              <Popper  open={open2} anchorEl={anchorEl2}>
-                <div className="flex flex-col gap-2 mt-4 px-4 py-8 rounded-md outline outline-blue-200">
-                  <div className='text-xl gap-6 flex'>
-                      <span className='text-3xl'> Rs. </span>
-                      <Input placeholder='From' type='number' value={p1} onChange = { (e) => handlesetP1(e.target.value)}  className='placeholder:text-2xl text-2xl'/>
-                      <span className='text-3xl'> Rs. </span>
-                      <Input placeholder='To'  type='number'  value={p2} onChange = { (e) => handlesetP2(e.target.value)}  className='placeholder:text-2xl text-2xl'/>
-                  </div>
-                    <div className='text-2xl w-6/12 m-auto text-center p-3 cursor-pointer hover:scale-105 mt-2 bg-red-100 rounded-full' onClick={filterbyPrice}>
-                        Apply Filter
+              <ClickAwayListener onClickAway={handleClickAway2}>
+                <div onClick={(e) => handlePriceClick(e)}>
+                  <IoIosArrowDown className='mt-1'/>
+                  <Popper  open={open2} anchorEl={anchorEl2}>
+                    <div className="flex flex-col gap-2 mt-4 px-4 py-8 rounded-md outline outline-blue-200">
+                      <div className='text-xl gap-6 flex'>
+                          <span className='text-3xl'> Rs. </span>
+                          <Input placeholder='From' type='number' value={p1} onChange = { (e) => handlesetP1(e.target.value)}  className='placeholder:text-2xl text-2xl'/>
+                          <span className='text-3xl'> Rs. </span>
+                          <Input placeholder='To'  type='number'  value={p2} onChange = { (e) => handlesetP2(e.target.value)}  className='placeholder:text-2xl text-2xl'/>
+                      </div>
+                        <div className='text-2xl w-6/12 m-auto text-center p-3 cursor-pointer hover:scale-105 mt-2 bg-red-100 rounded-full' onClick={filterbyPrice}>
+                            Apply Filter
+                        </div>
                     </div>
+                  </Popper>
                 </div>
-              </Popper>
+                </ClickAwayListener>
             </span>
           </div>
           <div className='flex'>

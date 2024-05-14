@@ -1,10 +1,13 @@
 import {useEffect, useState} from 'react';
+import { useDispatch } from 'react-redux';
 import { MdDelete } from "react-icons/md";
 import { Toggle } from "@/components/ui/toggle"
 import { ScrollArea,ScrollBar } from "@/components/ui/scroll-area"
 import { Input } from "@/components/ui/input"
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger} from "@/components/ui/alert-dialog"
 import {  addproduct, fetchallproducts, editproduct, editproductaddphoto, deleteproduct, getallemails, changemail, changedowntime} from '../../api/internal';
+import { setDown } from '@/store/userSlice';
+import ErrorMessage from '@/lib/ErrorMessage';
 import './profile.css'
 
 
@@ -26,13 +29,21 @@ function Profile() {
   const [imgtoggle, setImgToggle] = useState([]);
   const [files,setFiles] = useState([])
   const [selected, setSelected] = useState("Earrings");
-  const [error, setError] = useState("");
   const [isOpen, setIsOpen] = useState([]);
   const [isOpen2, setIsOpen2] = useState([]);
   const allowedFileExtensions = ['jpg','jpeg','png','bmp','gif','tiff']
 
   const [isdown, setIsdown] = useState(false)
   const [newmail, setNewmail] = useState('')
+  const dispatch = useDispatch()
+
+  //errors 
+  const [error, setError] = useState('')
+  const [openerr, setOpenerr] = useState(false);
+  const handleOpenerr = (txt) => { 
+    setError(txt)
+    setOpenerr(true); 
+  };
 
 
   const handleContinueClickSaveChanges = async (e,idx) => {
@@ -78,9 +89,7 @@ function Profile() {
     const value = e.target.value;
     if (!isNaN(parseInt(value))) {
       setPrice(parseInt(value));
-    } else {
-      setError("Price must be an integer");
-    }   
+    } 
   }
 
   const handleTitleChange = (event) => {
@@ -94,8 +103,6 @@ function Profile() {
     const index = parseInt(id.split('-')[1], 10);
     if (!isNaN(parseInt(value))) {
       setPrices([...prices.slice(0, index), parseInt(value), ...prices.slice(index + 1)]); // Update prices at specific index
-    } else {
-      setError("Price must be an integer");
     } 
   };
   
@@ -131,13 +138,15 @@ function Profile() {
       const emailInput = document.getElementById('newmail');
       // console.log(emailInput.validity.valid)
       if (emailInput.validity.valid) {
-        console.log("valid email")
+        // console.log("valid email")
         const body = {email: newmail}
         const resp = await changemail(body);
         console.log(resp)
       } else {
-        console.log("invalid email")
+        handleOpenerr('Badly formatted email address')
       }
+    } else {
+      handleOpenerr('Email field is required')
     }
     setNewmail('')
   }
@@ -150,6 +159,7 @@ function Profile() {
 
   async function toggleDowntime(e){
     e.preventDefault()
+    dispatch(setDown(!isdown))
     setIsdown(!isdown)
     const resp = await changedowntime();
     console.log(resp)
@@ -162,11 +172,11 @@ function Profile() {
     let newdesc = descs[idx]
     let newprice = prices[idx]
     if(newtitle === "" || newdesc === "" ) {
-      setError("No field should be left empty");
+      handleOpenerr("No field should be left empty");
       return;
     }
     if (newprice <= 0){
-      setError("Price must be greater than 0");
+      handleOpenerr("Price must be greater than 0");
       return;
     }
     const _id = pids[idx]
@@ -191,8 +201,8 @@ function Profile() {
     if (resp.status !== 202) { 
       if (resp.code === "ERR_BAD_REQUEST") {  // display error message
       console.log("setting error-----",resp.response.status); 
-      if (resp.response.status === 404) {setError("error 404 Server is offline");}
-      if (resp.response.status === 500) {setError("error 500 Internal Server Error");}      
+      if (resp.response.status === 404) {handleOpenerr("error 404 Server is offline");}
+      if (resp.response.status === 500) {handleOpenerr("error 500 Internal Server Error");}      
     } 
    }
 
@@ -208,8 +218,8 @@ function Profile() {
     if (resp.status !== 202) { 
       if (resp.code === "ERR_BAD_REQUEST") {  // display error message
       console.log("setting error-----",resp.response.status); 
-      if (resp.response.status === 404) {setError("error 404 Server is offline");}
-      if (resp.response.status === 500) {setError("error 500 Internal Server Error");}      
+      if (resp.response.status === 404) {handleOpenerr("error 404 Server is offline");}
+      if (resp.response.status === 500) {handleOpenerr("error 500 Internal Server Error");}      
     } 
    }
 
@@ -218,18 +228,18 @@ function Profile() {
   async function handleAddProd(e) {
     e.preventDefault(); 
     if(title === "" || desc === ""  || file === undefined ) {
-      setError("No field should be left empty");
+      handleOpenerr("No field should be left empty");
       return;
     }
     if (price <= 0){
-      setError("Price must be greater than 0");
+      handleOpenerr("Price must be greater than 0");
       return;
     }
     const fileExtension = file.name.split('.').pop(); // Extract extension
     console.log("File Extension:", fileExtension);
     if(allowedFileExtensions.includes(fileExtension) === false){
-      setError('File extension not allowed')
-      // setError('Allowed file extensions are .jpg, .jpeg, .png, .bmp, .gif, .tiff')
+      handleOpenerr('File extension not allowed')
+      // handleOpenerr('Allowed file extensions are .jpg, .jpeg, .png, .bmp, .gif, .tiff')
       return;
     }
     const data = new FormData();
@@ -245,8 +255,8 @@ function Profile() {
       if (response.status !== 201) { 
          if (response.code === "ERR_BAD_REQUEST") {  // display error message
         console.log("setting error-----",response.response.status); 
-        if (response.response.status === 404) {setError("error 404 Server is offline");}
-        if (response.response.status === 500) {setError("error 500 Internal Server Error");}      
+        if (response.response.status === 404) {  handleOpenerr("error 404 Server is offline");      }
+        if (response.response.status === 500) {  handleOpenerr("error 500 Internal Server Error");  }      
       } 
      } else {//reset the input fields
       setTitle('')
@@ -254,7 +264,7 @@ function Profile() {
       setPrice(0) 
      }
     }
-    catch(error) { console.error("Add Product failed:", error); }
+    catch(error) { handleOpenerr("Add Product failed:", error); }
   };
 
 
@@ -306,19 +316,13 @@ function Profile() {
         setIsOpen2(openarr)
       } else if (resp.code === "ERR_BAD_REQUEST") {  // display error message
         console.log("setting error-----",resp.response.status); 
-        // if (resp.response.status === 404) {setError("error 404 Server is offline");}
-        // if (resp.response.status === 500) {setError("error 500 Internal Server Error");}      
+        if (resp.response.status === 404) {handleOpenerr("error 404 Server is offline");}
+        if (resp.response.status === 500) {handleOpenerr("error 500 Internal Server Error");}      
       } 
     };
     fetchData();
   },[]); // Re-run effect only at page load
 
-  useEffect(() => {
-    if (error) {
-      const timeoutId = setTimeout(() => setError(''), 3000); // Clear error after 3 seconds
-      return () => clearTimeout(timeoutId); // Cleanup on component unmount
-    }
-  }, [error]); // Re-run effect only when error changes
 
   return (
     <div className='fixed top-0 right-0 left-0 bottom-0 overflow-auto'>
@@ -468,7 +472,7 @@ function Profile() {
         </div>
     ))}
     </div>
-    <span>{error !== "" ? <p style = {{ display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize:35, color:"red"}}>{error}</p> : ""}</span>
+    <ErrorMessage  error={error} setError={setError} openerr={openerr} setOpenerr={setOpenerr} />
     </div>
   )
 }

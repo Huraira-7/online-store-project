@@ -107,62 +107,63 @@ function Navbar({navbarfootercolorscheme, search, setSearch, searchQuery, setSea
             <header id="hdr" className={`${colorScheme}  shadow-sm dark:bg-gray-950 dark:text-gray-50 h-90 overflow-auto`} >
               <div className="flex h-52 mx-0 items-center justify-between px-4 md:px-6 w-full">
               <Sheet>
-                  <SheetTrigger asChild>
+                <SheetTrigger asChild className='min-[900px]:hidden'>
                       <button className=" rounded-md p-2 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800">
                         <MenuIcon className="h-11 w-11"/>
                         <span className="sr-only">Toggle navigation</span>
                     </button>
-                  </SheetTrigger>
-                  <SheetContent side='left' className='bg-red-100 unset-max-width w-[900px]'>
+                  </SheetTrigger> 
+                 
+                  <SheetContent side='left' className='bg-red-100 unset-max-width w-full'>
                   <ScrollArea className={`border h-screen rounded-md`}> 
                     <div className="flex flex-col px-4 md:px-8 py-8">
                     <SheetClose asChild> 
-                      <span className="py-12 px-8 text-5xl cursor-pointer hover:bg-red-200 rounded-full" onClick={()=>navigate('/',{replace:true})}> Home</span>
+                      <span className="py-12 px-8 text-5xl cursor-pointer hover:bg-red-200 rounded-full max-[600px]:text-4xl max-[600px]:py-8" onClick={()=>navigate('/',{replace:true})}> Home</span>
                     </SheetClose>
                     <SheetClose asChild> 
-                      <span className="py-12 px-8  text-5xl cursor-pointer hover:bg-red-200 rounded-full" onClick={()=>navigate('/category/all',{replace:true})}> Shop</span>
+                      <span className="py-12 px-8  text-5xl cursor-pointer hover:bg-red-200 rounded-full max-[600px]:text-4xl max-[600px]:py-8" onClick={()=>navigate('/category/all',{replace:true})}> Shop</span>
                     </SheetClose>
                     <SheetClose asChild> 
-                      <span className="py-12 px-8  text-5xl cursor-pointer hover:bg-red-200 rounded-full" onClick={()=>navigate('/category/earrings',{replace:true})} > Earrings</span>
+                      <span className="py-12 px-8  text-5xl cursor-pointer hover:bg-red-200 rounded-full max-[600px]:text-4xl max-[600px]:py-8" onClick={()=>navigate('/category/earrings',{replace:true})} > Earrings</span>
                     </SheetClose>
                     <SheetClose asChild> 
-                      <span className="py-12 px-8  text-5xl cursor-pointer hover:bg-red-200 rounded-full" onClick={()=>navigate('/category/rings',{replace:true})} > Rings</span>
+                      <span className="py-12 px-8  text-5xl cursor-pointer hover:bg-red-200 rounded-full max-[600px]:text-4xl max-[600px]:py-8" onClick={()=>navigate('/category/rings',{replace:true})} > Rings</span>
                     </SheetClose>
                     <SheetClose asChild> 
-                      <span className="py-12 px-8  text-5xl cursor-pointer hover:bg-red-200 rounded-full" onClick={()=>navigate('/category/necklace',{replace:true})}> Necklace</span>
+                      <span className="py-12 px-8  text-5xl cursor-pointer hover:bg-red-200 rounded-full max-[600px]:text-4xl max-[600px]:py-8" onClick={()=>navigate('/category/necklace',{replace:true})}> Necklace</span>
                     </SheetClose>
                     <SheetClose asChild> 
-                      <span className="py-12 px-8  text-5xl cursor-pointer hover:bg-red-200 rounded-full" onClick={()=>navigate('/category/bracelet',{replace:true})} > Bracelet</span>
+                      <span className="py-12 px-8  text-5xl cursor-pointer hover:bg-red-200 rounded-full max-[600px]:text-4xl max-[600px]:py-8" onClick={()=>navigate('/category/bracelet',{replace:true})} > Bracelet</span>
                     </SheetClose>
                     <SheetClose asChild> 
-                      <span className="py-12 px-8  text-5xl cursor-pointer hover:bg-red-200 rounded-full" onClick={()=>navigate('/category/beauty',{replace:true})} > Beauty</span>
+                      <span className="py-12 px-8  text-5xl cursor-pointer hover:bg-red-200 rounded-full max-[600px]:text-4xl max-[600px]:py-8" onClick={()=>navigate('/category/beauty',{replace:true})} > Beauty</span>
                     </SheetClose>
                     <SheetClose asChild> 
-                      <span className="py-12 px-8  text-5xl cursor-pointer hover:bg-red-200 rounded-full" onClick={()=>navigate('/category/sale',{replace:true})}> Sale </span>
+                      <span className="py-12 px-8  text-5xl cursor-pointer hover:bg-red-200 rounded-full max-[600px]:text-4xl max-[600px]:py-8" onClick={()=>navigate('/category/sale',{replace:true})}> Sale </span>
                     </SheetClose>
                      </div>
                      <Separator className='bg-red-400/30' />
-                    <div className="my-16 mx-16 rounded-lg w-max flex items-center gap-16">
+                    <div className="my-16 mx-16 rounded-lg w-full flex items-center gap-16 max-[800px]:gap-4 max-[620px]:gap-0 max-[620px]:mx-0">
                       <SheetClose asChild> 
-                        <button className="px-8">
+                        <button className="px-8 max-[500px]:px-2">
                           <img alt='tiktok' src={tiktok} className='h-14 w-14 rounded-full' />
                           <span className="sr-only">Tiktok</span>
                         </button>
                       </SheetClose>
                       <SheetClose asChild> 
-                        <button className="px-8">
+                        <button className="px-8 max-[500px]:px-2">
                           <img alt='facebook' src={facebook} className="h-14 w-14 rounded-full" />
                           <span className="sr-only">Facebook</span>
                         </button>
                       </SheetClose>
                       <SheetClose asChild> 
-                        <button className="px-8">
+                        <button className="px-8 max-[500px]:px-2">
                           <img alt='youtube' src={youtube} className="h-14 w-14 rounded-full" />
                           <span className="sr-only">Youtube</span>
                         </button>
                       </SheetClose>
                       <SheetClose asChild> 
-                        <button className="px-8 ">
+                        <button className="px-8 max-[500px]:px-2">
                           <img alt='insta' src={insta} className="h-14 w-14 rounded-full" />
                           <span className="sr-only">Instagram</span>
                         </button>
@@ -171,10 +172,14 @@ function Navbar({navbarfootercolorscheme, search, setSearch, searchQuery, setSea
                     <ScrollBar orientation="vertical" />
                   </ScrollArea>
                   </SheetContent> 
-                </Sheet>
+                </Sheet> 
+                <button className="searchbarr rounded-md p-2 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 max-[899px]:hidden"  onClick={handleOpenSearch}>
+                    <SearchIcon className="h-11 w-11 searchbarr" />
+                    <span className="sr-only">Open search</span>
+                </button> 
                 <div className="text-5xl cursor-pointer" onClick={()=>navigate('/',{replace:true})}>Bling  💎 Boutique</div>
                 <div className="flex items-center gap-2">
-                  <button className="searchbarr rounded-md p-2 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800"  onClick={handleOpenSearch}>
+                  <button className="searchbarr rounded-md p-2 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 min-[899px]:hidden"  onClick={handleOpenSearch}>
                     <SearchIcon className="h-11 w-11 searchbarr" />
                     <span className="sr-only">Open search</span>
                   </button>
@@ -187,7 +192,7 @@ function Navbar({navbarfootercolorscheme, search, setSearch, searchQuery, setSea
                               </Badge>
                         </button>
                       </SheetTrigger>
-                      <SheetContent className='bg-red-100 unset-max-width w-[900px]'>
+                      <SheetContent className='bg-red-100 unset-max-width w-[900px] max-[900px]:w-full'>
                           <ScrollArea className={`border h-screen rounded-md`}>
                             <div className="flex justify-between items-center py-6">
                               <span className="text-4xl px-2"> {cart.length === 0 ? '' : 'Your Cart'}</span>
@@ -207,13 +212,13 @@ function Navbar({navbarfootercolorscheme, search, setSearch, searchQuery, setSea
                               <div className='h-screen'>
                                 <div className="flex justify-between items-center py-6 px-2">
                                     <span className="text-2xl pl-8">PRODUCT</span>
-                                    <span className="text-2xl pr-32">TOTAL</span>
+                                    <span className="text-2xl pr-32 max-[450px]:hidden">TOTAL</span>
                                 </div>
                                 <Separator className='bg-red-400/30' />
                                 <div className="flex flex-col space-y-16 p-8">
                                   {cart.map((prod,idx) => (
-                                    <div key={idx} className='flex'>
-                                      <figure className="shrink-0 w-[250px]">
+                                    <div key={idx} className='flex max-[600px]:flex-col'>
+                                      <figure className="shrink-0 w-[250px] max-[890px]:w-[150px]">
                                         <div className="overflow-hidden rounded-md">
                                           <img
                                             src={`http://localhost:3000/images/${prod.images[0].imagestring}`}
@@ -228,33 +233,26 @@ function Navbar({navbarfootercolorscheme, search, setSearch, searchQuery, setSea
                                           </span>
                                         </figcaption>
                                       </figure>
-                                      <div className='flex flex-col px-8 py-4'>
-                                        <span className='text-2xl'> {prod.title} </span>
-                                        <span className='text-2xl mt-4 text-gray-600'> Rs. {(prod.price).toLocaleString()}</span>
-                                        <Quantity tp={tp} setTp={setTp} qtys={qtys} setQtys={setQtys} idx={idx}/>
-                                        {/* <div className={`h-28 mt-4 w-[350px] flex`} >
-                                          <button className={`focus:outline-none px-2 bg-white rounded-l-lg noscalebtn outline-none hover:outline-black outline-2`} onClick={(e)=>handleMinus(e,idx)}><FaMinus className='text-4xl' /></button>
-                                            <input
-                                              type="text"
-                                              // id="cartInput"
-                                              value = {qtys[idx]}
-                                              onChange={(e)=>handlesetQty(e,idx)}
-                                              className={`flex text-center w-7/12 h-full px-8 text-black text-4xl focus:outline-none`}
-                                            />
-                                            {console.log(qtys)}
-                                            <button className={`focus:outline-none px-2 bg-white rounded-r-lg noscalebtn outline-none hover:outline-black outline-2 `} onClick={(e)=>handleAdd(e,idx)}><FaPlus className='text-4xl' /></button>
-                                        </div> */}
-                                      </div>
-                                      <div className='flex flex-col py-4'>
-                                        <span className='text-2xl font-semibold text-nowrap '> Rs. {(qtys[idx]*prod.price).toLocaleString()} </span>
-                                        <button className={`focus:outline-none py-32 px-8 `} onClick={(e)=>handleDelete(e,idx)}><MdDelete className='text-4xl' /></button>                 
+                                      <div className="flex max-[450px]:flex-col">
+                                        <div className='flex flex-col px-8 py-4 max-[600px]:pl-0 '>
+                                          <span className='text-2xl text-wrap'> {prod.title} </span>
+                                          <span className='text-2xl mt-4 text-gray-600 text-wrap'> Rs. {(prod.price).toLocaleString()}</span>
+                                          <Quantity tp={tp} setTp={setTp} qtys={qtys} setQtys={setQtys} idx={idx}/>   
+                                        </div>
+                                        <div className='flex flex-col py-4'>
+                                          <span className='text-2xl text-nowrap '> 
+                                            <span className="min-[450px]:hidden"> Total: </span>
+                                            <span className="font-semibold"> Rs. {(qtys[idx]*prod.price).toLocaleString()} </span> 
+                                          </span>
+                                          <button className={`focus:outline-none py-32 px-8 max-[450px]:py-8 max-[450px]:px-2 `} onClick={(e)=>handleDelete(e,idx)}><MdDelete className='text-4xl' /></button>                 
+                                        </div>
                                       </div>
                                     </div>
                                   ))}
                                 </div>
                                 <Separator className='bg-red-400/30' />
                                 <div className='flex flex-col p-8'>
-                                    <div className='px-4 flex justify-between items-center'>
+                                    <div className='px-4 flex justify-between items-center max-[500px]:flex-col max-[500px]:gap-2'>
                                       <span className='text-4xl font-semibold'> Estimated total</span>
                                       <span className='text-4xl'> Rs. {tp.toLocaleString()} PKR</span>
                                     </div>
@@ -274,11 +272,9 @@ function Navbar({navbarfootercolorscheme, search, setSearch, searchQuery, setSea
                           </SheetFooter> */}
                       </SheetContent>
                     </Sheet>
-                  
-                  
                 </div>
               </div>
-              <div className="flex text-center justify-center items-center px-4 md:px-6 py-2">
+              <div className="flex text-center justify-center items-center px-4 md:px-6 py-2 max-[899px]:hidden">
                   <span className="mr-4 pb-2 text-3xl cursor-pointer" onClick={()=>navigate('/',{replace:true})}> Home</span>
                   <span className="mr-4 pb-2 text-3xl cursor-pointer" onClick={()=>navigate('/category/all',{replace:true})}> Shop</span>
                   <span className="mr-4 pb-2 text-3xl cursor-pointer" onClick={()=>navigate('/category/earrings',{replace:true})} > Earrings</span>

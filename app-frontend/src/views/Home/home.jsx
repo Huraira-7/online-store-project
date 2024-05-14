@@ -1,6 +1,6 @@
 import  {useEffect, useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addItem, setUser , resetUser} from '../../store/userSlice';
+import { addItem, setUser , resetUser, setDown} from '../../store/userSlice';
 
 import { Button } from "@/components/ui/button"
 import { CarouselItem, CarouselContent, CarouselPrevious, CarouselNext, Carousel } from "@/components/ui/carousel"
@@ -12,7 +12,7 @@ import { Helmet } from 'react-helmet';
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 import { fetchinitialdata } from '../../api/internal';
 import './home.css'
-import { Navigate, useNavigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 // import { works,halfworks } from '@/assets/randomdata';
 
 function Home({cartopen,setCartOpen,handleCloseCart,search,searchQuery,searchRes,navbarfootercolorscheme,pagecolorscheme,setTitles,cartbadge, setCartbadge}) {
@@ -60,6 +60,10 @@ function Home({cartopen,setCartOpen,handleCloseCart,search,searchQuery,searchRes
       const resp = await fetchinitialdata();
       console.log(resp);
       if(resp.status === 200){
+        if(resp.data.down) {
+          dispatch(setDown(true))
+          navigate('/downtime',{replace:true})
+        }
         setTitles(resp.data.titles)
         setCategorywise(resp.data.categorywise)
         setBestselling(resp.data.bestselling)
@@ -79,7 +83,7 @@ function Home({cartopen,setCartOpen,handleCloseCart,search,searchQuery,searchRes
 
   const handlePreviousClick = () => {
     if(api.canScrollPrev()) {api.scrollPrev()} else {api.scrollTo(totalSlides-1,false,1)}
-    dispatch(resetUser())
+    // dispatch(resetUser())
   };
 
   function generateRandomId() {

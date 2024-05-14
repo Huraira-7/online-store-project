@@ -6,33 +6,17 @@ import { useState,useEffect } from 'react';
 //import components
 import Error from './comps/Error/error';
 import Downtime from './comps/Downtime/Downtime';
-// import Navbar from './comps/Navbar/Navbar';
-// import Footer from './comps/Footer/Footer';
-
 // import Protected from './comps/Protected/Protected';
+
 //import pages
-// import Login from './views/Login/login';
-// import Register from './views/Register/register';
-// import ChangePassword from './views/ChangePassword/changepassword';
-
-// import Category from './views/Category/Category';
-// import Home from './views/Home/home';
-// import Product from './views/Product/Product';
-// import Contact from './views/Contact/contact';
-// import TnC from './views/TnC/TnC';
-// import OrderCancellation from './views/OrderCancellation/OrderCancellation';
-
 import Checkout from './views/Checkout/Checkout';
 import Profile from './views/Profile/profile';
-
 import Layout from './lib/PageLayout';
-
-
 
 
 function App() {
  
-    // const isAuth = useSelector((state) => state.user.auth); 
+    // const down = useSelector((state) => state.user.down); 
     // console.log("auth=",isAuth);
     const navbarfootercolorscheme = 'bg-rose-400'
     const pagecolorscheme = "bg-red-400/50";
@@ -236,12 +220,6 @@ function App() {
         </BrowserRouter>
       </div>
     );
-    
-    {/* <Route path="/login"   element={ <Login/>   }   />   
-    <Route path="/register"   element={ <Register />  }   /> 
-    <Route path="/changepassword"       
-    element={  Protected(isAuth,<ChangePassword/>)   }    
-  />  */}
 }
 
 

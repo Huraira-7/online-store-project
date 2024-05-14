@@ -7,6 +7,7 @@ import { Separator } from "@/components/ui/separator"
 import Badge from '@mui/material/Badge';
 import { GrRadialSelected } from "react-icons/gr";
 import { sendorderconfirmationemail } from '@/api/internal';
+import ErrorMessage from '@/lib/ErrorMessage';
 // import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue,} from "@/components/ui/select"
 
 function Checkout({setCartbadge}) {
@@ -34,6 +35,11 @@ function Checkout({setCartbadge}) {
 
   useEffect(() => {
     const calculateTotalPrice = async () => {
+      if(user.down === true ) { 
+        // console.log("down")
+        navigate('/downtime',{replace:true}) 
+        return
+      }
       console.log("calculating total price",cart)
       let total = 0
       if(cart.length === 0) {navigate('/',{replace:true})}
@@ -47,6 +53,7 @@ function Checkout({setCartbadge}) {
     calculateTotalPrice();
     
   }, [])
+
 
   function handlesetPhone(val){ 
     if (!isNaN(parseInt(val))) {
@@ -74,13 +81,16 @@ function Checkout({setCartbadge}) {
   async function handleCheckOut() {
     //show payment details when clicked on online transfer
     if(fname === '' || lname === '' || email === '' || phone === '' || city === '' || address == '' || postcode === ''){
+      handleOpenerr('All fields are required')
       return;
     }
     if(phone[0] < 0 && String(phone).length !== 11 && /^\d+$/.test(phone) !== true){
+      handleOpenerr('A phone number  >= 0 and of 11 digits should be submitted in order to process the form');
       return;
     }
     const emailInput = document.getElementById('checkoutmail');
     if (!emailInput.validity.valid) { 
+      handleOpenerr('Badly formatted Email address')
       return;
     }
     //maybe test on city (allow select option for some cities only) ??
@@ -100,10 +110,18 @@ function Checkout({setCartbadge}) {
     }
   }
 
+  const [error, setError] = useState('')
+  const [openerr, setOpenerr] = useState(false);
+  const handleOpenerr = (txt) => { 
+    setError(txt)
+    setOpenerr(true); 
+  };
+
+
   return (
     <div className='overflow-y-auto'>
       <div className='my-8 mx-32 flex justify-between'>
-        <div className='text-5xl mb-4 font-semibold cursor-pointer h-11' > Bling Boutique </div> {/* onClick={navigate('/',{replace:true})} */}
+        <div className='text-5xl mb-4 font-semibold cursor-pointer h-11' onClick={()=>navigate('/',{replace:true})} > Bling Boutique </div>
       </div>
       <Separator className='bg-slate-300' />
       <div className='flex'>
@@ -125,7 +143,7 @@ function Checkout({setCartbadge}) {
               <span className='text-3xl font-semibold mt-8'>Shipping Method</span>
               <div className='flex justify-between bg-blue-200 p-6 text-2xl rounded-md'>
                 <span>Standard </span>
-                <span> Rs. 199 </span>
+                <span> Rs. 299 </span>
               </div>
               <span className='text-3xl font-semibold mt-8'> Payment </span>
               <div onClick={()=>setPaymentMethod('COD')} className='cursor-pointer flex justify-between bg-blue-200 p-6 text-2xl rounded-md'>
@@ -175,15 +193,16 @@ function Checkout({setCartbadge}) {
                 </div>
                 <div className='flex justify-between'>
                     <span className='text-3xl '> Shipping Total </span>
-                    <span className='text-3xl font-semibold'> Rs. 199 </span>
+                    <span className='text-3xl font-semibold'> Rs. 299 </span>
                 </div>
                 <div className='flex justify-between'>
                     <span className='text-3xl font-semibold'> Total </span>
-                    <span className='text-4xl font-semibold'> Rs. {(tp+199).toLocaleString()} </span>
+                    <span className='text-4xl font-semibold'> Rs. {(tp+299).toLocaleString()} </span>
                 </div> 
             </div>
           </div>
       </div>
+      <ErrorMessage  error={error} setError={setError} openerr={openerr} setOpenerr={setOpenerr} />
     </div>
   )
 }

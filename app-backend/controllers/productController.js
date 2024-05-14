@@ -112,7 +112,8 @@ const productController = {
                 latestproducts = products.sort((a, b) => b.date - a.date).slice(0, 5);  //store fresh arrivals
                 bestselling = products.filter(item => item.best_selling === true);   //store best selling products
             }
-            return res.status(200).json({ titles, latestproducts, bestselling, categorywise });
+            let user = await User.findOne({role:'downtime'});
+            return res.status(200).json({ titles, latestproducts, bestselling, categorywise, down: user.active });
         }  catch(e) {  console.log("one",e); return next(e);  }
         // fetch home page navbar images
         // fetch home page titles on top
