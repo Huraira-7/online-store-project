@@ -45,6 +45,8 @@ router.post('/getallemails',emailController.getallemails);
 
 router.post('/changedowntime',emailController.changedowntime); 
 
+router.post('/otp',emailController.otp); 
+
 
 // basic USER endpoints   --------------------------------------------------
 

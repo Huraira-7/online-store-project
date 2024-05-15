@@ -12,14 +12,15 @@ import Downtime from './comps/Downtime/Downtime';
 import Checkout from './views/Checkout/Checkout';
 import Profile from './views/Profile/profile';
 import Layout from './lib/PageLayout';
+import Confirmation from './views/Confirmation/Confirmation';
 
 
 function App() {
  
     // const down = useSelector((state) => state.user.down); 
     // console.log("auth=",isAuth);
-    const navbarfootercolorscheme = 'bg-rose-400'
-    const pagecolorscheme = "bg-red-400/50";
+    const navbarfootercolorscheme = 'bg-rose-400/60'
+    const pagecolorscheme = "bg-red-400/70";
     const categories = ['earrings', 'necklace', 'bracelet', 'beauty', 'rings', 'all', 'sale'];
 
     const [titles,setTitles] = useState([])
@@ -40,7 +41,7 @@ function App() {
     useEffect(() => {
         // console.log(searchQuery)
         const filteredTitles = titles.filter(item => item.title && item.title.toLowerCase().includes(searchQuery.toLowerCase()));
-        // console.log("filtered",filteredTitles)
+        console.log("filtered",filteredTitles)
         setSearchRes(filteredTitles)
     
         let catgs = []
@@ -57,25 +58,10 @@ function App() {
         setSuggestions(filteredsugg)
         
       }, [searchQuery]) //fetch all items by title 
-    
-      useEffect(() => {
-        // if(maindiv){
-        //   if(cartopen){
-        //     maindiv.style.opacity = '0.6'
-        //     maindiv.style.overflow = 'hidden'
-        //   } else {
-        //     maindiv.style.opacity = '1'
-        //     maindiv.style.overflow = 'auto'
-        //   }
-        // }
-      }, [cartopen]) //update opacities at cart open/close
 
     
     function handleCloseCart(){
       setCartOpen(false)
-      // const sidebardiv = document.getElementById('sidebardiv')
-      // sidebardiv.classList.remove('z-40')
-      // sidebardiv.classList.add('hidden')
     }
 
     const handleScroll = async () => {
@@ -110,30 +96,30 @@ function App() {
       };
     
     
-      const handleClick = (e) => {
-        e.preventDefault()
-        if(cartopen){
-          handleCloseCart()
-          return;
-        }
-        //handle the case where search icon or the window below is clicked (it should not close in that case)
-        let classlist = e.target.classList.value.split(" ")
-        // console.log(classlist)
-        let flag = 0
-        if (classlist.includes('searchbarr')) {return;}
-        for(var idx in classlist){
-          let cname = classlist[idx]
-          // console.log(cname)
-          if (cname === 'headerbarr'){
-            flag = 1
-          }
-        }
-        if (flag === 0){  
-          setSearch(false) 
-          setSearchQuery('')
-          setSearchRes([])
-        }
-      };
+      // const handleClick = (e) => {
+      //   e.preventDefault()
+      //   if(cartopen){
+      //     handleCloseCart()
+      //     return;
+      //   }
+      //   //handle the case where search icon or the window below is clicked (it should not close in that case)
+      //   let classlist = e.target.classList.value.split(" ")
+      //   // console.log(classlist)
+      //   let flag = 0
+      //   if (classlist.includes('searchbarr')) {return;}
+      //   for(var idx in classlist){
+      //     let cname = classlist[idx]
+      //     // console.log(cname)
+      //     if (cname === 'headerbarr'){
+      //       flag = 1
+      //     }
+      //   }
+      //   if (flag === 0){  
+      //     setSearch(false) 
+      //     setSearchQuery('')
+      //     setSearchRes([])
+      //   }
+      // };
 
     const navbarfooterprops = {
       navbarfootercolorscheme: navbarfootercolorscheme,
@@ -150,7 +136,7 @@ function App() {
     }
 
     return (
-    <div id="maindiv" className="fixed top-0 bottom-0 left-0 right-0 overflow-auto" onScroll = {handleScroll} onClick = {(e)=>handleClick(e)}>
+    <div id="maindiv" className="fixed top-0 bottom-0 left-0 right-0 overflow-auto" onScroll = {handleScroll} >
       <BrowserRouter>
           <Routes>
               <Route path="/"           element={ 
@@ -208,10 +194,8 @@ function App() {
                }  />
 
 
-               <Route path="/profile"      
-                    element = { <Profile/>} 
-                    //  element={  Protected(isAuth,<Profile/>)  }     
-               />
+              <Route path="/confirmation"   element = { <Confirmation/>}  />
+              <Route path="/profile"   element = { <Profile/>}  />
               <Route path="/checkout" element={ <Checkout setCartbadge={setCartbadge} /> }  />
               <Route path="/downtime" element={ <Downtime/>  }  />
               <Route path="/category/*" element={<Error /> } />

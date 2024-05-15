@@ -1,11 +1,16 @@
-// import React from 'react'
+import {useEffect} from 'react'
 
 
 function TnC() {
+  useEffect(() => {
+    const maindiv = document.getElementById('maindiv');
+    maindiv.scrollTo({top: 0, behavior: 'smooth', })
+  }, [])
+  
   return (
     <div className="min-h-screen">
-     <div className="flex flex-col  my-20 w-8/12 ml-96 gap-20">
-     <span className="text-6xl"> Terms and Conditions</span>
+     <div className="flex flex-col  my-20 w-8/12 mx-auto gap-20">
+     <span className="text-6xl max-[800px]:text-5xl"> Terms and Conditions</span>
      <span className="text-3xl">EXCHANGE PROCEDURE</span>
      <span className="text-3xl flex flex-col gap-1">
         <span className="">We aim to facilitate all our clients if they wish to exchange their purchased articles, provided that the purchase was made in Pakistan.</span><br />

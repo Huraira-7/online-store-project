@@ -15,11 +15,12 @@ import './home.css'
 import {  useNavigate } from 'react-router-dom';
 // import { works,halfworks } from '@/assets/randomdata';
 
-function Home({cartopen,setCartOpen,handleCloseCart,search,searchQuery,searchRes,navbarfootercolorscheme,pagecolorscheme,setTitles,cartbadge, setCartbadge}) {
+function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSearchRes, searchRes,navbarfootercolorscheme,pagecolorscheme,setTitles,setCartbadge}) {
   const totalSlides = 4
   const [categorywise, setCategorywise] = useState([])
   const [bestselling, setBestselling] = useState([])
   const [latest, setLatest] = useState([])
+  const [all, setAll] = useState([])
   const [currimg, setCurrimg] = useState([0,0,0,0,0]) //initial pictures for all categories
   
   const [api, setApi] = useState()  //CarouselApi
@@ -57,14 +58,16 @@ function Home({cartopen,setCartOpen,handleCloseCart,search,searchQuery,searchRes
 
   useEffect(() => {
     const fetchData = async () => {
+      dispatch(resetUser())
       const resp = await fetchinitialdata();
       console.log(resp);
       if(resp.status === 200){
-        if(resp.data.down) {
+        if(resp.data.down === true) {
           dispatch(setDown(true))
           navigate('/downtime',{replace:true})
         }
         setTitles(resp.data.titles)
+        setAll(resp.data.products)
         setCategorywise(resp.data.categorywise)
         setBestselling(resp.data.bestselling)
         setLatest(resp.data.latestproducts)
@@ -91,6 +94,14 @@ function Home({cartopen,setCartOpen,handleCloseCart,search,searchQuery,searchRes
     return randomNum.toString().padStart(8, '0');
   }
 
+  function navtoProduct(result){
+    setSearch(false) 
+    setSearchQuery('')
+    setSearchRes([])
+    let prod = all.filter(dictionary => dictionary._id === result.id)[0]
+    navigate('/product', { state:{product: btoa(JSON.stringify(prod))} })
+  }
+
   const handleAddItem = (e,prod) => {
     // console.log("adding item")
     e.preventDefault()
@@ -112,75 +123,41 @@ function Home({cartopen,setCartOpen,handleCloseCart,search,searchQuery,searchRes
             {/* {add SEO tags over here ....} */}
             {/* <script src="src/views/Home/scroll.js"> </script> */}
           </Helmet>
-          
+          {/* greater than 1000px maybe design something else ?? */}
           { !search ? (<div className='mainhomepage'>
-
-          <Carousel  setApi={setApi} plugins={[ Autoplay({delay: 5000, }),]} className={`slideshow-carousel w-full overflow-hidden ${navbarfootercolorscheme}`}>
-          <CarouselContent className="">
-              <CarouselItem>
-              <div className="relative h-[400px] w-full rounded-lg flex items-center justify-center">
+          <Carousel  setApi={setApi} plugins={[ Autoplay({delay: 5000, }),]} className={`w-full overflow-hidden ${navbarfootercolorscheme}`}>
+          <CarouselContent className="mb-10">
+              <CarouselItem className=''>
+              <div className="relative h-[600px]  w-full rounded-lg flex items-center justify-center">
                 <img
                   alt="Slide 1"
-                  className="h-full w-full object-cover"
-                  height={400}
-                  src="/placeholder.svg"
-                  style={{
-                    aspectRatio: "1600/400",
-                    objectFit: "cover",
-                  }}
-                  width={1600}
+                  className="h-full w-full object-contain "
+                  src={`http://192.168.100.136:3000/images/theme3.jpg`}
                 />
-                <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 p-4 text-center text-white">
-                  <h2 className="text-3xl font-bold">Welcome to Fresh Goods</h2>
-                  <p className="text-lg">Discover the latest fashion trends</p>
-                  <Button >Shop Now</Button>
-                </div>
                 <LeftRightButtons handleNextClick={handleNextClick} handlePreviousClick={handlePreviousClick}/>
               </div>
             </CarouselItem>
             <CarouselItem>
-                <div className="relative h-[400px] w-full rounded-lg flex items-center justify-center">
+                <div className="relative h-[600px] w-full rounded-lg flex items-center justify-center">
                   <img
                     alt="Slide 2"
-                    className="h-full w-full object-cover"
-                    height={400}
-                    src="/placeholder.svg"
-                    style={{
-                      aspectRatio: "1600/400",
-                      objectFit: "cover",
-                    }}
-                    width={1600}
+                    className="h-full w-full object-contain"
+                    src={`http://192.168.100.136:3000/images/theme2.jpg`}
                   />
-                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 p-4 text-center text-white">
-                    <h2 className="text-3xl font-bold">Elevate Your Style</h2>
-                    <p className="text-lg">Explore our latest collections</p>
-                    <Button>Shop Now</Button>
-                  </div>
                   <LeftRightButtons handleNextClick={handleNextClick} handlePreviousClick={handlePreviousClick}/>
                 </div>
               </CarouselItem>
               <CarouselItem>
-                <div className="relative h-[400px] w-full rounded-lg flex items-center justify-center">
+                <div className="relative h-[600px] w-full rounded-lg flex items-center justify-center">
                   <img
                     alt="Slide 3"
-                    className="h-full w-full object-cover"
-                    height={400}
-                    src="/placeholder.svg"
-                    style={{
-                      aspectRatio: "1600/400",
-                      objectFit: "cover",
-                    }}
-                    width={1600}
+                    className="h-full w-full object-contain"
+                    src={`http://192.168.100.136:3000/images/theme1.jpg`}
                   />
-                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 p-4 text-center text-white">
-                    <h2 className="text-3xl font-bold">Timeless Essentials</h2>
-                    <p className="text-lg">Find the perfect pieces for any occasion</p>
-                    <Button>Shop Now</Button>
-                  </div>
                   <LeftRightButtons handleNextClick={handleNextClick} handlePreviousClick={handlePreviousClick}/>
                 </div>
               </CarouselItem>
-              <CarouselItem>
+              {/* <CarouselItem>
               <div className="relative h-[400px] w-full rounded-lg flex items-center justify-center">
                 <img
                   alt="Slide 4"
@@ -200,7 +177,7 @@ function Home({cartopen,setCartOpen,handleCloseCart,search,searchQuery,searchRes
                 </div>
                 <LeftRightButtons handleNextClick={handleNextClick} handlePreviousClick={handlePreviousClick}/>
               </div>
-            </CarouselItem>
+            </CarouselItem> */}
           </CarouselContent>
           <CarouselPrevious />
           <CarouselNext />
@@ -386,14 +363,14 @@ function Home({cartopen,setCartOpen,handleCloseCart,search,searchQuery,searchRes
         <section className="px-4 md:px-6 py-12">
           {latest.length>0 && <span className="text-3xl font-semibold flex justify-center ">Fresh Arrivals</span>}     
           <ScrollArea className="mt-16 w-full whitespace-nowrap">
-            <div className="flex w-max space-x-16 p-4">
+            <div className="flex w-max space-x-16 max-[900px]:space-x-3 p-1">
               {latest.length>0 && latest.map((latestprod,idx) => (
-                <figure key={idx} className="shrink-0">
+                <figure key={idx} className="shrink-0 max-[900px]:w-52">
                   <div className="overflow-hidden rounded-md">
                     <img
                       id = {`img-${idx}`}
                       onMouseEnter = {handleHoverImg}
-                      src={`http://localhost:3000/images/${latestprod.images[currimg[idx]].imagestring}`}
+                      src={`http://192.168.100.136:3000/images/${latestprod.images[currimg[idx]].imagestring}`}
                       alt={`${latestprod.category}`}
                       className="aspect-[3/4] object-contain outline"
                       width={500}
@@ -401,34 +378,33 @@ function Home({cartopen,setCartOpen,handleCloseCart,search,searchQuery,searchRes
                     />
                   </div>
                   { latestprod.is_out_stock ? 
-                    <div className="p-4 bg-pink-500/80 w-9/12 text-center m-auto cursor-pointer relative bottom-20 rounded-full text-3xl">
+                    <div className="p-4 max-[1000px]:p-1 max-[1000px]:pb-0 bg-pink-500/80 w-9/12 text-center m-auto cursor-pointer relative bottom-20 max-[1000px]:bottom-6 rounded-full text-3xl max-[1000px]:text-2xl">
                       Sold
-                    </div> : <div className="p-7 w-9/12 text-center m-auto cursor-pointer relative bottom-20 rounded-full text-3xl">
-                    </div> 
+                    </div> : ''
                   }
-                  <figcaption className="pt-2 text-3xl mt-4 text-muted-foreground text-center">
+                  <figcaption className="pt-2 text-3xl mt-4 text-muted-foreground text-center max-[900px]:text-xl">
                      {"  "}
-                    <span className="font-semibold text-foreground">
+                    <span className="font-semibold text-foreground text-wrap">
                     {`${latestprod.title}`} 
                     </span>
                   </figcaption>
                   {   latestprod.oldprice  && latestprod.oldprice > latestprod.price ?  
-                        <figcaption className="line-through pt-2 text-3xl mt-4 text-muted-foreground text-center">
+                        <figcaption className="line-through pmax-[900px]:pt-0 pt-4 text-3xl  max-[900px]:text-xl text-muted-foreground text-center">
                           Rs {"  "}
                           <span className="text-foreground">
                           {`${latestprod.oldprice.toLocaleString()}`} 
                           </span>
                         </figcaption> 
-                    :  <figcaption className="mt-16"></figcaption> 
+                    :  <figcaption className="mt-1"></figcaption> 
                   }
-                  <figcaption className="pt-2 text-3xl mt-4 text-muted-foreground text-center">
+                  <figcaption className={`"pt-1 text-3xl flex justify-center max-[900px]:text-xl ${(latestprod.oldprice && latestprod.oldprice > latestprod.price)? 'mt-2' : 'mt-20'} text-muted-foreground text-center"`}>
                     Rs {"  "}
                     <span className="text-foreground">
                     {`${latestprod.price.toLocaleString()}`} 
                     </span>
                   </figcaption>
                   <div className='flex justify-center my-8'>
-                    <button className={`'noscalebtn px-16 py-8 ${latestprod.is_out_stock ? 'cursor-not-allowed' : 'cursor-pointer'} text-4xl bg-white rounded-md outline-none hover:outline-black outline-4'`} onClick={(e)=>handleAddItem(e,latestprod)}> Add to Cart</button>
+                    <button className={`'noscalebtn px-16  max-[900px]:px-8 py-8 ${latestprod.is_out_stock ? 'cursor-not-allowed' : 'cursor-pointer'} text-4xl  max-[900px]:text-xl bg-white rounded-md outline-none hover:outline-slate-800 outline-1'`} onClick={(e)=>handleAddItem(e,latestprod)}> Add to Cart</button>
                   </div>
                 </figure>
               ))}
@@ -439,13 +415,13 @@ function Home({cartopen,setCartOpen,handleCloseCart,search,searchQuery,searchRes
         <section className="px-4 md:px-6 py-24 ">
           {bestselling.length > 0 && <span className="text-3xl font-semibold flex justify-center">Best Selling</span>}       
           <ScrollArea className="mt-16 w-full whitespace-nowrap">
-            <div className={`flex ${500*bestselling.length < window.innerWidth-50 ? 'justify-center' : 'w-max'} space-x-16 p-4`}> 
+            <div className={`flex ${500*bestselling.length < window.innerWidth-50 ? 'justify-center' : 'w-max'} space-x-16 max-[900px]:space-x-4 p-4`}> 
             {/* 500 is width of image ^ */}
               {bestselling.length>0 && bestselling.map((bestprod,idx) => (
-                <figure key={idx} className="shrink-0">
+                <figure key={idx} className="shrink-0 max-[900px]:w-52">
                   <div className="overflow-hidden rounded-md">
                     <img
-                      src={`http://localhost:3000/images/${bestprod.images[0].imagestring}`}
+                      src={`http://192.168.100.136:3000/images/${bestprod.images[0].imagestring}`}
                       alt={`${bestprod.category}`}
                       className="aspect-[3/4] object-cover"
                       width={500}
@@ -460,27 +436,27 @@ function Home({cartopen,setCartOpen,handleCloseCart,search,searchQuery,searchRes
                   }
                   <figcaption className="pt-2 text-3xl text-center mt-4 text-muted-foreground">
                      {"  "}
-                    <span className="font-semibold text-foreground">
+                    <span className="font-semibold text-foreground text-wrap max-[900px]:text-xl">
                       {`${bestprod.title}`}
                     </span>
                   </figcaption>
                   {   bestprod.oldprice && bestprod.oldprice > bestprod.price ?  
-                        <figcaption className="line-through pt-2 text-3xl mt-4 text-muted-foreground text-center">
+                        <figcaption className="line-through pt-2 text-3xl max-[900px]:text-xl mt-4 text-muted-foreground text-center">
                           Rs {"  "}
-                          <span className="text-foreground">
+                          <span className="text-foreground ">
                           {`${bestprod.oldprice.toLocaleString()}`} 
                           </span>
                         </figcaption> 
                     :  <figcaption className="mt-16"></figcaption> 
                   }
-                  <figcaption className="pt-2 text-3xl mt-4 text-muted-foreground text-center">
+                  <figcaption className="pt-2 text-3xl mt-4 max-[900px]:text-xl text-muted-foreground text-center">
                     Rs {"  "}
                     <span className="text-foreground">
                     {`${bestprod.price.toLocaleString()}`} 
                     </span>
                   </figcaption>
                   <div className='flex justify-center my-8'>
-                    <button className={`'noscalebtn px-16 py-8 text-4xl ${bestprod.is_out_stock ? 'cursor-not-allowed' : 'cursor-pointer'} bg-white rounded-md outline-none hover:outline-black outline-4'`} onClick={(e)=>handleAddItem(e,bestprod)}> Add to Cart</button>
+                    <button className={`'noscalebtn px-16 max-[900px]:px-8 py-8 text-4xl max-[900px]:text-xl ${bestprod.is_out_stock ? 'cursor-not-allowed' : 'cursor-pointer'} bg-white rounded-md outline-none hover:outline-slate-800 outline-1'`} onClick={(e)=>handleAddItem(e,bestprod)}> Add to Cart</button>
                   </div>
                 </figure>
               ))}
@@ -491,29 +467,31 @@ function Home({cartopen,setCartOpen,handleCloseCart,search,searchQuery,searchRes
         </div>
         </div> ) : (
           <div id="searchresultscreen" className={`searchbarr h-screen ${pagecolorscheme} overflow-auto`}>   
-            {searchRes.length === 0 && <span className='searchbarr text-4xl flex pt-64 justify-center'> No items found matching your search query </span>}
-            <div className='searchbarr flex justify-between mb-52'>  
-                  <div className='searchbarr text-3xl pt-32 px-6 flex'>
-                  { searchQuery.length > 0 && searchRes.length >  0 && suggestions.length>0 &&
-                    suggestions.map((sugg, idx) => (
-                      <div key = {idx}  className='searchbarr flex flex-col py-4 mr-52' >
-                          <span className='searchbarr text-3xl mb-16 text-center font-semibold'> {idx === 0 ? 'Suggestions' : ''} </span>
-                          <li className='searchbarr'>{sugg.title}</li>
-                        </div>
-                    ))}
+            {searchRes.length === 0 && <span className='searchbarr text-4xl flex pt-64 justify-center max-[600px]:text-center max-[800px]:text-xl '> No items found matching your search query </span>}
+            <div className='searchbarr flex max-[1500px]:flex-col justify-between mb-52'>  
+                  <div className='searchbarr text-3xl pt-32 max-[1500px]:pt-12 px-6 flex'>
+                    <div> 
+                      { searchQuery.length > 0 && searchRes.length >  0 && suggestions.length>0 &&
+                        suggestions.map((sugg, idx) => (
+                          <div key = {idx}  className='searchbarr flex flex-col py-4 max-[1500px]:py-0 mr-52 max-[1500px]:mr-0' >
+                              <span className='searchbarr text-3xl mb-16 max-[1500px]:mb-6 max-[1500px]:text-2xl text-center font-semibold'> {idx === 0 ? 'Suggestions' : ''} </span>
+                              <li className='searchbarr max-[1500px]:text-xl'>{sugg.title}</li>
+                            </div>
+                        ))}
+                    </div>
                   </div>
                   { searchRes.length >  0  && suggestions.length>0 &&
-                    <Separator className="searchbarr my-64 bg-red-900 h-auto" orientation='vertical'/>
+                    <Separator className="searchbarr my-64 max-[1500px]:my-2 bg-red-900 h-auto" orientation='vertical'/>
                   }
-                  <div className='searchbarr text-3xl pt-32 px-6'>
+                  <div className='searchbarr text-3xl pt-32 px-6 max-[1500px]:pt-4 max-[1500px]:text-2xl'>
                     {searchQuery.length > 0 && searchRes.length >  0  &&
                     searchRes.map((result, idx) => (
-                      <div key = {idx}  className='searchbarr flex flex-col py-4 mr-52' >
-                        <span className='searchbarr mb-16 text-center font-semibold'> {idx === 0 ? 'Products' : ''} </span>
-                        <div className='flex flex-row cursor-pointer'> {/* onclick leads to that page */}
-                          <img src={`http://localhost:3000/images/${result.img}`}
+                      <div key = {idx}  className='searchbarr flex flex-col py-4 mr-52' onClick={()=> navtoProduct(result)} >
+                        <span className='searchbarr mb-16 max-[1500px]:mb-4 text-center font-semibold'> {idx === 0 ? 'Products' : ''} </span>
+                        <div className='flex flex-row cursor-pointer'> 
+                          <img src={`http://192.168.100.136:3000/images/${result.img}`}
                           height={150} width={150} alt={`${idx}`} />
-                          <span className='px-6 flex items-center'> {result.title}  </span>
+                          <span className='px-6 flex items-center max-[1500px]:text-xl text-wrap'> {result.title}  </span>
                         </div>
                       </div>
                     ))}
@@ -535,13 +513,11 @@ function LeftRightButtons(props) {
     <>
     <div className="absolute left-4 rounded-md "> 
       <button className="w-16 h-16 px-4 rounded-full focus:outline-none hover:bg-white text-3xl" onClick={props.handlePreviousClick}>
-        {/* <img alt='left' src={left} className='rounded-3xl' /> */}
         <IoIosArrowBack  />
       </button>
     </div>
     <div className="absolute right-4 rounded-md "> 
       <button className="w-16 h-16 px-4 rounded-full focus:outline-none hover:bg-white text-3xl" onClick={props.handleNextClick}>
-        {/* <img alt='right' src={right} className='rounded-3xl' /> */}
         <IoIosArrowForward />
       </button>
     </div>

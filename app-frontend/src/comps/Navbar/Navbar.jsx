@@ -2,20 +2,20 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {  useDispatch, useSelector } from 'react-redux';
 import { removeItem } from '../../store/userSlice';
+import Quantity from "@/lib/Quantity";
+import  "./navbar.css";
 
 import { Sheet, SheetClose, SheetContent, SheetTrigger} from "@/components/ui/sheet"
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 import { Separator } from "@/components/ui/separator"
+import { MdDelete } from "react-icons/md";
 import Badge from '@mui/material/Badge';
 
-import { MdDelete } from "react-icons/md";
 
-import  "./navbar.css";
-import youtube from '../../assets/youtube.png'
-import facebook from '../../assets/fb.png'
-import insta from '../../assets/insta.jpeg'
-import tiktok from '../../assets/tiktok.png'
-import Quantity from "@/lib/Quantity";
+// import youtube from '../../assets/youtube.png/'
+// import facebook from '../../assets/fb.png'
+// import insta from '../../assets/insta.jpeg'
+// import tiktok from '../../assets/tiktok.png'
 
 function Navbar({navbarfootercolorscheme, search, setSearch, searchQuery, setSearchQuery, setSearchRes, cartopen, setCartOpen, handleCloseCart, cartbadge, setCartbadge}) {
   const maindiv = document.getElementById('maindiv');
@@ -27,7 +27,7 @@ function Navbar({navbarfootercolorscheme, search, setSearch, searchQuery, setSea
   const [tp, setTp] = useState(0) //tp : totalPrice
 
   async function handleOpenSearch() {
-    console.log("open-search")
+    // console.log("open-search")
     if(maindiv.scrollTop !== 0){
       maindiv.scrollTo({
         top: 0,
@@ -39,7 +39,7 @@ function Navbar({navbarfootercolorscheme, search, setSearch, searchQuery, setSea
   }
 
   function handleCloseSearch(){
-    console.log('close-search')
+    // console.log('close-search')
     setSearch(false);
     setSearchQuery('')
     setSearchRes([])
@@ -90,26 +90,26 @@ function Navbar({navbarfootercolorscheme, search, setSearch, searchQuery, setSea
 
         <>
           {search ? (
-            <div id="srchbr" className={`${colorScheme} headerbarr searchbar h-52`} >
+            <div id="srchbr" className={`${colorScheme} headerbarr searchbar h-52 max-[600px]:h-32`} >
               <input
                 type="text"
                 id="searchInput"
                 placeholder="Search for products........"
                 value = {searchQuery}
                 onChange={(e)=>(setSearchQuery(e.target.value))}
-                className={`${colorScheme} headerbarr  flex text-center w-11/12 h-full px-8 text-black text-4xl placeholder-black rounded-md focus:outline-none`}
+                className={`${colorScheme} headerbarr  flex text-center w-11/12 h-full px-8 text-black text-4xl max-[600px]:text-2xl placeholder-black rounded-md focus:outline-none`}
               />
-              <button id="closeButton" className={` headerbarr  fixed right-16 top-16 focus:outline-none`} onClick={handleCloseSearch}>
-                <CloseIcon className="headerbarr h-12 w-12 text-white" />
+              <button id="closeButton" className={`headerbarr fixed right-16 top-16 max-[600px]:right-1 max-[600px]:top-12 focus:outline-none`} onClick={handleCloseSearch}>
+                <CloseIcon className="headerbarr h-12 w-12 max-[600px]:h-8 max-[600px]:w-8 text-white" />
               </button>
             </div>
           ) : (
             <header id="hdr" className={`${colorScheme}  shadow-sm dark:bg-gray-950 dark:text-gray-50 h-90 overflow-auto`} >
-              <div className="flex h-52 mx-0 items-center justify-between px-4 md:px-6 w-full">
+              <div className="flex h-52 max-[900px]:h-24 mx-0 items-center justify-between px-4 max-[900px]:gap-1 md:px-6 w-full">
               <Sheet>
                 <SheetTrigger asChild className='min-[900px]:hidden'>
                       <button className=" rounded-md p-2 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800">
-                        <MenuIcon className="h-11 w-11"/>
+                        <MenuIcon className="h-11 w-11 max-[900px]:h-7 max-[900px]:w-7"/>
                         <span className="sr-only">Toggle navigation</span>
                     </button>
                   </SheetTrigger> 
@@ -118,33 +118,33 @@ function Navbar({navbarfootercolorscheme, search, setSearch, searchQuery, setSea
                   <ScrollArea className={`border h-screen rounded-md`}> 
                     <div className="flex flex-col px-4 md:px-8 py-8">
                     <SheetClose asChild> 
-                      <span className="py-12 px-8 text-5xl cursor-pointer hover:bg-red-200 rounded-full max-[600px]:text-4xl max-[600px]:py-8" onClick={()=>navigate('/',{replace:true})}> Home</span>
+                      <span className="py-12 px-8 text-5xl cursor-pointer hover:bg-red-200 rounded-full max-[900px]:text-xl max-[900px]:px-4 max-[900px]:py-8" onClick={()=>navigate('/',{replace:true})}> Home</span>
                     </SheetClose>
                     <SheetClose asChild> 
-                      <span className="py-12 px-8  text-5xl cursor-pointer hover:bg-red-200 rounded-full max-[600px]:text-4xl max-[600px]:py-8" onClick={()=>navigate('/category/all',{replace:true})}> Shop</span>
+                      <span className="py-12 px-8  text-5xl cursor-pointer hover:bg-red-200 rounded-full max-[900px]:text-xl max-[900px]:px-4 max-[900px]:py-8" onClick={()=>navigate('/category/all',{replace:true})}> Shop</span>
                     </SheetClose>
                     <SheetClose asChild> 
-                      <span className="py-12 px-8  text-5xl cursor-pointer hover:bg-red-200 rounded-full max-[600px]:text-4xl max-[600px]:py-8" onClick={()=>navigate('/category/earrings',{replace:true})} > Earrings</span>
+                      <span className="py-12 px-8  text-5xl cursor-pointer hover:bg-red-200 rounded-full max-[900px]:text-xl max-[900px]:px-4 max-[900px]:py-8" onClick={()=>navigate('/category/earrings',{replace:true})} > Earrings</span>
                     </SheetClose>
                     <SheetClose asChild> 
-                      <span className="py-12 px-8  text-5xl cursor-pointer hover:bg-red-200 rounded-full max-[600px]:text-4xl max-[600px]:py-8" onClick={()=>navigate('/category/rings',{replace:true})} > Rings</span>
+                      <span className="py-12 px-8  text-5xl cursor-pointer hover:bg-red-200 rounded-full max-[900px]:text-xl max-[900px]:px-4 max-[900px]:py-8" onClick={()=>navigate('/category/rings',{replace:true})} > Rings</span>
                     </SheetClose>
                     <SheetClose asChild> 
-                      <span className="py-12 px-8  text-5xl cursor-pointer hover:bg-red-200 rounded-full max-[600px]:text-4xl max-[600px]:py-8" onClick={()=>navigate('/category/necklace',{replace:true})}> Necklace</span>
+                      <span className="py-12 px-8  text-5xl cursor-pointer hover:bg-red-200 rounded-full max-[900px]:text-xl max-[900px]:px-4 max-[900px]:py-8" onClick={()=>navigate('/category/necklace',{replace:true})}> Necklace</span>
                     </SheetClose>
                     <SheetClose asChild> 
-                      <span className="py-12 px-8  text-5xl cursor-pointer hover:bg-red-200 rounded-full max-[600px]:text-4xl max-[600px]:py-8" onClick={()=>navigate('/category/bracelet',{replace:true})} > Bracelet</span>
+                      <span className="py-12 px-8  text-5xl cursor-pointer hover:bg-red-200 rounded-full max-[900px]:text-xl max-[900px]:px-4 max-[900px]:py-8" onClick={()=>navigate('/category/bracelet',{replace:true})} > Bracelet</span>
                     </SheetClose>
                     <SheetClose asChild> 
-                      <span className="py-12 px-8  text-5xl cursor-pointer hover:bg-red-200 rounded-full max-[600px]:text-4xl max-[600px]:py-8" onClick={()=>navigate('/category/beauty',{replace:true})} > Beauty</span>
+                      <span className="py-12 px-8  text-5xl cursor-pointer hover:bg-red-200 rounded-full max-[900px]:text-xl max-[900px]:px-4 max-[900px]:py-8" onClick={()=>navigate('/category/beauty',{replace:true})} > Beauty</span>
                     </SheetClose>
                     <SheetClose asChild> 
-                      <span className="py-12 px-8  text-5xl cursor-pointer hover:bg-red-200 rounded-full max-[600px]:text-4xl max-[600px]:py-8" onClick={()=>navigate('/category/sale',{replace:true})}> Sale </span>
+                      <span className="py-12 px-8  text-5xl cursor-pointer hover:bg-red-200 rounded-full max-[900px]:text-xl max-[900px]:px-4 max-[900px]:py-8" onClick={()=>navigate('/category/sale',{replace:true})}> Sale </span>
                     </SheetClose>
                      </div>
-                     <Separator className='bg-red-400/30' />
-                    <div className="my-16 mx-16 rounded-lg w-full flex items-center gap-16 max-[800px]:gap-4 max-[620px]:gap-0 max-[620px]:mx-0">
-                      <SheetClose asChild> 
+                     {/* <Separator className='bg-red-400/30' /> */}
+                    <div className="my-4 mx-16 rounded-lg w-full flex items-center ">
+                      {/* <SheetClose asChild> 
                         <button className="px-8 max-[500px]:px-2">
                           <img alt='tiktok' src={tiktok} className='h-14 w-14 rounded-full' />
                           <span className="sr-only">Tiktok</span>
@@ -161,33 +161,37 @@ function Navbar({navbarfootercolorscheme, search, setSearch, searchQuery, setSea
                           <img alt='youtube' src={youtube} className="h-14 w-14 rounded-full" />
                           <span className="sr-only">Youtube</span>
                         </button>
-                      </SheetClose>
-                      <SheetClose asChild> 
+                      </SheetClose> */}
+                      {/* <SheetClose asChild> 
                         <button className="px-8 max-[500px]:px-2">
                           <img alt='insta' src={insta} className="h-14 w-14 rounded-full" />
                           <span className="sr-only">Instagram</span>
                         </button>
-                      </SheetClose>
+                      </SheetClose> */}
                     </div>
                     <ScrollBar orientation="vertical" />
                   </ScrollArea>
                   </SheetContent> 
                 </Sheet> 
-                <button className="searchbarr rounded-md p-2 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 max-[899px]:hidden"  onClick={handleOpenSearch}>
-                    <SearchIcon className="h-11 w-11 searchbarr" />
-                    <span className="sr-only">Open search</span>
-                </button> 
-                <div className="text-5xl cursor-pointer" onClick={()=>navigate('/',{replace:true})}>Bling  💎 Boutique</div>
+                { window.location.pathname === '/' &&  
+                        <button className="searchbarr rounded-md p-2 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 max-[899px]:hidden"  onClick={handleOpenSearch}>
+                            <SearchIcon className="h-11 w-11 searchbarr" />
+                            <span className="sr-only">Open search</span>
+                        </button> 
+                }
+                <div className="text-5xl cursor-pointer max-[900px]:text-2xl max-[900px]:text-nowrap" onClick={()=>navigate('/',{replace:true})}>Bling  💎 Boutique</div>
                 <div className="flex items-center gap-2">
-                  <button className="searchbarr rounded-md p-2 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 min-[899px]:hidden"  onClick={handleOpenSearch}>
-                    <SearchIcon className="h-11 w-11 searchbarr" />
-                    <span className="sr-only">Open search</span>
-                  </button>
+                  { window.location.pathname === '/' &&  
+                      <button className="searchbarr rounded-md p-2 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 min-[899px]:hidden"  onClick={handleOpenSearch}>
+                        <SearchIcon className="h-11 w-11 searchbarr max-[900px]:h-7 max-[900px]:w-7" />
+                        <span className="sr-only">Open search</span>
+                      </button> 
+                    }
                     <Sheet>
                       <SheetTrigger asChild>
                         <button className="rounded-md p-2 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800" onClick={handleOpenCart}>
                               <Badge badgeContent={cartbadge} max={10} color="primary">
-                                <ShoppingCartIcon className="h-11 w-11" />
+                                <ShoppingCartIcon className="h-11 w-11 max-[900px]:h-7 max-[900px]:w-7" />
                                 <span className="sr-only">Open cart</span>
                               </Badge>
                         </button>
@@ -195,15 +199,15 @@ function Navbar({navbarfootercolorscheme, search, setSearch, searchQuery, setSea
                       <SheetContent className='bg-red-100 unset-max-width w-[900px] max-[900px]:w-full'>
                           <ScrollArea className={`border h-screen rounded-md`}>
                             <div className="flex justify-between items-center py-6">
-                              <span className="text-4xl px-2"> {cart.length === 0 ? '' : 'Your Cart'}</span>
+                              <span className="text-4xl px-2 max-[1000px]:text-2xl"> {cart.length === 0 ? '' : 'Your Cart'}</span>
                             </div>
                             { cart.length === 0 ? (
-                              <div className="flex justify-center h-screen px-16">
+                              <div className="flex justify-center h-screen px-16 max-[900px]:px-2">
                                 <div className="mt-64">
-                                  <span className="text-5xl">Your cart is empty </span>
+                                  <span className="text-5xl max-[900px]:text-3xl max-[900px]:text-nowrap max-[900px]:mx-auto ">Your cart is empty </span>
                                   <SheetClose asChild>
-                                    <button id="continueshoppingButton" className="flex justify-center p-10 mt-16 rounded-lg bg-black focus:outline-none" onClick={handleCloseCart}>
-                                      <span className='text-white text-3xl'> Continue Shopping </span>
+                                    <button id="continueshoppingButton" className="flex justify-center p-10 max-[900px]:p-4 mt-16 rounded-lg bg-black focus:outline-none" onClick={handleCloseCart}>
+                                      <span className='text-white text-3xl '> Continue Shopping </span>
                                     </button>
                                   </SheetClose>
                                 </div>
@@ -211,7 +215,7 @@ function Navbar({navbarfootercolorscheme, search, setSearch, searchQuery, setSea
                             ) : 
                               <div className='h-screen'>
                                 <div className="flex justify-between items-center py-6 px-2">
-                                    <span className="text-2xl pl-8">PRODUCT</span>
+                                    <span className="text-2xl pl-8 max-[900px]:text-xl max-[900px]:pl-0">PRODUCT</span>
                                     <span className="text-2xl pr-32 max-[450px]:hidden">TOTAL</span>
                                 </div>
                                 <Separator className='bg-red-400/30' />
@@ -226,7 +230,7 @@ function Navbar({navbarfootercolorscheme, search, setSearch, searchQuery, setSea
                                             className="aspect-[3/4] object-cover"
                                           />
                                         </div>
-                                        <figcaption className="pt-2 text-3xl text-muted-foreground text-wrap">
+                                        <figcaption className="pt-2 text-3xl max-[900px]:text-2xl text-muted-foreground text-wrap">
                                           {" "}
                                           <span className="font-semibold text-foreground">
                                             {prod.title}
@@ -235,7 +239,7 @@ function Navbar({navbarfootercolorscheme, search, setSearch, searchQuery, setSea
                                       </figure>
                                       <div className="flex max-[450px]:flex-col">
                                         <div className='flex flex-col px-8 py-4 max-[600px]:pl-0 '>
-                                          <span className='text-2xl text-wrap'> {prod.title} </span>
+                                          <span className='text-2xl text-wrap max-[600px]:hidden'> {prod.title} </span>
                                           <span className='text-2xl mt-4 text-gray-600 text-wrap'> Rs. {(prod.price).toLocaleString()}</span>
                                           <Quantity tp={tp} setTp={setTp} qtys={qtys} setQtys={setQtys} idx={idx}/>   
                                         </div>
@@ -253,12 +257,12 @@ function Navbar({navbarfootercolorscheme, search, setSearch, searchQuery, setSea
                                 <Separator className='bg-red-400/30' />
                                 <div className='flex flex-col p-8'>
                                     <div className='px-4 flex justify-between items-center max-[500px]:flex-col max-[500px]:gap-2'>
-                                      <span className='text-4xl font-semibold'> Estimated total</span>
-                                      <span className='text-4xl'> Rs. {tp.toLocaleString()} PKR</span>
+                                      <span className='text-4xl font-semibold max-[600px]:text-2xl'> Estimated total</span>
+                                      <span className='text-4xl max-[600px]:text-2xl max-[600px]:text-nowrap'> Rs. {tp.toLocaleString()} PKR</span>
                                     </div>
-                                    <span className='text-wrap text-4xl p-4 text-left'> Taxes, discounts and shipping calculated at checkout</span>
-                                    <button id="checkoutbtn" className="flex justify-center py-8 px-6 mt-8 rounded-lg bg-black focus:outline-none" onClick={(e)=>handleCheckOut(e)}>
-                                      <span className='text-white text-3xl'> Check Out </span>
+                                    <span className='text-wrap text-4xl p-4 text-left max-[600px]:text-xl' > Taxes, discounts and shipping calculated at checkout</span>
+                                    <button id="checkoutbtn" className="flex justify-center py-8 max-[600px]:mb-20 max-[600px]:p-4 px-6 mt-8 rounded-lg bg-black focus:outline-none" onClick={(e)=>handleCheckOut(e)}>
+                                      <span className='text-white text-3xl max-[600px]:text-xl'> Check Out </span>
                                     </button>
                                 </div>
                               </div>

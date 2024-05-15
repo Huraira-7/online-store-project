@@ -8,14 +8,19 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import {  addproduct, fetchallproducts, editproduct, editproductaddphoto, deleteproduct, getallemails, changemail, changedowntime} from '../../api/internal';
 import { setDown } from '@/store/userSlice';
 import ErrorMessage from '@/lib/ErrorMessage';
+import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './profile.css'
 
 
 function Profile() {
-  // const username = useSelector((state) => state.user.username);
-  // const navigate = useNavigate();
+  // const user = useSelector((state) => state.user);
+  // console.log(user)
+  const navigate = useNavigate();
+  const loc = useLocation();
 
-  const [file, setFile] = useState();
+
+  const [file, setFile] = useState(null);
   const [products,setProducts] = useState([]);
   const [title, setTitle] = useState('');
   const [desc,setDesc] = useState('');
@@ -271,12 +276,16 @@ function Profile() {
 
   useEffect(() => {
     const fetchData = async () => {
+      if(loc.state === null || loc.state === undefined ||loc.state.valid === false) {
+        navigate('/',{replace:true})
+        return;
+      }
       console.log("fetching all products")
       const resp = await fetchallproducts()
       console.log(resp)
       if(resp.status === 200){
         setProducts(resp.data.products)
-        setIsdown(resp.data.down)
+        setIsdown(resp.data.down === true)
         let ts = []
         let ps = []
         let ds = []
@@ -369,7 +378,8 @@ function Profile() {
               </select>
           </div>
           <div className='fileinput flex justify-center py-6'>
-            <input type="file" onChange={(e) => handlesetFile(e)}/>
+            {/* <Input id="newpic" type="file" onChange={(e) => handlesetFile(e)} /> */}
+            <input type="file"  onChange={(e) => handlesetFile(e)}/>
           </div>
       </form>
       <button type="submit" className='btn bg-white px-4 py-2 rounded-md mb-4' style={{ marginTop: 15 }} onClick={handleAddProd}>Submit</button>

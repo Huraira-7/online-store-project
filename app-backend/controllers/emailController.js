@@ -1,13 +1,14 @@
 import User from "../models/user.js";
 import transporter from '../middlewares/emailHandler.js';
+import user from "../models/user.js";
 
 const emailController = {
 
     async sendorderconfirmationemail(req,res,next){
-        console.log("sending mail")
+        // console.log("sending mail")
         const {message, customer} = req.body
         try{
-            let employee =  await User.findOne({role:'employee', active:true});
+            let employee =  await User.findOne({role:'employee'});
             var mailOptions = {
                 from: "noreplyautomated999@gmail.com" ,
                 to:  "hahuraira@gmail.com, fatimameerab515@gmail.com",  //  `${employee} ${customer}`,
@@ -20,7 +21,7 @@ const emailController = {
                 if (error) {
                   console.error(error);
                 } else {
-                  console.log('Email sent: %s', info);
+                //   console.log('Email sent: %s', info);
                 }
             });
             return res.status(200).json({email:"sent"});
@@ -29,10 +30,10 @@ const emailController = {
     },
 
     async sendformsubmissionemail(req,res,next) {
-        console.log("sending mail")
+        // console.log("sending mail")
         const {message} = req.body
         try{
-            let employee =  await User.findOne({role:'employee', active:true});
+            let employee =  await User.findOne({role:'employee'});
             var mailOptions = {
                 from: "noreplyautomated999@gmail.com" ,
                 to:  "hahuraira@gmail.com",  //  `${employee}`,
@@ -45,12 +46,11 @@ const emailController = {
                 if (error) {
                   console.error(error);
                 } else {
-                  console.log('Email sent: %s', info);
+                //   console.log('Email sent: %s', info);
                 }
             });
             return res.status(200).json({email:"sent"});
         } catch(e)    {   console.log("mail-err",e);     return next(e); }
-        // console.log("Message sent: %s", info.messageId);
     },
 
     async addemail(req,res,next){
@@ -60,7 +60,6 @@ const emailController = {
              const userToAdd = new User({
                     email: email,
                     role: 'customer',
-                    active: true
              });
             user = await userToAdd.save();
             return res.status(201).json({user:user});
@@ -78,7 +77,7 @@ const emailController = {
                 if (u.role === 'customer') {  email_list.push(u.email)    }
             }
 
-            let employee =  await User.findOne({role:'employee', active:true});
+            let employee =  await User.findOne({role:'employee'});
     
             var mailOptions = {
                 from: "noreplyautomated999@gmail.com" ,
@@ -92,7 +91,7 @@ const emailController = {
                 if (error) {
                   console.error(error);
                 } else {
-                  console.log('Email sent: %s', info);
+                //   console.log('Email sent: %s', info);
                 }
             });
             return res.status(200).json({ email_list: email_list});
@@ -101,20 +100,10 @@ const emailController = {
 
     async changemail(req,res,next){
         const {email} = req.body
-        let users; 
         try {
-            users = await User.find({role:'employee'});
-            for (var i in users){
-                users[i].active = false
-                await users[i].save();
-            }
-            let user;
-            const userToAdd = new User({
-                   email: email,
-                   role: 'employee',
-                   active: true
-            });
-            user = await userToAdd.save();
+            let user = await User.findOne({role:'employee'});
+            user.email = email;
+            await user.save();
             return res.status(200).json({ user: user});
         } catch(e) {  console.log("one",e); return next(e);  }
     },
@@ -123,10 +112,39 @@ const emailController = {
         let user; 
         try {
             user = await User.findOne({role:'downtime'});
-            user.active = !user.active
+            if (user.email === 'false') {  user.email = 'true' } 
+            else { user.email = 'false'}
             await user.save();
             return res.status(200).json({ user: user});
         } catch(e) {  console.log("one",e); return next(e);  }
+    },
+
+    async otp(req,res,next) {
+        // console.log("sending mail")
+        try{
+            let employee =  await User.findOne({role:'employee'});
+
+            const randomDecimal = Math.random();
+            const randomNumber = Math.floor(randomDecimal * 1000000);
+            let number =  randomNumber.toString().padStart(6, '0');
+
+            var mailOptions = {
+                from: "noreplyautomated999@gmail.com" ,
+                to:  "hahuraira@gmail.com",  //  `${employee}`,
+                subject: "One Time Passcode Email", 
+                text: `${number}`
+            }
+    
+            transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                  console.error(error);
+                } else {
+                //   console.log('Email sent: %s', info);
+                }
+            });
+            return res.status(200).json({number});
+        } catch(e)    {   console.log("mail-err",e);     return next(e); }
+     
     }
 
 }

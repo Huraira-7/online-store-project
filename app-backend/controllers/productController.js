@@ -91,7 +91,8 @@ const productController = {
         try {
             products = await Product.find();
             let user = await User.findOne({role:'downtime'});
-            return res.status(200).json({ products: products, 'down':user.active});
+            let down = user.email === 'false' ? false : true
+            return res.status(200).json({ products: products, down});
         } catch(e) {  console.log("one",e); return next(e);  }
     },
 
@@ -108,12 +109,13 @@ const productController = {
                 for (const item of products) {
                     if (!categorywise[item.category]) { categorywise[item.category] = item; }
                 }
-                for (var i in products) {  titles.push({'title':products[i].title,'category':products[i].category,'img':products[i].images[0].imagestring}) }   // fetch ids,titles of all products to use for search
+                for (var i in products) {  titles.push({'title':products[i].title,'category':products[i].category,'img':products[i].images[0].imagestring,'id':products[i]._id}) }   // fetch ids,titles of all products to use for search
                 latestproducts = products.sort((a, b) => b.date - a.date).slice(0, 5);  //store fresh arrivals
                 bestselling = products.filter(item => item.best_selling === true);   //store best selling products
             }
             let user = await User.findOne({role:'downtime'});
-            return res.status(200).json({ titles, latestproducts, bestselling, categorywise, down: user.active });
+            let down = user.email === 'false' ? false : true
+            return res.status(200).json({ titles, latestproducts, bestselling, categorywise,  products, down });
         }  catch(e) {  console.log("one",e); return next(e);  }
         // fetch home page navbar images
         // fetch home page titles on top

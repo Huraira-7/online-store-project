@@ -218,13 +218,12 @@ function Category({category}) {
     handleClick2(event)
   };
 
-  function capitalize(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  }
+  function capitalize(string) {  return string.charAt(0).toUpperCase() + string.slice(1); }
 
   const handleClick = (e) => {  
+    if(open) {return;}
     setAnchorEl(anchorEl ? null : e.currentTarget);
-    setAnchorEl2(anchorEl2 ? null : e.currentTarget)
+    // setAnchorEl2(anchorEl2 ? null : e.currentTarget)
   }
   const handleClickAway = (e) => { 
     if(!open) {return;}
@@ -232,7 +231,8 @@ function Category({category}) {
   };
   
   const handleClick2 = (e) => {  
-    setAnchorEl(anchorEl ? null : e.currentTarget)
+    if(open2) {return;}
+    // setAnchorEl(anchorEl ? null : e.currentTarget)
     setAnchorEl2(anchorEl2 ? null : e.currentTarget);
   };
   const handleClickAway2 = (e) => { 
@@ -241,33 +241,33 @@ function Category({category}) {
   }
 
   return (
-    <div className='min-h-screen mb-52'>
-      <div className='flex flex-col m-16'>
-        <span className='text-6xl'>{capitalize(category) } {category === 'all' ? 'Products' : ''}</span>
-        <div className='text-3xl mt-20 flex justify-between'>
+    <div className='min-h-screen mb-52 max-[1000px]:mb-24'>
+      <div className='flex flex-col m-16 max-[1000px]:m-8'>
+        <span className='text-6xl max-[1000px]:text-3xl max-[1000px]:font-semibold'>{capitalize(category) } {category === 'all' ? 'Products' : ''}</span>
+        <div className='text-3xl max-[1000px]:text-xl max-[1250px]:mt-10 max-[1250px]:flex-col mt-20 flex justify-between'>
           <div className='flex'>
-            <span className='mr-8'> Filter:  </span>
-            <span className='flex cursor-pointer mr-8'> 
+            <span className='mr-8 max-[1000px]:mr-2'> Filter:  </span>
+            <span className='flex cursor-pointer mr-8 max-[1000px]:mr-2'> 
               <span className='pr-4 hover:underline'  >Availability </span>
               <ClickAwayListener onClickAway={handleClickAway}>
                 <div onClick={(e) => handleAvailClick(e)}>
                   <IoIosArrowDown className='mt-1' />
                   <Popper open={open} anchorEl={anchorEl} >
-                      <div className='bg-slate-100 mt-4 flex flex-col px-6 py-8 rounded-md outline outline-blue-200'>
+                      <div className='bg-slate-100 mt-4  max-[1000px]:px-2 flex flex-col px-6 py-8 rounded-md outline outline-blue-200'>
                         <div className='flex justify-between'>
-                          <span className='text-2xl'> {selected === '' ? 0 : 1} selected </span>
-                          <span className='hover:underline cursor-pointer text-2xl' onClick={()=>setSelected('')}> Reset </span>
+                          <span className='text-2xl max-[1000px]:text-xl '> {selected === '' ? 0 : 1} selected </span>
+                          <span className='hover:underline cursor-pointer text-2xl max-[1000px]:text-xl' onClick={()=>setSelected('')}> Reset </span>
                         </div>
                         <Separator className='bg-slate-300 mt-4' />
                         <div className='flex justify-between gap-8 mt-8'>
                           {selected === 'in' ? <GrCheckboxSelected size={30}/> : <GrCheckbox size={30} onClick={()=>setSelected('in')} /> }
-                          <span className='text-3xl text-gray-700'> In stock (23) </span>     
+                          <span className='text-3xl text-gray-700 max-[1000px]:text-xl'> In stock (23) </span>     
                         </div>
-                        <div className='flex justify-between gap-8'>
+                        <div className='flex justify-between gap-8 max-[1000px]:gap-1'>
                           {selected === 'out' ? <GrCheckboxSelected size={30}/> : <GrCheckbox size={30} onClick={()=>setSelected('out')}  /> }
-                          <span className='text-3xl text-gray-700'> Out of stock (17) </span>
+                          <span className='text-3xl text-gray-700 max-[1000px]:text-xl'> Out of stock (17) </span>
                         </div>
-                        <div className='text-2xl text-center p-3 cursor-pointer hover:scale-105 mt-2 bg-red-100 rounded-full' onClick={filterbyStock}>
+                        <div className='text-2xl max-[1000px]:text-xl max-[1000px]:p-1 max-[1000px]:mt-5 text-center p-3 cursor-pointer hover:scale-105 mt-2 bg-red-100 rounded-full' onClick={filterbyStock}>
                           Apply Filter
                         </div>
                       </div>
@@ -280,15 +280,15 @@ function Category({category}) {
               <ClickAwayListener onClickAway={handleClickAway2}>
                 <div onClick={(e) => handlePriceClick(e)}>
                   <IoIosArrowDown className='mt-1'/>
-                  <Popper  open={open2} anchorEl={anchorEl2}>
-                    <div className="flex flex-col gap-2 mt-4 px-4 py-8 rounded-md outline outline-blue-200">
-                      <div className='text-xl gap-6 flex'>
-                          <span className='text-3xl'> Rs. </span>
-                          <Input placeholder='From' type='number' value={p1} onChange = { (e) => handlesetP1(e.target.value)}  className='placeholder:text-2xl text-2xl'/>
-                          <span className='text-3xl'> Rs. </span>
-                          <Input placeholder='To'  type='number'  value={p2} onChange = { (e) => handlesetP2(e.target.value)}  className='placeholder:text-2xl text-2xl'/>
+                  <Popper open={open2} anchorEl={anchorEl2}>
+                    <div className="flex max-[1000px]:w-9/12 max-[1000px]:px-2 max-[1000px]:ml-4  bg-slate-100  flex-col gap-2 mt-4 px-4 py-8 rounded-md outline outline-blue-200">
+                      <div className='text-xl gap-6 max-[1000px]:gap-1 flex max-[1000px]:flex-col '>
+                          <span className='text-3xl max-[1000px]:text-xl'> Rs. </span>
+                          <Input placeholder='From' type='number' value={p1} onChange = { (e) => handlesetP1(e.target.value)}  className='max-[1000px]:text-xl max-[1000px]:placeholder:text-xl placeholder:text-2xl text-2xl'/>
+                          <span className='text-3xl max-[1000px]:text-xl'> Rs. </span>
+                          <Input placeholder='To'  type='number'  value={p2} onChange = { (e) => handlesetP2(e.target.value)}  className='max-[1000px]:text-xl max-[1000px]:placeholder:text-xl placeholder:text-2xl text-2xl'/>
                       </div>
-                        <div className='text-2xl w-6/12 m-auto text-center p-3 cursor-pointer hover:scale-105 mt-2 bg-red-100 rounded-full' onClick={filterbyPrice}>
+                        <div className='text-2xl max-[1000px]:text-xl max-[1000px]:w-9/12 w-6/12 m-auto text-center p-3 cursor-pointer hover:scale-105 mt-2 bg-red-100 rounded-full' onClick={filterbyPrice}>
                             Apply Filter
                         </div>
                     </div>
@@ -297,64 +297,63 @@ function Category({category}) {
                 </ClickAwayListener>
             </span>
           </div>
-          <div className='flex'>
-            <span className='mr-8'> Sort By:  </span>
-            <span className='flex cursor-pointer mr-8'> 
+          <div className='flex max-[1250px]:mt-10'>
+            <span className='mr-8 max-[1000px]:mr-4'> Sort:  </span>
+            <span className='flex cursor-pointer mr-8 max-[1000px]:mr-4'> 
             <Select onValueChange={(val)=>handleSelection(val)}>
-              <SelectTrigger className='noscalebtn text-2xl w-72'>
+              <SelectTrigger className='noscalebtn text-2xl w-72 max-[1000px]:text-xl max-[1000px]:w-32'>
                 <SelectValue  placeholder="Choose how to sort" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value='Price, low to high' className="text-2xl">Price, low to high</SelectItem>
-                <SelectItem value='Price, high to low' className="text-2xl">Price, high to low</SelectItem>
-                <SelectItem value='Date, old to new' className="text-2xl ">Date, old to new</SelectItem>
-                <SelectItem value='Date, new to old' className="text-2xl ">Date, new to old</SelectItem>
-                <SelectItem value='Alphabetically, A to Z' className="text-2xl ">Alphabetically, A to Z</SelectItem> 
-                <SelectItem value='Alphabetically, Z to A' className="text-2xl ">Alphabetically, Z to A</SelectItem> 
+                <SelectItem value='Price, low to high' className="text-2xl max-[1000px]:text-xl">Price, low to high</SelectItem>
+                <SelectItem value='Price, high to low' className="text-2xl max-[1000px]:text-xl">Price, high to low</SelectItem>
+                <SelectItem value='Date, old to new' className="text-2xl max-[1000px]:text-xl ">Date, old to new</SelectItem>
+                <SelectItem value='Date, new to old' className="text-2xl max-[1000px]:text-xl ">Date, new to old</SelectItem>
+                <SelectItem value='Alphabetically, A to Z' className="text-2xl max-[1000px]:text-xl ">Alphabetically, A to Z</SelectItem> 
+                <SelectItem value='Alphabetically, Z to A' className="text-2xl max-[1000px]:text-xl ">Alphabetically, Z to A</SelectItem> 
               </SelectContent>
             </Select>
               {/* <span className='pr-4'>Alphabetically, A to Z </span>
               <IoIosArrowDown className='mt-1'/> */}
             </span>
-            <span className='mr-8'> {products.length} Products  </span>
+            <span className='mr-8 max-[1000px]:mr-0'> {products.length} Products  </span>
           </div>
         </div>
-        <section className='mt-26 px-4 md:px-6 py-16'>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 space-y-64">
+        <section className='mt-26 px-4 md:px-6 py-16 max-[1000px]:py-4 '>
+          <div className="grid grid-cols-1 max-[1000px]:grid-cols-2  sm:grid-cols-2 lg:grid-cols-3 gap-8 max-[1000px]:gap-1 space-y-2">
             {filteredproducts.length>0 && filteredproducts.map((product, index) => (
               <div key={index} className="relative group rounded-lg shadow-lg hover:shadow-xl transition-transform duration-300 ease-in-out hover:-translate-y-2" onClick={()=> showProduct(product)}>
                 {/* {console.log(product.images[0].imagestring)} */}
                 <img
                 alt={`${product.title}`}
-                src={`http://localhost:3000/images/${product.images[0].imagestring}`}
-                className="object-cover w-11/12 h-full hover:rounded-3xl"
-                style={{ aspectRatio: "4/4" }}
+                src={`http://192.168.100.136:3000/images/${product.images[0].imagestring}`}
+                className="object-cover w-11/12 hover:rounded-3xl aspect-[4/4] max-[1000px]:aspect-[3/4]"
               />
               { product.is_out_stock ? 
-                    <div className="p-4 bg-pink-500/80 w-9/12 text-center m-auto cursor-pointer relative bottom-20 rounded-full text-3xl">
+                    <div className="p-4 bg-pink-500/80 w-9/12 text-center m-auto cursor-pointer relative bottom-20 rounded-full text-3xl max-[1500px]:bottom-4  max-[1500px]:p-1 max-[1500px]:text-xl">
                       Sold
                     </div> : <div className="p-7 w-9/12 text-center m-auto cursor-pointer relative bottom-20 rounded-full text-3xl">
                     </div> 
               }
-              <div className="bg-white mt- p-8 dark:bg-gray-950">
-                <h3 className="font-bold text-center text-3xl">{product.title}</h3> 
+              <div className="bg-white p-8 max-[1000px]:p-1 dark:bg-gray-950">
+                <h3 className="font-bold text-center text-3xl max-[1000px]:text-base">{product.title}</h3> 
                 {   product.oldprice  && product.oldprice > product.price && 
-                        <p className="line-through mt-8 text-2xl text-center text-gray-500">
+                        <p className="line-through mt-8 max-[1000px]:mt-2 text-2xl max-[1000px]:text-xs text-center text-gray-500">
                           Rs {"  "}
                           <span className="text-foreground">
                           {`${product.oldprice.toLocaleString()}`} 
                           </span>
                         </p> 
                   }
-                <p className="mt-4 text-2xl text-center text-gray-500">Rs {product.price.toLocaleString()}</p> 
-              </div>
+                <p className="mt-4 max-[1000px]:mt-1 text-2xl text-center max-[1000px]:text-xs text-gray-500">Rs {product.price.toLocaleString()}</p> 
+                </div>
               </div>
             ))}
           </div>
        </section>
        {numpages === 0 && <span className='text-3xl text-center mt-10'> No products found for your query </span>}
        { numpages > 0 && 
-          <Pagination className='mt-52 '>
+          <Pagination className='mt-52 max-[1000px]:mt-24 '>
             <PaginationContent>
               { page === 1 ?  "" :
                   <button className="w-10 h-10 px-2 rounded-full focus:outline-none hover:bg-slate-200 text-3xl" onClick={handlePrevPg}>
