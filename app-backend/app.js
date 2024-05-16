@@ -15,7 +15,7 @@ dotenv.config();
 const app = express();
 app.use(cors(
     {
-        origin: [`${process.env.LINK}`],
+        origin: ['https://www.blingboutique.site'],  //[`${process.env.LINK}`],
         methods: ['POST','GET'],
         credentials: true
     }
@@ -28,7 +28,7 @@ mongoose.connect(process.env.MONGO).then(()=>{
 
     // const server = http.createServer(app);
     // server.listen (''''''''''''''''''''''''''''''''''''''''')
-    app.listen(`${process.env.LINK}`, () => { console.log(`Connected to Database & listening`);  });
+    app.listen(`${process.env.PORT}`, () => { console.log(`Connected to Database & listening`);  });
 })
 .catch((error)=>{  console.log('Error: ',error) });
       
