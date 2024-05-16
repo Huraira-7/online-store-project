@@ -16,7 +16,7 @@ const app = express();
 app.use(cors(
     {
         origin: ['https://www.blingboutique.site'],  //[`${process.env.LINK}`],
-        methods: ['POST','GET'],
+        methods: ['POST'],
         credentials: true
     }
 ));
@@ -28,7 +28,8 @@ mongoose.connect(process.env.MONGO).then(()=>{
 
     // const server = http.createServer(app);
     // server.listen (''''''''''''''''''''''''''''''''''''''''')
-    app.listen(`${process.env.PORT}`, () => { console.log(`Connected to Database & listening`);  });
+    app.listen(`${process.env.PORT}` || 8000, 
+        () => { console.log(`Connected to Database & listening`);  });
 })
 .catch((error)=>{  console.log('Error: ',error) });
       
