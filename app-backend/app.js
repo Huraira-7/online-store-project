@@ -16,7 +16,7 @@ const app = express();
 app.use(cors(
     {
         origin: ['https://www.blingboutique.site'],  //[`${process.env.LINK}`],
-        methods: ['POST'],
+        methods: ['GET','POST'],
         credentials: true
     }
 ));
