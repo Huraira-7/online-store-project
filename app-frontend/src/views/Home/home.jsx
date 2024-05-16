@@ -123,6 +123,8 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
       setCartbadge(cartt.length)
     }
   }
+
+  const backendlink = `https://online-store-project-dun.vercel.app`
   
 
   return (
@@ -145,7 +147,7 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
                       <img
                         alt="Get earrings, rings, and necklaces on discounted prices"
                         className="h-full w-full object-contain "
-                        src={`http://192.168.100.136:3000/images/theme3.jpg`}
+                        src={`${backendlink}/images/theme3.jpg`}
                       />
                       <LeftRightButtons handleNextClick={handleNextClick} handlePreviousClick={handlePreviousClick}/>
                     </div>
@@ -155,7 +157,7 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
                         <img
                           alt="The perfect store for women's beauty products"
                           className="h-full w-full object-contain"
-                          src={`http://192.168.100.136:3000/images/theme2.jpg`}
+                          src={`${backendlink}/images/theme2.jpg`}
                         />
                         <LeftRightButtons handleNextClick={handleNextClick} handlePreviousClick={handlePreviousClick}/>
                       </div>
@@ -165,7 +167,7 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
                         <img
                           alt="Sparkle with our latest collections, here at Bling Boutique"
                           className="h-full w-full object-contain"
-                          src={`http://192.168.100.136:3000/images/theme1.jpg`}
+                          src={`${backendlink}/images/theme1.jpg`}
                         />
                         <LeftRightButtons handleNextClick={handleNextClick} handlePreviousClick={handlePreviousClick}/>
                       </div>
@@ -255,7 +257,7 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
           <div className=" mt-20 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             <div className="relative group rounded-lg shadow-lg hover:shadow-xl transition-transform duration-300 ease-in-out hover:-translate-y-2">
               <img
-                src={`http://localhost:3000/images/${categorywise['Earrings'].images[0].imagestring}`}
+                src={`${backendlink}/images/${categorywise['Earrings'].images[0].imagestring}`}
                 alt="Earrings"
                 className="object-cover w-full h-auto rounded-3xl"
                 height={400}
@@ -274,7 +276,7 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
             <div className="relative group rounded-lg shadow-lg hover:shadow-xl transition-transform duration-300 ease-in-out hover:-translate-y-2">
               <img
                 alt="Bracelet"
-                src={`http://localhost:3000/images/${categorywise['Bracelet'].images[0].imagestring}`}
+                src={`${backendlink}/images/${categorywise['Bracelet'].images[0].imagestring}`}
                 className="object-cover w-full h-auto rounded-3xl"
                 height={400}
                 width={500}
@@ -292,7 +294,7 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
             <div className="relative group rounded-lg shadow-lg hover:shadow-xl transition-transform duration-300 ease-in-out hover:-translate-y-2">
               <img
                 alt="Beauty"
-                src={`http://localhost:3000/images/${categorywise['Beauty'].images[0].imagestring}`}
+                src={`${backendlink}/images/${categorywise['Beauty'].images[0].imagestring}`}
                 className="object-cover w-full h-auto rounded-3xl"
                 height={400}
                 width={500}
@@ -314,7 +316,7 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
               <div className="relative group rounded-lg shadow-lg hover:shadow-xl transition-transform duration-300 ease-in-out hover:-translate-y-2">
               <img
                 alt="Rings"
-                src={`http://localhost:3000/images/${categorywise['Rings'].images[0].imagestring}`}
+                src={`${backendlink}/images/${categorywise['Rings'].images[0].imagestring}`}
                 className="object-cover w-full h-auto rounded-3xl"
                 height={400}
                 width={500}
@@ -334,7 +336,7 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
             <div className="relative group rounded-lg shadow-lg hover:shadow-xl transition-transform duration-300 ease-in-out hover:-translate-y-2">
               <img
                 alt="Necklaces"
-                src={`http://localhost:3000/images/${categorywise['Necklace'].images[0].imagestring}`}
+                src={`${backendlink}/images/${categorywise['Necklace'].images[0].imagestring}`}
                 className="object-cover w-full h-auto rounded-3xl"
                 height={400}
                 width={500}
@@ -362,7 +364,7 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
                     <img
                       id = {`img-${idx}`}
                       onMouseEnter = {handleHoverImg}
-                      src={`http://192.168.100.136:3000/images/${latestprod.images[currimg[idx]].imagestring}`}
+                      src={`${backendlink}/images/${latestprod.images[currimg[idx]].imagestring}`}
                       alt={`${latestprod.title}`}
                       className="aspect-[3/4] object-contain outline"
                       width={500}
@@ -414,7 +416,7 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
                 <figure key={idx} className="shrink-0 bg-red-100 rounded-3xl max-[900px]:w-52" >
                   <div className="overflow-hidden rounded-md">
                     <img
-                      src={`http://192.168.100.136:3000/images/${bestprod.images[0].imagestring}`}
+                      src={`${backendlink}/images/${bestprod.images[0].imagestring}`}
                       alt={`${bestprod.title}`}
                       className="aspect-[3/4] object-cover"
                       width={500}
@@ -467,7 +469,7 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
                 <figure key={idx} className="shrink-0 bg-red-100 rounded-3xl max-[900px]:w-52" >
                   <div className="overflow-hidden rounded-md">
                     <img
-                      src={`http://192.168.100.136:3000/images/${saleprod.images[0].imagestring}`}
+                      src={`${backendlink}/images/${saleprod.images[0].imagestring}`}
                       alt={`${saleprod.title}`}
                       className="aspect-[3/4] object-cover"
                       width={500}
@@ -536,7 +538,7 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
                       <div key = {idx}  className='searchbarr flex flex-col py-4 mr-52' onClick={()=> navtoProduct(result)} >
                         <span className='searchbarr mb-16 max-[1500px]:mb-4 text-center font-semibold'> {idx === 0 ? 'Products' : ''} </span>
                         <div className='flex flex-row cursor-pointer'> 
-                          <img src={`http://192.168.100.136:3000/images/${result.img}`}
+                          <img src={`${backendlink}/images/${result.img}`}
                           height={150} width={150} alt={`${result.title}`} />
                           <span className='px-6 flex items-center max-[1500px]:text-xl text-wrap'> {result.title}  </span>
                         </div>
