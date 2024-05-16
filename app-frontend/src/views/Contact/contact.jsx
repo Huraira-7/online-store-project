@@ -6,9 +6,10 @@ import {  useNavigate } from 'react-router-dom';
 import { sendformsubmissionemail } from '@/api/internal';
 import { useSelector } from 'react-redux';
 import ErrorMessage from '@/lib/ErrorMessage';
+import Loading from '@/lib/Loading';
 
 
-function Contact() {
+function Contact({loading,setLoading}) {
   const [name, setName] = useState('');
   const [comment, setComment] = useState('');
   const [email, setEmail] = useState("");
@@ -28,6 +29,7 @@ function Contact() {
       }
       const maindiv = document.getElementById('maindiv');
       maindiv.scrollTo({top: 0, behavior: 'smooth', })
+      setLoading(false)
     }
     checkifValid()
   }, [])
@@ -96,6 +98,7 @@ function Contact() {
 
 
   return (
+    loading ? <Loading/> :
     <div className='mt-16 overflow-auto'>
       <div className='flex flex-col items-center'>
       <h3 id="contacthdr" className='text-6xl pt-8 mr-16 max-[800px]:text-5xl'> Contact Us </h3>

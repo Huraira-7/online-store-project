@@ -8,9 +8,11 @@ import Badge from '@mui/material/Badge';
 import { GrRadialSelected } from "react-icons/gr";
 import { sendorderconfirmationemail } from '@/api/internal';
 import ErrorMessage from '@/lib/ErrorMessage';
+import HappyMessage from '@/lib/HappyMessage';
+import Loading from '@/lib/Loading';
 // import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue,} from "@/components/ui/select"
 
-function Checkout({setCartbadge}) {
+function Checkout({setCartbadge,loading,setLoading}) {
   const user = useSelector((state) => state.user);
   const cart = user.cart
   // console.log(cart)
@@ -48,7 +50,8 @@ function Checkout({setCartbadge}) {
         let newprice = p.price * p.qty
         total += newprice
       }
-      setTp(total)    
+      setTp(total)  
+      setLoading(false)  
     }
     calculateTotalPrice();
     
@@ -79,7 +82,6 @@ function Checkout({setCartbadge}) {
   }
 
   async function handleCheckOut() {
-    //show payment details when clicked on online transfer
     if(fname === '' || lname === '' || email === '' || phone === '' || city === '' || address == '' || postcode === ''){
       handleOpenerr('All fields are required')
       return;
@@ -103,7 +105,8 @@ function Checkout({setCartbadge}) {
     const body = {message , email}
     console.log(body)
     const resp = await sendorderconfirmationemail(body);
-    if(resp.status === 200 ){  
+    if(resp.status === 200 ){   
+      handleOpenmsg('Your order has been placed successfully, you will receive an email shortly')
       setCartbadge(0)
       dispatch(emptyCart())
       navigate('/',{replace:true})   
@@ -117,8 +120,17 @@ function Checkout({setCartbadge}) {
     setOpenerr(true); 
   };
 
+  const [msg, setMsg] = useState('')
+  const [openmsg, setOpenmsg] = useState(false);
+  const handleOpenmsg = (txt) => { 
+    setMsg(txt)
+    setOpenmsg(true); 
+  };
+
+
 
   return (
+    loading ? <Loading/> :
     <div className='overflow-y-auto'>
       <div className='my-8 mx-32 max-[900px]:mx-8 max-[900px]:my-4 flex'>
         <div className='text-5xl max-[900px]:text-3xl max-[900px]:text-nowrap mb-4 font-semibold cursor-pointer h-11 max-[900px]:h-6 ' onClick={()=>navigate('/',{replace:true})} > Bling Boutique </div>
@@ -178,7 +190,7 @@ function Checkout({setCartbadge}) {
                       <div className="overflow-hidden rounded-md">
                         <img
                           src={`http://192.168.100.136:3000/images/${prod.images[0].imagestring}`}
-                          alt={`${prod.images[0].imagestring}`}
+                          alt={`${prod.title}`}
                           className="aspect-[4/4] object-cover"
                           />
                       </div>
@@ -210,6 +222,7 @@ function Checkout({setCartbadge}) {
                 Complete Order
            </span> 
       </div>
+      <HappyMessage  msg={msg} setMsg={setMsg} openmsg={openmsg} setOpenmsg={setOpenmsg} />
       <ErrorMessage  error={error} setError={setError} openerr={openerr} setOpenerr={setOpenerr} />
     </div>
   )

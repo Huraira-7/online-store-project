@@ -13,9 +13,10 @@ import ClickAwayListener from 'react-click-away-listener';
 import Popper from '@mui/material/Popper';
 
 import './category.css'
+import Loading from '@/lib/Loading';
 
 
-function Category({category}) {
+function Category({category,setLoading,loading}) {
   // console.log(window.location.href)  //current URL 
   const [allproducts,setAllProducts] = useState([])
   const [products,setProducts] = useState([])
@@ -24,9 +25,12 @@ function Category({category}) {
   const [pages,setPages] = useState([1])
   const [numpages,setNumpages] = useState(1)
   const [selected,setSelected] = useState('')
+  const [instk, setInstk] = useState(0)
+  const [outstk, setOutstk] = useState(0)
 
   const navigate = useNavigate();
   const down = useSelector((state) => state.user.down);
+  const sale = useSelector((state) => state.user.sale);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -38,30 +42,49 @@ function Category({category}) {
       const cc = capitalize(category)
       const data = {category: cc}
       let resp;
-      if(category === 'all' || category === 'sale'){
+      if(category === 'all'){
         resp = await fetchallproducts();
-      } else {
+      } else if (category === 'sale') {
+        resp = undefined
+      } else{
         resp = await fetchproductbycategory(data)
       }
       console.log(resp)
-      if(resp.status === 200){
-        let tmp = resp.data.products
-        let dup = [...tmp]
-        let dup2 = tmp.concat(dup)
-        let dup3 = dup2.concat(dup2)
+      if(resp && resp.status === 200){
+        let instkcount = resp.data.products.filter(item => item.is_out_stock === false).length
+        setInstk(instkcount)
+        setOutstk(resp.data.products.length - instkcount)
+        // let tmp = resp.data.products
+        // let dup = [...tmp]
+        // let dup2 = tmp.concat(dup)
+        // let dup3 = dup2.concat(dup2)
+        let dup3 = resp.data.products
         setAllProducts(dup3)
         setProducts(dup3)
         setFilteredproducts(dup3.slice(0, 6))
         setPagesandNumPages(dup3)
-        
-      } else if (resp.code === "ERR_BAD_REQUEST") {  // display error message
+        setLoading(false)
+      } else if (resp && resp.code === "ERR_BAD_REQUEST") {  // display error message
         console.log("setting error-----",resp.response.status); 
         // if (response.response.status === 404) {setError("error 404 Server is offline");}
         // if (response.response.status === 500) {setError("error 500 Internal Server Error");}      
-      } 
+      }  else { //"sale-category"
+        let instkcount = sale.filter(item => item.is_out_stock === false).length
+        setInstk(instkcount)
+        setOutstk(sale.length - instkcount)
+        // let tmp = sale
+        // let dup = [...tmp]
+        // let dup2 = tmp.concat(dup)
+        // let dup3 = dup2.concat(dup2)
+        let dup3 = sale
+        setAllProducts(dup3)
+        setProducts(dup3)
+        setFilteredproducts(dup3.slice(0, 6))
+        setPagesandNumPages(dup3)
+        setLoading(false)
+      }
     }
     fetchData();
-    
   }, [])
 
   function setPagesandNumPages(arr) {
@@ -241,7 +264,8 @@ function Category({category}) {
   }
 
   return (
-    <div className='min-h-screen mb-52 max-[1000px]:mb-24'>
+    loading ? <Loading/>
+    :<div className='min-h-screen mb-52 max-[1000px]:mb-24'>
       <div className='flex flex-col m-16 max-[1000px]:m-8'>
         <span className='text-6xl max-[1000px]:text-3xl max-[1000px]:font-semibold'>{capitalize(category) } {category === 'all' ? 'Products' : ''}</span>
         <div className='text-3xl max-[1000px]:text-xl max-[1250px]:mt-10 max-[1250px]:flex-col mt-20 flex justify-between'>
@@ -261,11 +285,11 @@ function Category({category}) {
                         <Separator className='bg-slate-300 mt-4' />
                         <div className='flex justify-between gap-8 mt-8'>
                           {selected === 'in' ? <GrCheckboxSelected size={30}/> : <GrCheckbox size={30} onClick={()=>setSelected('in')} /> }
-                          <span className='text-3xl text-gray-700 max-[1000px]:text-xl'> In stock (23) </span>     
+                          <span className='text-3xl text-gray-700 max-[1000px]:text-xl'> In stock {instk} </span>     
                         </div>
                         <div className='flex justify-between gap-8 max-[1000px]:gap-1'>
                           {selected === 'out' ? <GrCheckboxSelected size={30}/> : <GrCheckbox size={30} onClick={()=>setSelected('out')}  /> }
-                          <span className='text-3xl text-gray-700 max-[1000px]:text-xl'> Out of stock (17) </span>
+                          <span className='text-3xl text-gray-700 max-[1000px]:text-xl'> Out of stock {outstk} </span>
                         </div>
                         <div className='text-2xl max-[1000px]:text-xl max-[1000px]:p-1 max-[1000px]:mt-5 text-center p-3 cursor-pointer hover:scale-105 mt-2 bg-red-100 rounded-full' onClick={filterbyStock}>
                           Apply Filter

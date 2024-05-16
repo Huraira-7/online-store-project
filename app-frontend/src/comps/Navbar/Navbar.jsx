@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import {  useDispatch, useSelector } from 'react-redux';
 import { removeItem } from '../../store/userSlice';
 import Quantity from "@/lib/Quantity";
+import Skeleton from '@mui/material/Skeleton';
 import  "./navbar.css";
 
 import { Sheet, SheetClose, SheetContent, SheetTrigger} from "@/components/ui/sheet"
@@ -17,7 +18,7 @@ import Badge from '@mui/material/Badge';
 // import insta from '../../assets/insta.jpeg'
 // import tiktok from '../../assets/tiktok.png'
 
-function Navbar({navbarfootercolorscheme, search, setSearch, searchQuery, setSearchQuery, setSearchRes, cartopen, setCartOpen, handleCloseCart, cartbadge, setCartbadge}) {
+function Navbar({loading,setLoading, navbarfootercolorscheme, search, setSearch, searchQuery, setSearchQuery, setSearchRes, cartopen, setCartOpen, handleCloseCart, cartbadge, setCartbadge}) {
   const maindiv = document.getElementById('maindiv');
   const colorScheme = navbarfootercolorscheme;
   const user = useSelector((state) => state.user);
@@ -104,6 +105,19 @@ function Navbar({navbarfootercolorscheme, search, setSearch, searchQuery, setSea
               </button>
             </div>
           ) : (
+            loading ? 
+             <div className="bg-slate-200 py-1 "> 
+              <div className='flex flex-col mx-auto w-9/12 max-[1000px]:my-0 my-6 '>
+                <div className='flex gap-2 w-12/12' >
+                  <Skeleton animation="wave" height={40}  width="80%" style={{ marginBottom: 6 }} />
+                  <Skeleton animation="wave" height={40}  width="80%" style={{ marginBottom: 6 }} />
+                  <Skeleton animation="wave" height={40}  width="80%" style={{ marginBottom: 6 }} />
+                </div>
+                <Skeleton sx={{ height:60 }} className='w-12/12 rounded-xl my-4' animation="wave" variant="rectangular" />
+                <Skeleton animation="wave" className='w-12/12 ' height={40} />
+            </div>
+             </div>
+            :
             <header id="hdr" className={`${colorScheme}  shadow-sm dark:bg-gray-950 dark:text-gray-50 h-90 overflow-auto`} >
               <div className="flex h-52 max-[900px]:h-24 mx-0 items-center justify-between px-4 max-[900px]:gap-1 md:px-6 w-full">
               <Sheet>

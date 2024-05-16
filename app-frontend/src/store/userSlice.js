@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   _id: "",
   cart : [],
+  sale : [],
   down: false
   // username: "",
   // auth: false,
@@ -18,7 +19,8 @@ const userSlice = createSlice({
       const { _id, } = action.payload;
       state._id = _id;
       state.cart = [];
-      state.down = false
+      state.down = false;
+      state.sale = [];
       //set homepage data
     },
     addItem: (state,action) => {
@@ -75,15 +77,19 @@ const userSlice = createSlice({
     resetUser: (state) => {
       state._id = "";
       state.cart = [];
+      state.sale = [];
       state.down = false;
     },
     setDown: (state,action) => {
       state.down = action.payload;
     },
-  },
+    additemsOnSale : (state, action) => {
+      state.sale = action.payload;
+    },
+  }
 });
 
-export const { setUser, addItem, incrementItem, decrementItem, removeItem, setItemquantity, emptyCart, resetUser, setDown } = userSlice.actions;
+export const { setUser, addItem, incrementItem, decrementItem, removeItem, setItemquantity, emptyCart, additemsOnSale,  resetUser, setDown } = userSlice.actions;
 
 export default userSlice.reducer;
 

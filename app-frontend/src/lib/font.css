@@ -1,0 +1,9 @@
+.responsive-font {
+    font-size: 2vw; /* Base font size for large screens */
+  }
+  
+@media (max-width: 768px) { /* Adjust breakpoint as needed */
+    .responsive-font {
+      font-size: 4vw; /* Larger font size for smaller screens */
+    }
+}

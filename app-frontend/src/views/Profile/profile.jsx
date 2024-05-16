@@ -8,12 +8,13 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import {  addproduct, fetchallproducts, editproduct, editproductaddphoto, deleteproduct, getallemails, changemail, changedowntime} from '../../api/internal';
 import { setDown } from '@/store/userSlice';
 import ErrorMessage from '@/lib/ErrorMessage';
-import { useLocation } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import Loading from '@/lib/Loading';
+import { Helmet } from 'react-helmet';
 import './profile.css'
 
 
-function Profile() {
+function Profile({loading,setLoading}) {
   // const user = useSelector((state) => state.user);
   // console.log(user)
   const navigate = useNavigate();
@@ -33,13 +34,14 @@ function Profile() {
   const [bestselltoggle, setBestsellToggle] = useState([]);
   const [imgtoggle, setImgToggle] = useState([]);
   const [files,setFiles] = useState([])
-  const [selected, setSelected] = useState("Earrings");
+  const [selected, setSelected] = useState("");
   const [isOpen, setIsOpen] = useState([]);
   const [isOpen2, setIsOpen2] = useState([]);
   const allowedFileExtensions = ['jpg','jpeg','png','bmp','gif','tiff']
 
   const [isdown, setIsdown] = useState(false)
   const [newmail, setNewmail] = useState('')
+  const [selectedcatgry, setselectedcatgry] = useState("Earrings"); //while editing
   const dispatch = useDispatch()
 
   //errors 
@@ -55,11 +57,13 @@ function Profile() {
     console.log(idx)
     await handleEditProd(e,idx);
     handlesetIsOpen(false,idx); // Close the dialog manually
+    window.location.reload()
   };
 
   const handleContinueClickDelete = async (e,idx) => {
     await handleDelProd(e,idx);
     handlesetIsOpen2(false,idx); // Close the dialog manually
+    window.location.reload()
   };
 
   function handlesetIsOpen(flag,idx){
@@ -232,12 +236,17 @@ function Profile() {
 
   async function handleAddProd(e) {
     e.preventDefault(); 
-    if(title === "" || desc === ""  || file === undefined ) {
+    console.log(file)
+    if(title === "" || desc === ""  || file === undefined || file === null ) {
       handleOpenerr("No field should be left empty");
       return;
     }
     if (price <= 0){
       handleOpenerr("Price must be greater than 0");
+      return;
+    }
+    if(selected === '') {
+      handleOpenerr("Did you set the category of the product correctly?");
       return;
     }
     const fileExtension = file.name.split('.').pop(); // Extract extension
@@ -267,6 +276,9 @@ function Profile() {
       setTitle('')
       setDesc('')
       setPrice(0) 
+      window.location.reload();
+      // const maindiv = document.getElementById('maindiv');
+      // maindiv.scrollTo({bottom: 0, behavior: 'smooth', })
      }
     }
     catch(error) { handleOpenerr("Add Product failed:", error); }
@@ -323,6 +335,7 @@ function Profile() {
         setBestsellToggle(bsts)
         setIsOpen(openarr)
         setIsOpen2(openarr)
+        setLoading(false)
       } else if (resp.code === "ERR_BAD_REQUEST") {  // display error message
         console.log("setting error-----",resp.response.status); 
         if (resp.response.status === 404) {handleOpenerr("error 404 Server is offline");}
@@ -334,156 +347,173 @@ function Profile() {
 
 
   return (
-    <div className='fixed top-0 right-0 left-0 bottom-0 overflow-auto'>
-    <div className='flex flex-col items-center mb-10'>
-      <h2 className='text-2xl text-center font-bold mt-5'> Admin Section </h2>
-      <span className='mt-10 text-xl'> The button below is used to switch off / bring back on a website for all users (except admin) </span>
-      <Toggle aria-label="Toggle bold" className='border w-52 border-red-900 mt-5' onClick={toggleDowntime}>
-                { isdown ?  'Bring Website Back up' : 'Enable Website Downtime'}
-      </Toggle>
-      <span className='mt-10 text-xl'> The input field below is used to change your <b>GMAIL</b> where you receive all website related emails (order placement emails, list of user emails, contact form submission emails ) </span>
-      <div className="flex gap-4 mt-5">
-        <Input type="email" id="newmail" placeholder="Email" value = {newmail} onChange = { (e) => setNewmail(e.target.value)}  className='w-[700px] text-3xl p-7'/>
-        <span className='p-4 text-2xl bg-blue-300 rounded-full cursor-pointer' onClick={updateEmail}>Change Email</span>
-      </div>
-      <span className='mt-5 text-xl'> The button below is used to get list all user emails to your email address </span>
-      <span className=' mt-5 p-4 text-2xl bg-blue-500 rounded-lg cursor-pointer' onClick={getEmailList}>Get Email List</span>
-    </div>
-    <div className='absolute right-0 top-70 text-3xl p-4 bg-yellow-200 w-[400px] rounded-lg '>
-      Note: You can only add one picture while adding a product (however you can add more images and even remove images below in the Edit Products section)
-    </div>
-    <div className='flex flex-col justify-center items-center bg-red-100'>
-      <h2 className='font-bold text-3xl pt-8'> Add New Product </h2>
-      <form onSubmit={handleAddProd} className='text-left mt-8'>
-          <div style={{ marginBottom: 15 }} className=''>
-            <label htmlFor="title" style={{ marginRight: 10 }} >Title:</label>
-            <input type="text" id="title" name="title"  value = {title} onChange = { (e) => setTitle(e.target.value)} />
+    loading ? <Loading/> :
+    <>
+        <Helmet>
+              <meta name='robots' content='noindex'/>
+        </Helmet>
+        <div className='fixed top-0 right-0 left-0 bottom-0 overflow-auto'>
+        <div className='flex flex-col items-center mb-10'>
+          <h2 className='text-2xl text-center font-bold mt-5'> Admin Section </h2>
+          <span className='mt-10 text-xl'> The button below is used to switch off / bring back on a website for all users (except admin) </span>
+          <Toggle aria-label="Toggle bold" className='border w-52 border-red-900 mt-5' onClick={toggleDowntime}>
+                    { isdown ?  'Bring Website Back up' : 'Enable Website Downtime'}
+          </Toggle>
+          <span className='mt-10 text-xl'> The input field below is used to change your <b>GMAIL</b> where you receive all website related emails (order placement emails, list of user emails, contact form submission emails ) </span>
+          <div className="flex gap-4 mt-5">
+            <Input type="email" id="newmail" placeholder="Email" value = {newmail} onChange = { (e) => setNewmail(e.target.value)}  className='w-[700px] text-3xl p-7'/>
+            <span className='p-4 text-2xl bg-blue-300 rounded-full cursor-pointer' onClick={updateEmail}>Change Email</span>
           </div>
-          <div className='mb-4 '>
-            <label htmlFor="price"  style={{ marginRight: 10 }} >Price:</label>
-            <input type="text" id="price" name="price" value = {price} onChange = { (e) => handleSetPrice(e)} />
-          </div>
-          <div  className='mb-4 '>
-            <label htmlFor="desc" className='flex justify-center mb-4' >Description:</label>
-            <textarea rows={6} cols={40} type="text" id="desc" name="desc" value = {desc} onChange = { (e) => setDesc(e.target.value)} />
-          </div>
-          <div className="update-status">
-          <label htmlFor="category"  >Category:</label>  
-              <select id="select" onChange={(e)=>{setSelected(e.target.value)}}>
-                  <option value="Earrings" >Earrings</option>
-                  <option value="Rings" >Rings</option>
-                  <option value="Necklace" >Necklace</option>
-                  <option value="Bracelet" >Bracelet</option>
-                  <option value="Beauty" >Beauty</option>
-              </select>
-          </div>
-          <div className='fileinput flex justify-center py-6'>
-            {/* <Input id="newpic" type="file" onChange={(e) => handlesetFile(e)} /> */}
-            <input type="file"  onChange={(e) => handlesetFile(e)}/>
-          </div>
-      </form>
-      <button type="submit" className='btn bg-white px-4 py-2 rounded-md mb-4' style={{ marginTop: 15 }} onClick={handleAddProd}>Submit</button>
-    </div> 
-    <h2 className='font-bold text-3xl pt-8 text-center bg-red-200'> Edit Products </h2>
-    {/* <div className='absolute right-0 top-50 text-3xl p-4 bg-yellow-200 w-[400px] rounded-lg '>
-      Note: While editing a product, changes will be made permanently when u click on 'Save Chnages' below in the Edit Products section
-    </div> */}
-    <div className='flex flex-col bg-red-200'>
-    {products.length>0 && products.map((_prod, index) => (
-        <div key={index} className='w-inherit p-6'>
-        <div className=' flex'>
-              <li className='list-none'>
-                <span className='text-xl text-wrap'>
-                 <span className='text-3xl flex justify-between'>
-                    Product {index+1} 
-                    <AlertDialog open={isOpen2[index]}>
-                      <AlertDialogTrigger>
-                          <MdDelete className='cursor-pointer text-4xl hover:bg-red-400' onClick={() => handlesetIsOpen2(true,index)}/>
-                      </AlertDialogTrigger>
-                      <AlertDialogContent>
-                        <AlertDialogHeader>
-                          <AlertDialogTitle  className='text-4xl'>Are you absolutely sure?</AlertDialogTitle>
-                          <AlertDialogDescription  className='text-4xl'>
-                            This action cannot be undone. This will permanently delete these product from our servers.
-                          </AlertDialogDescription>
-                        </AlertDialogHeader>
-                        <AlertDialogFooter>
-                          <AlertDialogCancel  className='text-4xl' onClick={() => handlesetIsOpen2(false,index)}>Cancel</AlertDialogCancel>
-                          <AlertDialogAction  className='text-4xl' onClick={(e)=>handleContinueClickDelete(e,index)} >Continue</AlertDialogAction>
-                        </AlertDialogFooter>
-                      </AlertDialogContent>
-                    </AlertDialog>
-                  </span> 
-                  <div className='my-4'>
-                    <label htmlFor={`title-${index}`} style={{ marginRight: 10 }} >Title:</label>
-                    <input id={`t-${index}`} value = {titles[index]} onChange={handleTitleChange}/>
-                  </div>
-                  <div className='mb-4 '>
-                    <label htmlFor={`price-${index}`}  style={{ marginRight: 10 }} >Price:</label>
-                    <input id={`p-${index}`} value = {prices[index]} onChange={handlePriceChange}  />
-                  </div>
-                  <div  className='mb-4 '>
-                    <label htmlFor={`desc-${index}`} className='flex justify-center mb-4' >Description:</label>
-                    <textarea id={`d-${index}`} rows={6} cols={40}  value = {descs[index]} onChange={handleDescChange}  />
-                  </div> 
-                  <div className='flex justify-between'>
-                    <Toggle id={`s-${index}`} aria-label="Toggle bold" className='border border-red-900' onClick={handleStocktoggle}>
-                      { stocktoggle[index] ?  'Mark As In Stock' : 'Mark as Out of Stock'}
-                    </Toggle>
-                    <Toggle id={`sell-${index}`} aria-label="Toggle bold" className='border border-red-900' onClick={handleBestselltoggle}>
-                      { bestselltoggle[index] ?  'Mark As Normal Product' : 'Mark As Best Selling'}
-                    </Toggle>
-                  </div>
-                  </span>
-                </li>
-                <ScrollArea className="mt-16 w-full whitespace-nowrap">
-            <div className="flex w-max space-x-16 pl-10">
-              {_prod.images.map((img,idx) => (
-                <div className='flex flex-col items-center' key={index+idx}>
-                  <img className='rounded-lg' src={`http://localhost:3000/images/${img['imagestring']}`} width={200} height={100} alt="imgfile"/>
-                  <Toggle id={`img-${index}-${idx}`} aria-label="Toggle bold" className='border border-red-900 mt-10' onClick={(e)=>handleImgtoggle(e)}>
-                    { imgtoggle[index][idx] ?  'Restore Image' : 'Remove Image'}
-                  </Toggle>
-                </div>
-              ))}
-              <div className='fileinput py-6'>
-                <span>
-                  <input id={`f-${index}`} type="file" onChange={(e) => handlesetFiles(e)}/> 
-                  {   files[index] ? <button id={`fbtn-${index}`} className='bg-white px-2 rounded-md hover:bg-red-400' onClick={(e)=> handleremoveFiles(e)}>Remove file</button> 
-                      : <button className='bg-white px-2 rounded-md hover:cursor-no-drop' disabled >Remove file</button> 
-                  }
-                </span>
-              </div>
-            </div>
-            <ScrollBar orientation="horizontal" />
-          </ScrollArea>
-          </div>
-          <div className='flex justify-center py-8 '>
-              <AlertDialog open={isOpen[index]}>
-              <AlertDialogTrigger>
-                <div className='p-4 bg-white rounded-lg flex text-3xl' onClick={() => handlesetIsOpen(true,index)} >  
-                  Save Changes
-                </div>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                <AlertDialogTitle  className='text-4xl'>Are you absolutely sure?</AlertDialogTitle>
-                  <AlertDialogDescription  className='text-4xl'>
-                    This action cannot be undone. This will permanently make these changes to our servers.
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel  className='text-2xl' onClick={() => handlesetIsOpen(false,index)}>Cancel</AlertDialogCancel>
-                  <AlertDialogAction  className='text-2xl' onClick={(e)=>handleContinueClickSaveChanges(e,index)} >Continue</AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
-          </div>     
+          <span className='mt-5 text-xl'> The button below is used to get list all user emails to your email address </span>
+          <span className=' mt-5 p-4 text-2xl bg-blue-500 rounded-lg cursor-pointer' onClick={getEmailList}>Get Email List</span>
         </div>
-    ))}
-    </div>
-    <ErrorMessage  error={error} setError={setError} openerr={openerr} setOpenerr={setOpenerr} />
-    </div>
+        <div className='absolute right-0 top-70 text-3xl p-4 bg-yellow-200 w-[380px] rounded-lg '>
+          Note: You can only add one picture while adding a product (however you can add more images and even remove images below in the Edit Products section)
+          <br/> <br/>
+          At successfull add, edit, or deletion of product, the page should reload itself so you can see the changes in the 'Edit Products' section
+        </div>
+        <div className='flex flex-col justify-center items-center bg-red-100'>
+          <h2 className='font-bold text-3xl pt-8'> Add New Product </h2>
+          <form onSubmit={handleAddProd} className='text-left mt-8'>
+              <div style={{ marginBottom: 15 }} className=''>
+                <label htmlFor="title" style={{ marginRight: 10 }} >Title:</label>
+                <input type="text" id="title" name="title" className='text-xl' value = {title} onChange = { (e) => setTitle(e.target.value)} />
+              </div>
+              <div className='mb-4 '>
+                <label htmlFor="price"  style={{ marginRight: 10 }} >Price:</label>
+                <input type="text" id="price" name="price" className='text-xl' value = {price} onChange = { (e) => handleSetPrice(e)} />
+              </div>
+              <div  className='mb-4 '>
+                <label htmlFor="desc" className='flex justify-center mb-4' >Description:</label>
+                <textarea rows={6} cols={40} type="text" className='text-xl' id="desc" name="desc" value = {desc} onChange = { (e) => setDesc(e.target.value)} />
+              </div>
+              <div className="update-status">
+              <label htmlFor="category"  >Category:</label>  
+                  <select id="select" className='text-xl' onChange={(e)=>{setSelected(e.target.value)}}>
+                      <option value="Earrings" >Earrings</option>
+                      <option value="Rings" >Rings</option>
+                      <option value="Necklace" >Necklace</option>
+                      <option value="Bracelet" >Bracelet</option>
+                      <option value="Beauty" >Beauty</option>
+                  </select>
+              </div>
+              <div className='fileinput flex justify-center py-6'>
+                {/* <Input id="newpic" type="file" onChange={(e) => handlesetFile(e)} /> */}
+                <input type="file"  onChange={(e) => handlesetFile(e)}/>
+              </div>
+          </form>
+          <button type="submit" className='btn text-2xl bg-white px-4 py-2 rounded-md mb-4' style={{ marginTop: 15 }} onClick={handleAddProd}>Submit</button>
+        </div> 
+        <h2 className='font-bold text-3xl py-8 text-center bg-red-200'> Edit Products </h2>
+        {/* <div className='absolute right-0 top-50 text-3xl p-4 bg-yellow-200 w-[400px] rounded-lg '>
+          Note: While editing a product, changes will be made permanently when u click on 'Save Chnages' below in the Edit Products section
+        </div> */}
+        <div className="bg-red-400 p-4 flex justify-between cursor-pointer">
+          <span className={`text-2xl hover:underline rounded-lg p-2 ${selectedcatgry === 'Earrings' ? "bg-slate-300" : ''}`} onClick={()=>setselectedcatgry('Earrings')}>Earrings</span>
+          <span className={`text-2xl hover:underline rounded-lg p-2 ${selectedcatgry === 'Necklace' ? "bg-slate-300" : ''}`} onClick={()=>setselectedcatgry('Necklace')}>Necklace</span>
+          <span className={`text-2xl hover:underline rounded-lg p-2 ${selectedcatgry === 'Rings' ? "bg-slate-300" : ''}`}  onClick={()=>setselectedcatgry('Rings')}>Rings</span>
+          <span className={`text-2xl hover:underline rounded-lg p-2 ${selectedcatgry === 'Bracelet' ? "bg-slate-300" : ''}`} onClick={()=>setselectedcatgry('Bracelet')}>Bracelet</span>
+          <span className={`text-2xl hover:underline rounded-lg p-2 ${selectedcatgry === 'Beauty' ? "bg-slate-300" : ''}`} onClick={()=>setselectedcatgry('Beauty')}>Beauty</span>
+        </div>
+        <div className='flex flex-col bg-red-200'>
+        {products.length>0 && products.map((_prod, index) => (
+          _prod.category === selectedcatgry && 
+            <div key={index} className='w-inherit p-6'>
+            <div className=' flex'>
+                  <li className='list-none'>
+                    <span className='text-xl text-wrap'>
+                    <span className='text-3xl flex justify-between'>
+                        Product {index+1} 
+                        <AlertDialog open={isOpen2[index]}>
+                          <AlertDialogTrigger>
+                              <MdDelete className='cursor-pointer text-4xl hover:bg-red-400' onClick={() => handlesetIsOpen2(true,index)}/>
+                          </AlertDialogTrigger>
+                          <AlertDialogContent>
+                            <AlertDialogHeader>
+                              <AlertDialogTitle  className='text-4xl'>Are you absolutely sure?</AlertDialogTitle>
+                              <AlertDialogDescription  className='text-4xl'>
+                                This action cannot be undone. This will permanently delete these product from our servers.
+                              </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                              <AlertDialogCancel  className='text-4xl' onClick={() => handlesetIsOpen2(false,index)}>Cancel</AlertDialogCancel>
+                              <AlertDialogAction  className='text-4xl' onClick={(e)=>handleContinueClickDelete(e,index)} >Continue</AlertDialogAction>
+                            </AlertDialogFooter>
+                          </AlertDialogContent>
+                        </AlertDialog>
+                      </span> 
+                      <div className='my-4'>
+                        <label htmlFor={`title-${index}`} style={{ marginRight: 10 }} >Title:</label>
+                        <input id={`t-${index}`} value = {titles[index]} onChange={handleTitleChange}/>
+                      </div>
+                      <div className='mb-4 '>
+                        <label htmlFor={`price-${index}`}  style={{ marginRight: 10 }} >Price:</label>
+                        <input id={`p-${index}`} value = {prices[index]} onChange={handlePriceChange}  />
+                      </div>
+                      <div  className='mb-4 '>
+                        <label htmlFor={`desc-${index}`} className='flex justify-center mb-4' >Description:</label>
+                        <textarea id={`d-${index}`} rows={6} cols={40}  value = {descs[index]} onChange={handleDescChange}  />
+                      </div> 
+                      <div className='flex justify-between'>
+                        <Toggle id={`s-${index}`} aria-label="Toggle bold" className='border border-red-900' onClick={handleStocktoggle}>
+                          { stocktoggle[index] ?  'Mark As In Stock' : 'Mark as Out of Stock'}
+                        </Toggle>
+                        <Toggle id={`sell-${index}`} aria-label="Toggle bold" className='border border-red-900' onClick={handleBestselltoggle}>
+                          { bestselltoggle[index] ?  'Mark As Normal Product' : 'Mark As Best Selling'}
+                        </Toggle>
+                      </div>
+                      </span>
+                    </li>
+                    <ScrollArea className="mt-16 w-full whitespace-nowrap">
+                <div className="flex w-max space-x-16 pl-10">
+                  {_prod.images.map((img,idx) => (
+                    <div className='flex flex-col items-center' key={index+idx}>
+                      <img className='rounded-lg' src={`http://localhost:3000/images/${img['imagestring']}`} width={200} height={100} alt="imgfile"/>
+                      <Toggle id={`img-${index}-${idx}`} aria-label="Toggle bold" className='border border-red-900 mt-10' onClick={(e)=>handleImgtoggle(e)}>
+                        { imgtoggle[index][idx] ?  'Restore Image' : 'Remove Image'}
+                      </Toggle>
+                    </div>
+                  ))}
+                  <div className='fileinput py-6'>
+                    <span>
+                      <input id={`f-${index}`} type="file" onChange={(e) => handlesetFiles(e)}/> 
+                      {   files[index] ? <button id={`fbtn-${index}`} className='bg-white px-2 rounded-md hover:bg-red-400' onClick={(e)=> handleremoveFiles(e)}>Remove file</button> 
+                          : <button className='bg-white px-2 rounded-md hover:cursor-no-drop' disabled >Remove file</button> 
+                      }
+                    </span>
+                  </div>
+                </div>
+                <ScrollBar orientation="horizontal" />
+              </ScrollArea>
+              </div>
+              <div className='flex justify-center py-8 '>
+                  <AlertDialog open={isOpen[index]}>
+                  <AlertDialogTrigger>
+                    <div className='p-4 bg-white rounded-lg flex text-3xl' onClick={() => handlesetIsOpen(true,index)} >  
+                      Save Changes
+                    </div>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                    <AlertDialogTitle  className='text-4xl'>Are you absolutely sure?</AlertDialogTitle>
+                      <AlertDialogDescription  className='text-4xl'>
+                        This action cannot be undone. This will permanently make these changes to our servers.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel  className='text-2xl' onClick={() => handlesetIsOpen(false,index)}>Cancel</AlertDialogCancel>
+                      <AlertDialogAction  className='text-2xl' onClick={(e)=>handleContinueClickSaveChanges(e,index)} >Continue</AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              </div>     
+            </div>
+          
+        ))}
+        </div>
+        <ErrorMessage  error={error} setError={setError} openerr={openerr} setOpenerr={setOpenerr} />
+        </div>
+    </>
   )
 }
 

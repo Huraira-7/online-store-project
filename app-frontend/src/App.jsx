@@ -120,6 +120,7 @@ function App() {
       //     setSearchRes([])
       //   }
       // };
+    const [loading, setLoading] = useState(true)
 
     const navbarfooterprops = {
       navbarfootercolorscheme: navbarfootercolorscheme,
@@ -132,71 +133,31 @@ function App() {
       setCartOpen: setCartOpen,
       handleCloseCart: handleCloseCart,
       cartbadge: cartbadge,
-      setCartbadge: setCartbadge
+      setCartbadge: setCartbadge,
+      loading: loading,
+      setLoading: setLoading
     }
 
     return (
     <div id="maindiv" className="fixed top-0 bottom-0 left-0 right-0 overflow-auto" onScroll = {handleScroll} >
       <BrowserRouter>
           <Routes>
-              <Route path="/"           element={ 
-                <>
-                <Layout pagename='home' {...navbarfooterprops}  pagecolorscheme={pagecolorscheme} searchRes={searchRes}  setTitles={setTitles} suggestions={suggestions} />
-                  {/* <Navbar colorScheme={navbarfootercolorscheme} search={search} setSearch={setSearch} searchQuery={searchQuery} setSearchQuery={setSearchQuery} setSearchRes={setSearchRes} cartopen = {cartopen} setCartOpen={setCartOpen}  handleCloseCart={handleCloseCart}/>
-                    <Home cartopen={cartopen} setCartOpen={setCartOpen} handleCloseCart={handleCloseCart} search={search} searchQuery={searchQuery} searchRes={searchRes} navbarfootercolorscheme={navbarfootercolorscheme} pagecolorscheme={pagecolorscheme} setTitles={setTitles} suggestions={suggestions}/> 
-                  <Footer colorScheme={navbarfootercolorscheme}/> */}
-                </>
-              }/>  
                
               {categories.map((category,idx) => (
                 <Route key={idx} path={`/category/${category}`} 
-                  element={
-                    <>
-                    <Layout pagename={`category/${category}`} {...navbarfooterprops} category={category} />
-                      {/* <Navbar colorScheme={navbarfootercolorscheme} search={search} setSearch={setSearch} searchQuery={searchQuery} setSearchQuery={setSearchQuery} setSearchRes={setSearchRes} cartopen = {cartopen} setCartOpen={setCartOpen}  handleCloseCart={handleCloseCart}/>
-                        <Category category={category} />
-                      <Footer colorScheme={navbarfootercolorscheme}/> */}
-                    </>
-                  } />
+                element={ <Layout key={`/category/${category}`} pagename={`category/${category}`} {...navbarfooterprops} category={category} /> } />
               ))}
 
-              <Route path="/product" element={ 
-                <>
-                  <Layout pagename='product' {...navbarfooterprops} />
-                    {/* <Navbar colorScheme={navbarfootercolorscheme} search={search} setSearch={setSearch} searchQuery={searchQuery} setSearchQuery={setSearchQuery} setSearchRes={setSearchRes} cartopen = {cartopen} setCartOpen={setCartOpen}/>
-                        <Product/> 
-                      <Footer colorScheme={navbarfootercolorscheme}/> */}
-                </>
-              }  />
-              <Route path="/contact" element={ 
-                <>
-                  <Layout pagename='contact' {...navbarfooterprops} />
-                    {/* <Navbar colorScheme={navbarfootercolorscheme} search={search} setSearch={setSearch} searchQuery={searchQuery} setSearchQuery={setSearchQuery} setSearchRes={setSearchRes} cartopen = {cartopen} setCartOpen={setCartOpen}/>
-                        <Contact/> 
-                      <Footer colorScheme={navbarfootercolorscheme}/> */}
-                  </>
-              }  />
-              <Route path="/termsandconditions" element={ 
-                <>
-                <Layout pagename='termsandconditions' {...navbarfooterprops} />
-                    {/* <Navbar colorScheme={navbarfootercolorscheme} search={search} setSearch={setSearch} searchQuery={searchQuery} setSearchQuery={setSearchQuery} setSearchRes={setSearchRes} cartopen = {cartopen} setCartOpen={setCartOpen}/>
-                        <TnC/> 
-                      <Footer colorScheme={navbarfootercolorscheme}/> */}
-                </>
-               }  />
-              <Route path="/ordercancellation" element={ 
-                <>
-                <Layout pagename='ordercancellation' {...navbarfooterprops} />
-                    {/* <Navbar colorScheme={navbarfootercolorscheme} search={search} setSearch={setSearch} searchQuery={searchQuery} setSearchQuery={setSearchQuery} setSearchRes={setSearchRes} cartopen = {cartopen} setCartOpen={setCartOpen}/>
-                        <OrderCancellation/> 
-                      <Footer colorScheme={navbarfootercolorscheme}/> */}
-                </>
-               }  />
+              <Route path="/"   element={<Layout pagename='home' {...navbarfooterprops}  pagecolorscheme={pagecolorscheme} searchRes={searchRes}  setTitles={setTitles} suggestions={suggestions} /> }/>  
+              <Route path="/product" element={ <Layout pagename='product' {...navbarfooterprops} /> }  />
+              <Route path="/contact" element={ <Layout pagename='contact' {...navbarfooterprops} /> }  />
+              <Route path="/termsandconditions" element={ <Layout pagename='termsandconditions' {...navbarfooterprops} />}  />
+              <Route path="/ordercancellation" element={ <Layout pagename='ordercancellation' {...navbarfooterprops} />}  />
 
 
               <Route path="/confirmation"   element = { <Confirmation/>}  />
-              <Route path="/profile"   element = { <Profile/>}  />
-              <Route path="/checkout" element={ <Checkout setCartbadge={setCartbadge} /> }  />
+              <Route path="/profile"   element = { <Profile  loading={loading} setLoading={setLoading} />}  />
+              <Route path="/checkout" element={ <Checkout setCartbadge={setCartbadge} loading={loading} setLoading={setLoading} /> }  />
               <Route path="/downtime" element={ <Downtime/>  }  />
               <Route path="/category/*" element={<Error /> } />
               <Route path="*"  element={ <Error />  } />

@@ -4,8 +4,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { addItem } from '../../store/userSlice';
 import { ScrollArea,ScrollBar } from "@/components/ui/scroll-area"
 import { FaPlus,FaMinus } from "react-icons/fa";
+import Loading from '@/lib/Loading';
 
-function Product({setCartbadge}) {
+function Product({setCartbadge,loading,setLoading}) {
   const[product,setProduct] = useState()
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -29,6 +30,7 @@ function Product({setCartbadge}) {
         navigate('/downtime',{replace:true}) 
         return
       }
+      setLoading(false)
     }
     checkifValid()
   }, [])
@@ -67,6 +69,7 @@ function Product({setCartbadge}) {
 
 
   return (
+    loading ? <Loading/> :
     <div className="">
       <div className='my-16 ml-52 max-[1000px]:mx-auto max-[1000px]:ml-6 flex justify-between max-[1600px]:flex-col'>
       <ScrollArea className="my-16 max-[1000px]:my-0 w-6/12 max-[1600px]:w-11/12 whitespace-nowrap">

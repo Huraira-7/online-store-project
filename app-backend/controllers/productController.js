@@ -1,6 +1,7 @@
 import Image from "../models/image.js";
 import User from "../models/user.js";
 import Product from "../models/product.js";
+import product from "../models/product.js";
 
 const productController = {
 
@@ -101,6 +102,7 @@ const productController = {
         let titles = [];
         let latestproducts;
         let bestselling;
+        let sale = [];
         let categorywise = {};
         // const categories = new Set(['Earrings', 'Necklace', 'Bracelet', 'Beauty', 'Rings']); // Set of valid categories
         try {
@@ -109,13 +111,17 @@ const productController = {
                 for (const item of products) {
                     if (!categorywise[item.category]) { categorywise[item.category] = item; }
                 }
-                for (var i in products) {  titles.push({'title':products[i].title,'category':products[i].category,'img':products[i].images[0].imagestring,'id':products[i]._id}) }   // fetch ids,titles of all products to use for search
+                for (var i in products) {  
+                    titles.push({'title':products[i].title,'category':products[i].category,'img':products[i].images[0].imagestring,'id':products[i]._id})  // fetch ids,titles of all products to use for search
+                    if(products[i].oldprice && products[i].oldprice > products[i].price) { sale.push(products[i])  }
+                }   
+                
                 latestproducts = products.sort((a, b) => b.date - a.date).slice(0, 5);  //store fresh arrivals
                 bestselling = products.filter(item => item.best_selling === true);   //store best selling products
             }
             let user = await User.findOne({role:'downtime'});
             let down = user.email === 'false' ? false : true
-            return res.status(200).json({ titles, latestproducts, bestselling, categorywise,  products, down });
+            return res.status(200).json({ titles, latestproducts, bestselling, categorywise,  products, sale, down });
         }  catch(e) {  console.log("one",e); return next(e);  }
         // fetch home page navbar images
         // fetch home page titles on top

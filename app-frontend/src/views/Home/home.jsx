@@ -1,8 +1,8 @@
 import  {useEffect, useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addItem, setUser , resetUser, setDown} from '../../store/userSlice';
+import { addItem, setUser , resetUser, additemsOnSale, setDown} from '../../store/userSlice';
 
-import { Button } from "@/components/ui/button"
+// import { Button } from "@/components/ui/button"
 import { CarouselItem, CarouselContent, CarouselPrevious, CarouselNext, Carousel } from "@/components/ui/carousel"
 import Autoplay from "embla-carousel-autoplay"
 import { ScrollArea,ScrollBar } from "@/components/ui/scroll-area"
@@ -11,15 +11,17 @@ import { Separator } from "@/components/ui/separator"
 import { Helmet } from 'react-helmet';
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 import { fetchinitialdata } from '../../api/internal';
-import './home.css'
 import {  useNavigate } from 'react-router-dom';
+import './home.css'
+import Loading from '@/lib/Loading';
 // import { works,halfworks } from '@/assets/randomdata';
 
-function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSearchRes, searchRes,navbarfootercolorscheme,pagecolorscheme,setTitles,setCartbadge}) {
+function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSearchRes, searchRes,navbarfootercolorscheme,pagecolorscheme,loading,setLoading, setTitles,setCartbadge}) {
   const totalSlides = 4
   const [categorywise, setCategorywise] = useState([])
   const [bestselling, setBestselling] = useState([])
   const [latest, setLatest] = useState([])
+  const [onsale, setOnsale] = useState([])
   const [all, setAll] = useState([])
   const [currimg, setCurrimg] = useState([0,0,0,0,0]) //initial pictures for all categories
   
@@ -28,7 +30,7 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
   const navigate = useNavigate();
   
   const user = useSelector((state) => state.user);
-  console.log(user)
+  // console.log(user)
 
   useEffect(() => {
     if (user.cart === undefined){
@@ -71,6 +73,9 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
         setCategorywise(resp.data.categorywise)
         setBestselling(resp.data.bestselling)
         setLatest(resp.data.latestproducts)
+        setOnsale(resp.data.sale)
+        if(resp.data.sale.length>0){ dispatch(additemsOnSale(resp.data.sale)) }
+        setLoading(false)
       } else if (resp.code === "ERR_BAD_REQUEST") {  // display error message
         console.log("setting error-----",resp.response.status); 
         // if (resp.response.status === 404) {setError("error 404 Server is offline");}
@@ -94,12 +99,16 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
     return randomNum.toString().padStart(8, '0');
   }
 
-  function navtoProduct(result){
+  function navtoProduct(result){ //from search window
     setSearch(false) 
     setSearchQuery('')
     setSearchRes([])
     let prod = all.filter(dictionary => dictionary._id === result.id)[0]
     navigate('/product', { state:{product: btoa(JSON.stringify(prod))} })
+  }
+
+  function navigatetoProduct(result){ //from home page
+    navigate('/product', { state:{product: btoa(JSON.stringify(result))} })
   }
 
   const handleAddItem = (e,prod) => {
@@ -124,74 +133,91 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
             {/* <script src="src/views/Home/scroll.js"> </script> */}
           </Helmet>
           {/* greater than 1000px maybe design something else ?? */}
-          { !search ? (<div className='mainhomepage'>
-          <Carousel  setApi={setApi} plugins={[ Autoplay({delay: 5000, }),]} className={`w-full overflow-hidden ${navbarfootercolorscheme}`}>
-          <CarouselContent className="mb-10">
-              <CarouselItem className=''>
-              <div className="relative h-[600px]  w-full rounded-lg flex items-center justify-center">
-                <img
-                  alt="Slide 1"
-                  className="h-full w-full object-contain "
-                  src={`http://192.168.100.136:3000/images/theme3.jpg`}
-                />
-                <LeftRightButtons handleNextClick={handleNextClick} handlePreviousClick={handlePreviousClick}/>
-              </div>
-            </CarouselItem>
-            <CarouselItem>
-                <div className="relative h-[600px] w-full rounded-lg flex items-center justify-center">
-                  <img
-                    alt="Slide 2"
-                    className="h-full w-full object-contain"
-                    src={`http://192.168.100.136:3000/images/theme2.jpg`}
-                  />
-                  <LeftRightButtons handleNextClick={handleNextClick} handlePreviousClick={handlePreviousClick}/>
-                </div>
-              </CarouselItem>
-              <CarouselItem>
-                <div className="relative h-[600px] w-full rounded-lg flex items-center justify-center">
-                  <img
-                    alt="Slide 3"
-                    className="h-full w-full object-contain"
-                    src={`http://192.168.100.136:3000/images/theme1.jpg`}
-                  />
-                  <LeftRightButtons handleNextClick={handleNextClick} handlePreviousClick={handlePreviousClick}/>
-                </div>
-              </CarouselItem>
-              {/* <CarouselItem>
-              <div className="relative h-[400px] w-full rounded-lg flex items-center justify-center">
-                <img
-                  alt="Slide 4"
-                  className="h-full w-full object-cover"
-                  height={400}
-                  src="/placeholder.svg"
-                  style={{
-                    aspectRatio: "1600/400",
-                    objectFit: "cover",
-                  }}
-                  width={1600}
-                />
-                <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 p-4 text-center text-white">
-                  <h2 className="text-3xl font-bold">Sustainable Style</h2>
-                  <p className="text-lg">Explore our eco-friendly collections</p>
-                  <Button>Shop Now</Button>
-                </div>
-                <LeftRightButtons handleNextClick={handleNextClick} handlePreviousClick={handlePreviousClick}/>
-              </div>
-            </CarouselItem> */}
-          </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
-
-            
-        </Carousel>
+          { !search ? (
+              loading ? 
+               <Loading/>
+              :
+              <div className='mainhomepage'>
+                <Carousel  setApi={setApi} plugins={[ Autoplay({delay: 5000, }),]} className={`w-full overflow-hidden ${navbarfootercolorscheme}`}>
+                <CarouselContent className="mb-10">
+                    <CarouselItem className=''>
+                    <div className="relative h-[600px]  w-full rounded-lg flex items-center justify-center">
+                      <img
+                        alt="Get earrings, rings, and necklaces on discounted prices"
+                        className="h-full w-full object-contain "
+                        src={`http://192.168.100.136:3000/images/theme3.jpg`}
+                      />
+                      <LeftRightButtons handleNextClick={handleNextClick} handlePreviousClick={handlePreviousClick}/>
+                    </div>
+                  </CarouselItem>
+                  <CarouselItem>
+                      <div className="relative h-[600px] w-full rounded-lg flex items-center justify-center">
+                        <img
+                          alt="The perfect store for women's beauty products"
+                          className="h-full w-full object-contain"
+                          src={`http://192.168.100.136:3000/images/theme2.jpg`}
+                        />
+                        <LeftRightButtons handleNextClick={handleNextClick} handlePreviousClick={handlePreviousClick}/>
+                      </div>
+                    </CarouselItem>
+                    <CarouselItem>
+                      <div className="relative h-[600px] w-full rounded-lg flex items-center justify-center">
+                        <img
+                          alt="Sparkle with our latest collections, here at Bling Boutique"
+                          className="h-full w-full object-contain"
+                          src={`http://192.168.100.136:3000/images/theme1.jpg`}
+                        />
+                        <LeftRightButtons handleNextClick={handleNextClick} handlePreviousClick={handlePreviousClick}/>
+                      </div>
+                    </CarouselItem>
+                    {/* <CarouselItem>
+                    <div className="relative h-[400px] w-full rounded-lg flex items-center justify-center">
+                    <img
+                        alt="Slide 4"
+                        className="h-full w-full object-cover"
+                        height={400}
+                        src="/placeholder.svg"
+                        style={{
+                          aspectRatio: "1600/400",
+                          objectFit: "cover",
+                        }}
+                        width={1600}
+                      />
+                      <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 p-4 text-center text-white">
+                        <h2 className="text-3xl font-bold">Sustainable Style</h2>
+                        <p className="text-lg">Explore our eco-friendly collections</p>
+                        <Button>Shop Now</Button>
+                      </div>
+                      <LeftRightButtons handleNextClick={handleNextClick} handlePreviousClick={handlePreviousClick}/>
+                      </div>
+                    </CarouselItem> */}
+                </CarouselContent>
+                <CarouselPrevious />
+                <CarouselNext />
+              </Carousel>
         {/* <div className="px-4 md:px-6 py-12"> */}
         {/* <Carousel plugins={[ Autoplay({delay: 5000, }),]} className="px-4 md:px-6 py-10 w-full overflow-hidden">
             <CarouselContent className="full">
+            <CarouselItem>
+            <div className="relative h-[300px] w-full rounded-lg">
+            <img
+            alt="Slide 1"
+            className="h-full w-full object-cover"
+            height={300}
+                    src="/placeholder.svg"
+                    style={{
+                      aspectRatio: "1200/300",
+                      objectFit: "cover",
+                    }}
+                    width={1200}
+                    />
+                    </div>
+                    </CarouselItem>
               <CarouselItem>
                 <div className="relative h-[300px] w-full rounded-lg">
-                  <img
-                    alt="Slide 1"
-                    className="h-full w-full object-cover"
+                <img
+                alt="Slide 2"
+                className="h-full w-full object-cover"
                     height={300}
                     src="/placeholder.svg"
                     style={{
@@ -199,27 +225,12 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
                       objectFit: "cover",
                     }}
                     width={1200}
-                  />
-                </div>
-              </CarouselItem>
-              <CarouselItem>
-                <div className="relative h-[300px] w-full rounded-lg">
-                  <img
-                    alt="Slide 2"
-                    className="h-full w-full object-cover"
-                    height={300}
-                    src="/placeholder.svg"
-                    style={{
-                      aspectRatio: "1200/300",
-                      objectFit: "cover",
-                    }}
-                    width={1200}
-                  />
-                </div>
-              </CarouselItem>
-              <CarouselItem>
-                <div className="relative h-[300px] w-full rounded-lg">
-                  <img
+                    />
+                    </div>
+                    </CarouselItem>
+                    <CarouselItem>
+                    <div className="relative h-[300px] w-full rounded-lg">
+                    <img
                     alt="Slide 3"
                     className="h-full w-full object-cover"
                     height={300}
@@ -237,19 +248,16 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
             <CarouselNext />
           </Carousel> */}
         {/* </div> */}
-        <div className={`${pagecolorscheme}`}>
+        <div className={`bg-amber-800/10`}>
         {Object.keys(categorywise).length > 0 && <div>
         <section className="px-4 md:px-6 py-12">
           <span className="text-3xl font-semibold">Categories</span>
           <div className=" mt-20 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             <div className="relative group rounded-lg shadow-lg hover:shadow-xl transition-transform duration-300 ease-in-out hover:-translate-y-2">
-              {/* <Link className="absolute inset-0 z-10" href="#">
-                <span className="sr-only">View</span>
-              </Link> */}
               <img
                 src={`http://localhost:3000/images/${categorywise['Earrings'].images[0].imagestring}`}
                 alt="Earrings"
-                className="object-cover w-full h-auto"
+                className="object-cover w-full h-auto rounded-3xl"
                 height={400}
                 width={500}
                 style={{
@@ -264,14 +272,10 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
               </div>
             </div>
             <div className="relative group rounded-lg shadow-lg hover:shadow-xl transition-transform duration-300 ease-in-out hover:-translate-y-2">
-              {/* <Link className="absolute inset-0 z-10" href="#">
-                <span className="sr-only">View</span>
-              </Link> */}
               <img
                 alt="Bracelet"
-                src="/placeholder.svg" 
-                // http://localhost:3000/images/${categorywise['Bracelet'].images[0].imagestring}
-                className="object-cover w-full h-auto"
+                src={`http://localhost:3000/images/${categorywise['Bracelet'].images[0].imagestring}`}
+                className="object-cover w-full h-auto rounded-3xl"
                 height={400}
                 width={500}
                 style={{
@@ -286,14 +290,10 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
               </div>
             </div>
             <div className="relative group rounded-lg shadow-lg hover:shadow-xl transition-transform duration-300 ease-in-out hover:-translate-y-2">
-              {/* <Link className="absolute inset-0 z-10" href="#">
-                <span className="sr-only">View</span>
-              </Link> */}
               <img
                 alt="Beauty"
-                src="/placeholder.svg"
-                // http://localhost:3000/images/${categorywise['Beauty'].images[0].imagestring}
-                className="object-cover w-full h-auto"
+                src={`http://localhost:3000/images/${categorywise['Beauty'].images[0].imagestring}`}
+                className="object-cover w-full h-auto rounded-3xl"
                 height={400}
                 width={500}
                 style={{
@@ -301,10 +301,10 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
                   objectFit: "cover",
                 }}
                 onClick={()=>navigate('/category/beauty')}
-              />
+                />
               <div className="bg-white p-4 dark:bg-gray-950">
                 <h3 className="font-bold text-xl">Beauty</h3>
-                <p className="text-sm text-gray-500">Tailored and versatile</p>
+                <p className="text-sm text-gray-500">Complete your look</p>
               </div>
             </div>
             </div>
@@ -312,14 +312,10 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
           <section className="px-4 md:px-6 py-12">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8">
               <div className="relative group rounded-lg shadow-lg hover:shadow-xl transition-transform duration-300 ease-in-out hover:-translate-y-2">
-              {/* <Link className="absolute inset-0 z-10" href="#">
-                <span className="sr-only">View</span>
-              </Link> */}
               <img
                 alt="Rings"
-                src="/placeholder.svg"
-                // http://localhost:3000/images/${categorywise['Rings'].images[0].imagestring}
-                className="object-cover w-full h-auto"
+                src={`http://localhost:3000/images/${categorywise['Rings'].images[0].imagestring}`}
+                className="object-cover w-full h-auto rounded-3xl"
                 height={400}
                 width={500}
                 style={{
@@ -330,20 +326,16 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
               />
               <div className="bg-white p-4 dark:bg-gray-950">
                 <h3 className="font-bold text-xl">Rings</h3>
-                <p className="text-sm text-gray-500">Complete your look</p>
+                <p className="text-sm text-gray-500">Tailored and versatile</p>
               </div>
             </div>
         
         
             <div className="relative group rounded-lg shadow-lg hover:shadow-xl transition-transform duration-300 ease-in-out hover:-translate-y-2">
-              {/* <Link className="absolute inset-0 z-10" href="#">
-                <span className="sr-only">View</span>
-              </Link> */}
               <img
                 alt="Necklaces"
-                src="/placeholder.svg"
-                // http://localhost:3000/images/${categorywise['Necklace'].images[0].imagestring}
-                className="object-cover w-full h-auto"
+                src={`http://localhost:3000/images/${categorywise['Necklace'].images[0].imagestring}`}
+                className="object-cover w-full h-auto rounded-3xl"
                 height={400}
                 width={500}
                 style={{
@@ -365,17 +357,17 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
           <ScrollArea className="mt-16 w-full whitespace-nowrap">
             <div className="flex w-max space-x-16 max-[900px]:space-x-3 p-1">
               {latest.length>0 && latest.map((latestprod,idx) => (
-                <figure key={idx} className="shrink-0 max-[900px]:w-52">
+                <figure key={idx} className="shrink-0 bg-red-100 rounded-3xl max-[900px]:w-52" onClick={()=>navigatetoProduct(latestprod)}>
                   <div className="overflow-hidden rounded-md">
                     <img
                       id = {`img-${idx}`}
                       onMouseEnter = {handleHoverImg}
                       src={`http://192.168.100.136:3000/images/${latestprod.images[currimg[idx]].imagestring}`}
-                      alt={`${latestprod.category}`}
+                      alt={`${latestprod.title}`}
                       className="aspect-[3/4] object-contain outline"
                       width={500}
                       height={500}
-                    />
+                      />
                   </div>
                   { latestprod.is_out_stock ? 
                     <div className="p-4 max-[1000px]:p-1 max-[1000px]:pb-0 bg-pink-500/80 w-9/12 text-center m-auto cursor-pointer relative bottom-20 max-[1000px]:bottom-6 rounded-full text-3xl max-[1000px]:text-2xl">
@@ -414,19 +406,19 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
         </section>   
         <section className="px-4 md:px-6 py-24 ">
           {bestselling.length > 0 && <span className="text-3xl font-semibold flex justify-center">Best Selling</span>}       
-          <ScrollArea className="mt-16 w-full whitespace-nowrap">
+          <ScrollArea className="my-20 w-full whitespace-nowrap">
             <div className={`flex ${500*bestselling.length < window.innerWidth-50 ? 'justify-center' : 'w-max'} space-x-16 max-[900px]:space-x-4 p-4`}> 
             {/* 500 is width of image ^ */}
               {bestselling.length>0 && bestselling.map((bestprod,idx) => (
-                <figure key={idx} className="shrink-0 max-[900px]:w-52">
+                <figure key={idx} className="shrink-0 bg-red-100 rounded-3xl max-[900px]:w-52" onClick={()=>navigatetoProduct(bestprod)}>
                   <div className="overflow-hidden rounded-md">
                     <img
                       src={`http://192.168.100.136:3000/images/${bestprod.images[0].imagestring}`}
-                      alt={`${bestprod.category}`}
+                      alt={`${bestprod.title}`}
                       className="aspect-[3/4] object-cover"
                       width={500}
                       height={500}
-                    />
+                      />
                   </div>
                   { bestprod.is_out_stock ? 
                     <div className="p-4 bg-pink-500/80 w-9/12 text-center m-auto cursor-pointer relative bottom-20 rounded-full text-3xl">
@@ -463,9 +455,61 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
             </div>
             <ScrollBar orientation="horizontal" />
           </ScrollArea>
+        </section>   
+        <section className="px-4 md:px-6 py-24 ">
+          {onsale.length > 0 && <span className="text-3xl font-semibold flex justify-center"> On Sale </span>}       
+          <ScrollArea className="my-20 w-full whitespace-nowrap">
+            <div className={`flex ${500*onsale.length < window.innerWidth-50 ? 'justify-center' : 'w-max'} space-x-16 max-[900px]:space-x-4 p-4`}> 
+            {/* 500 is width of image ^ */}
+              {onsale.length>0 && onsale.map((saleprod,idx) => (
+                <figure key={idx} className="shrink-0 bg-red-100 rounded-3xl max-[900px]:w-52" onClick={()=>navigatetoProduct(saleprod)}>
+                  <div className="overflow-hidden rounded-md">
+                    <img
+                      src={`http://192.168.100.136:3000/images/${saleprod.images[0].imagestring}`}
+                      alt={`${saleprod.title}`}
+                      className="aspect-[3/4] object-cover"
+                      width={500}
+                      height={500}
+                      />
+                  </div>
+                  { saleprod.is_out_stock ? 
+                    <div className="p-4 bg-pink-500/80 w-9/12 text-center m-auto cursor-pointer relative bottom-20 rounded-full text-3xl">
+                      Sold
+                    </div> : <div className="p-7 w-9/12 text-center m-auto cursor-pointer relative bottom-20 rounded-full text-3xl">
+                    </div> 
+                  }
+                  <figcaption className="pt-2 text-3xl text-center mt-4 text-muted-foreground">
+                     {"  "}
+                    <span className="font-semibold text-foreground text-wrap max-[900px]:text-xl">
+                      {`${saleprod.title}`}
+                    </span>
+                  </figcaption>
+                  {   saleprod.oldprice && saleprod.oldprice > saleprod.price ?  
+                        <figcaption className="line-through pt-2 text-3xl max-[900px]:text-xl mt-4 text-muted-foreground text-center">
+                          Rs {"  "}
+                          <span className="text-foreground ">
+                          {`${saleprod.oldprice.toLocaleString()}`} 
+                          </span>
+                        </figcaption> 
+                    :  <figcaption className="mt-16"></figcaption> 
+                  }
+                  <figcaption className="pt-2 text-3xl mt-4 max-[900px]:text-xl text-muted-foreground text-center">
+                    Rs {"  "}
+                    <span className="text-foreground">
+                    {`${saleprod.price.toLocaleString()}`} 
+                    </span>
+                  </figcaption>
+                  <div className='flex justify-center my-8'>
+                    <button className={`'noscalebtn px-16 max-[900px]:px-8 py-8 text-4xl max-[900px]:text-xl ${saleprod.is_out_stock ? 'cursor-not-allowed' : 'cursor-pointer'} bg-white rounded-md outline-none hover:outline-slate-800 outline-1'`} onClick={(e)=>handleAddItem(e,saleprod)}> Add to Cart</button>
+                  </div>
+                </figure>
+              ))}
+            </div>
+            <ScrollBar orientation="horizontal" />
+          </ScrollArea>
         </section>     
         </div>
-        </div> ) : (
+        </div>  ) : (
           <div id="searchresultscreen" className={`searchbarr h-screen ${pagecolorscheme} overflow-auto`}>   
             {searchRes.length === 0 && <span className='searchbarr text-4xl flex pt-64 justify-center max-[600px]:text-center max-[800px]:text-xl '> No items found matching your search query </span>}
             <div className='searchbarr flex max-[1500px]:flex-col justify-between mb-52'>  
@@ -490,7 +534,7 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
                         <span className='searchbarr mb-16 max-[1500px]:mb-4 text-center font-semibold'> {idx === 0 ? 'Products' : ''} </span>
                         <div className='flex flex-row cursor-pointer'> 
                           <img src={`http://192.168.100.136:3000/images/${result.img}`}
-                          height={150} width={150} alt={`${idx}`} />
+                          height={150} width={150} alt={`${result.title}`} />
                           <span className='px-6 flex items-center max-[1500px]:text-xl text-wrap'> {result.title}  </span>
                         </div>
                       </div>
