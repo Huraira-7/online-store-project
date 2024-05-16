@@ -1,11 +1,11 @@
 {
-  "name": "pa3-mern",
+  "name": "online-store-project",
   "version": "1.0.0",
-  "description": "MERN assignment",
-  "main": "server.js",
+  "description": "bling-boutique",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon server.js"
+    "dev": "nodemon index.js"
   },
   "type": "module",
   "author": "",
