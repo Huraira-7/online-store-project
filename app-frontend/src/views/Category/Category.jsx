@@ -38,7 +38,7 @@ function Category({category,setLoading,loading}) {
         navigate('/downtime',{replace:true}) 
         return
       }
-      console.log("fetching products of category",category)
+      // console.log("fetching products of category",category)
       const cc = capitalize(category)
       const data = {category: cc}
       let resp;
@@ -49,7 +49,7 @@ function Category({category,setLoading,loading}) {
       } else{
         resp = await fetchproductbycategory(data)
       }
-      console.log(resp)
+      // console.log(resp)
       if(resp && resp.status === 200){
         let instkcount = resp.data.products.filter(item => item.is_out_stock === false).length
         setInstk(instkcount)
@@ -65,7 +65,7 @@ function Category({category,setLoading,loading}) {
         setPagesandNumPages(dup3)
         setLoading(false)
       } else if (resp && resp.code === "ERR_BAD_REQUEST") {  // display error message
-        console.log("setting error-----",resp.response.status); 
+        // console.log("setting error-----",resp.response.status); 
         // if (response.response.status === 404) {setError("error 404 Server is offline");}
         // if (response.response.status === 500) {setError("error 500 Internal Server Error");}      
       }  else { //"sale-category"
@@ -106,26 +106,26 @@ function Category({category,setLoading,loading}) {
   function handleNextPg(e) {
     e.preventDefault()
     if(pages[pages.length-1]!==numpages){
-      console.log("nxt",pages)
+      // console.log("nxt",pages)
       setPages(prevState => prevState.map(value => value + 1));
     }
     const index = page*6
     const endIndex = Math.min(products.length, index + 6);
     setFilteredproducts(products.slice(index,endIndex))
-    console.log("start,end",index,endIndex,products.length)
+    // console.log("start,end",index,endIndex,products.length)
     currentPage((oldpg) => oldpg+1)
   }
 
   function handlePrevPg(e) {
     e.preventDefault()
     if(pages[0] !== 1){
-      console.log("prev",pages)
+      // console.log("prev",pages)
       setPages(prevState => prevState.map(value => value - 1));
     }
     const index = (page-1)*6
     const startIndex = Math.max(0, index - 6);
     setFilteredproducts(products.slice(startIndex,index))
-    console.log("start,end",startIndex,index,products.length)
+    // console.log("start,end",startIndex,index,products.length)
     currentPage((oldpg) => oldpg-1)
   }
   
@@ -146,9 +146,7 @@ function Category({category,setLoading,loading}) {
     let sorttype = value.split(' ')[0]
     let sortdir = ['A','old','low'].includes(value.split(' ')[1])
     let sortdirection = sortdir ? 'ascending' : 'descending'
-    // console.log(sorttype)
-    // console.log(sortdir)
-    console.log(sorttype, sortdirection)
+    // console.log(sorttype, sortdirection)
     let sortedData;
     if(sorttype === 'Price,'){
       sortedData = [...products].sort((a, b) => a.price - b.price); 
@@ -211,7 +209,7 @@ function Category({category,setLoading,loading}) {
   }
 
   function filterbyStock(){
-    console.log(selected)
+    // console.log(selected)
     if(selected === '') {return;}
     let fp;
     if(selected === 'out') { fp = allproducts.filter(product => product.is_out_stock === true); }

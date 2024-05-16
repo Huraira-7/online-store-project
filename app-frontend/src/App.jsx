@@ -1,6 +1,4 @@
-//imports
 import {BrowserRouter, Route, Routes } from 'react-router-dom'; //npm i
-import { useSelector } from "react-redux";                      //npm i
 import { useState,useEffect } from 'react';
 
 //import components
@@ -41,7 +39,7 @@ function App() {
     useEffect(() => {
         // console.log(searchQuery)
         const filteredTitles = titles.filter(item => item.title && item.title.toLowerCase().includes(searchQuery.toLowerCase()));
-        console.log("filtered",filteredTitles)
+        // console.log("filtered",filteredTitles)
         setSearchRes(filteredTitles)
     
         let catgs = []
@@ -95,31 +93,6 @@ function App() {
         }
       };
     
-    
-      // const handleClick = (e) => {
-      //   e.preventDefault()
-      //   if(cartopen){
-      //     handleCloseCart()
-      //     return;
-      //   }
-      //   //handle the case where search icon or the window below is clicked (it should not close in that case)
-      //   let classlist = e.target.classList.value.split(" ")
-      //   // console.log(classlist)
-      //   let flag = 0
-      //   if (classlist.includes('searchbarr')) {return;}
-      //   for(var idx in classlist){
-      //     let cname = classlist[idx]
-      //     // console.log(cname)
-      //     if (cname === 'headerbarr'){
-      //       flag = 1
-      //     }
-      //   }
-      //   if (flag === 0){  
-      //     setSearch(false) 
-      //     setSearchQuery('')
-      //     setSearchRes([])
-      //   }
-      // };
     const [loading, setLoading] = useState(true)
 
     const navbarfooterprops = {

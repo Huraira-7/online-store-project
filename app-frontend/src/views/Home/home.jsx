@@ -62,7 +62,7 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
     const fetchData = async () => {
       dispatch(resetUser())
       const resp = await fetchinitialdata();
-      console.log(resp);
+      // console.log(resp);
       if(resp.status === 200){
         if(resp.data.down === true) {
           dispatch(setDown(true))
@@ -77,7 +77,7 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
         if(resp.data.sale.length>0){ dispatch(additemsOnSale(resp.data.sale)) }
         setLoading(false)
       } else if (resp.code === "ERR_BAD_REQUEST") {  // display error message
-        console.log("setting error-----",resp.response.status); 
+        // console.log("setting error-----",resp.response.status); 
         // if (resp.response.status === 404) {setError("error 404 Server is offline");}
         // if (resp.response.status === 500) {setError("error 500 Internal Server Error");}      
       } 
@@ -115,7 +115,7 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
     // console.log("adding item")
     e.preventDefault()
     if(prod.is_out_stock === false){
-      console.log(prod)
+      // console.log(prod)
       let temp = {...prod}
       temp['qty'] = 1
       dispatch(addItem(temp));
@@ -357,7 +357,7 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
           <ScrollArea className="mt-16 w-full whitespace-nowrap">
             <div className="flex w-max space-x-16 max-[900px]:space-x-3 p-1">
               {latest.length>0 && latest.map((latestprod,idx) => (
-                <figure key={idx} className="shrink-0 bg-red-100 rounded-3xl max-[900px]:w-52" onClick={()=>navigatetoProduct(latestprod)}>
+                <figure key={idx} className="shrink-0 bg-red-100 rounded-3xl max-[900px]:w-52">
                   <div className="overflow-hidden rounded-md">
                     <img
                       id = {`img-${idx}`}
@@ -367,6 +367,7 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
                       className="aspect-[3/4] object-contain outline"
                       width={500}
                       height={500}
+                      onClick={()=>navigatetoProduct(latestprod)}
                       />
                   </div>
                   { latestprod.is_out_stock ? 
@@ -410,7 +411,7 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
             <div className={`flex ${500*bestselling.length < window.innerWidth-50 ? 'justify-center' : 'w-max'} space-x-16 max-[900px]:space-x-4 p-4`}> 
             {/* 500 is width of image ^ */}
               {bestselling.length>0 && bestselling.map((bestprod,idx) => (
-                <figure key={idx} className="shrink-0 bg-red-100 rounded-3xl max-[900px]:w-52" onClick={()=>navigatetoProduct(bestprod)}>
+                <figure key={idx} className="shrink-0 bg-red-100 rounded-3xl max-[900px]:w-52" >
                   <div className="overflow-hidden rounded-md">
                     <img
                       src={`http://192.168.100.136:3000/images/${bestprod.images[0].imagestring}`}
@@ -418,6 +419,7 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
                       className="aspect-[3/4] object-cover"
                       width={500}
                       height={500}
+                      onClick={()=>navigatetoProduct(bestprod)}
                       />
                   </div>
                   { bestprod.is_out_stock ? 
@@ -462,7 +464,7 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
             <div className={`flex ${500*onsale.length < window.innerWidth-50 ? 'justify-center' : 'w-max'} space-x-16 max-[900px]:space-x-4 p-4`}> 
             {/* 500 is width of image ^ */}
               {onsale.length>0 && onsale.map((saleprod,idx) => (
-                <figure key={idx} className="shrink-0 bg-red-100 rounded-3xl max-[900px]:w-52" onClick={()=>navigatetoProduct(saleprod)}>
+                <figure key={idx} className="shrink-0 bg-red-100 rounded-3xl max-[900px]:w-52" >
                   <div className="overflow-hidden rounded-md">
                     <img
                       src={`http://192.168.100.136:3000/images/${saleprod.images[0].imagestring}`}
@@ -470,6 +472,7 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
                       className="aspect-[3/4] object-cover"
                       width={500}
                       height={500}
+                      onClick={()=>navigatetoProduct(saleprod)}
                       />
                   </div>
                   { saleprod.is_out_stock ? 

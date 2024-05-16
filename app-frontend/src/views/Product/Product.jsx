@@ -19,7 +19,7 @@ function Product({setCartbadge,loading,setLoading}) {
       let p ;
       if (encodedData) { p = JSON.parse(atob(encodedData)); }
       setProduct(p)
-      console.log("specific product ... ",p);
+      // console.log("specific product ... ",p);
       if(p === undefined) {
         // console.log("no-prod")
         navigate('/',{replace:true})
@@ -58,7 +58,7 @@ function Product({setCartbadge,loading,setLoading}) {
   function handleAddItem(e){
     e.preventDefault()
     if(product.is_out_stock === false){
-      console.log(product)
+      // console.log(product)
       let temp = {...product}
       temp['qty'] = qty
       dispatch(addItem(temp));

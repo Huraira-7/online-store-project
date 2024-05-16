@@ -26,7 +26,7 @@ function Footer(props) {
         // console.log("valid email")
         const body = {email}
         const resp = await addemail(body);
-        console.log(resp)
+        // console.log(resp)
         setEmail('')
         handleOpenmsg('Your email has been submitted successfully')
       } else {

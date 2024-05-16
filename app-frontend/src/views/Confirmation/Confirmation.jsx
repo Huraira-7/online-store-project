@@ -50,7 +50,7 @@ function Confirmation() {
     if(innertxt === 'Enter to get OTP') {
         setInnertxt('Enter OTP')
         const response = await otp();
-        console.log(response)
+        // console.log(response)
         setVal(response.data.number)
     } else {
         if(num.toString() === val.toString()){

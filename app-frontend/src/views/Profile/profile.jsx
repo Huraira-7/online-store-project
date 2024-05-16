@@ -54,7 +54,7 @@ function Profile({loading,setLoading}) {
 
 
   const handleContinueClickSaveChanges = async (e,idx) => {
-    console.log(idx)
+    // console.log(idx)
     await handleEditProd(e,idx);
     handlesetIsOpen(false,idx); // Close the dialog manually
     window.location.reload()
@@ -150,7 +150,7 @@ function Profile({loading,setLoading}) {
         // console.log("valid email")
         const body = {email: newmail}
         const resp = await changemail(body);
-        console.log(resp)
+        // console.log(resp)
       } else {
         handleOpenerr('Badly formatted email address')
       }
@@ -163,7 +163,7 @@ function Profile({loading,setLoading}) {
   async function getEmailList(e){
     e.preventDefault()
     const resp = await getallemails();
-    console.log(resp)
+    // console.log(resp)
   }
 
   async function toggleDowntime(e){
@@ -171,11 +171,11 @@ function Profile({loading,setLoading}) {
     dispatch(setDown(!isdown))
     setIsdown(!isdown)
     const resp = await changedowntime();
-    console.log(resp)
+    // console.log(resp)
   }
 
   async function handleEditProd(e,idx){
-    //show alert dialog
+    
     e.preventDefault()
     let newtitle = titles[idx]
     let newdesc = descs[idx]
@@ -190,11 +190,11 @@ function Profile({loading,setLoading}) {
     }
     const _id = pids[idx]
     const data = {_id, title: newtitle, description: newdesc, price: newprice, imgdel: imgtoggle[idx], is_out_stock :stocktoggle[idx] , best_selling: bestselltoggle[idx]} 
-    console.log("index",idx)
-    console.log(data)
+    // console.log("index",idx)
+    // console.log(data)
     let resp;
     if (files[idx] == undefined){ //normal edit product
-      console.log("no new img file",data)
+      // console.log("no new img file",data)
       resp = await editproduct(data);
     }  else { //upload new photo also
       const formdata = new FormData();
@@ -203,13 +203,13 @@ function Profile({loading,setLoading}) {
         else   { formdata.append(key, data[key]); }
       }
       formdata.append('file',files[idx])
-      console.log("new img file",data)
+      // console.log("new img file",data)
       resp = await editproductaddphoto(formdata);
     }
-    console.log(resp)
+    // console.log(resp)
     if (resp.status !== 202) { 
       if (resp.code === "ERR_BAD_REQUEST") {  // display error message
-      console.log("setting error-----",resp.response.status); 
+      // console.log("setting error-----",resp.response.status); 
       if (resp.response.status === 404) {handleOpenerr("error 404 Server is offline");}
       if (resp.response.status === 500) {handleOpenerr("error 500 Internal Server Error");}      
     } 
@@ -218,15 +218,14 @@ function Profile({loading,setLoading}) {
   }
 
   async function handleDelProd(e,idx){
-    //show alert dialog 
-    console.log(products[idx])
+    // console.log(products[idx])
     const _id = products[idx]._id;
     const data = {_id}
     const resp = await deleteproduct(data);
-    console.log(resp)
+    // console.log(resp)
     if (resp.status !== 202) { 
       if (resp.code === "ERR_BAD_REQUEST") {  // display error message
-      console.log("setting error-----",resp.response.status); 
+      // console.log("setting error-----",resp.response.status); 
       if (resp.response.status === 404) {handleOpenerr("error 404 Server is offline");}
       if (resp.response.status === 500) {handleOpenerr("error 500 Internal Server Error");}      
     } 
@@ -236,7 +235,7 @@ function Profile({loading,setLoading}) {
 
   async function handleAddProd(e) {
     e.preventDefault(); 
-    console.log(file)
+    // console.log(file)
     if(title === "" || desc === ""  || file === undefined || file === null ) {
       handleOpenerr("No field should be left empty");
       return;
@@ -250,7 +249,7 @@ function Profile({loading,setLoading}) {
       return;
     }
     const fileExtension = file.name.split('.').pop(); // Extract extension
-    console.log("File Extension:", fileExtension);
+    // console.log("File Extension:", fileExtension);
     if(allowedFileExtensions.includes(fileExtension) === false){
       handleOpenerr('File extension not allowed')
       // handleOpenerr('Allowed file extensions are .jpg, .jpeg, .png, .bmp, .gif, .tiff')
@@ -263,12 +262,12 @@ function Profile({loading,setLoading}) {
     data.append('price',price)
     data.append('category',selected)
     try  { 
-      console.log("handling add products-----",title,desc,price,selected);
+      // console.log("handling add products-----",title,desc,price,selected);
       const response = await addproduct(data);
-      console.log("response status-----",response.status);
+      // console.log("response status-----",response.status);
       if (response.status !== 201) { 
          if (response.code === "ERR_BAD_REQUEST") {  // display error message
-        console.log("setting error-----",response.response.status); 
+        // console.log("setting error-----",response.response.status); 
         if (response.response.status === 404) {  handleOpenerr("error 404 Server is offline");      }
         if (response.response.status === 500) {  handleOpenerr("error 500 Internal Server Error");  }      
       } 
@@ -292,9 +291,9 @@ function Profile({loading,setLoading}) {
         navigate('/',{replace:true})
         return;
       }
-      console.log("fetching all products")
+      // console.log("fetching all products")
       const resp = await fetchallproducts()
-      console.log(resp)
+      // console.log(resp)
       if(resp.status === 200){
         setProducts(resp.data.products)
         setIsdown(resp.data.down === true)
@@ -337,7 +336,7 @@ function Profile({loading,setLoading}) {
         setIsOpen2(openarr)
         setLoading(false)
       } else if (resp.code === "ERR_BAD_REQUEST") {  // display error message
-        console.log("setting error-----",resp.response.status); 
+        // console.log("setting error-----",resp.response.status); 
         if (resp.response.status === 404) {handleOpenerr("error 404 Server is offline");}
         if (resp.response.status === 500) {handleOpenerr("error 500 Internal Server Error");}      
       } 

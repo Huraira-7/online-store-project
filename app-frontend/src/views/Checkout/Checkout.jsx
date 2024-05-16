@@ -42,7 +42,7 @@ function Checkout({setCartbadge,loading,setLoading}) {
         navigate('/downtime',{replace:true}) 
         return
       }
-      console.log("calculating total price",cart)
+      // console.log("calculating total price",cart)
       let total = 0
       if(cart.length === 0) {navigate('/',{replace:true})}
       for (var i in cart){
@@ -50,7 +50,7 @@ function Checkout({setCartbadge,loading,setLoading}) {
         let newprice = p.price * p.qty
         total += newprice
       }
-      setTp(total)  
+      setTp(total+299)  
       setLoading(false)  
     }
     calculateTotalPrice();
@@ -97,13 +97,10 @@ function Checkout({setCartbadge,loading,setLoading}) {
     }
     //maybe test on city (allow select option for some cities only) ??
 
-    console.log(cart)
-    const message = `Customer Name: ${fname} ${lname} \n Customer Email: ${email} \n Customer Phone Number: ${phone} 
-                    Customer Address: ${address}, ${city}, ${postcode}
-                    This email is to inform you that your order of  ${cart.map(item => ` ${item.qty}  ${item.title} , `).join('')} for Rs. ${tp} has been successfully placed at Bling Boutique
-                    Please expect it to be delivered within 3 to 5 working days \n`
-    const body = {message , email}
-    console.log(body)
+    // console.log(cart)
+    const message = `Customer Name: ${fname} ${lname} \n Customer Email: ${email} \n Customer Phone Number: ${phone} \n Customer Address: ${address}, ${city}, ${postcode} \n Payment Method: ${paymentmethod === 'COD' ? 'Cash on Delivery' : 'Online Transfer'} \n This email is to inform you that your order of  ${cart.map(item => ` ${item.qty}  ${item.title} , `).join('')} for Rs. ${tp} has been successfully placed at Bling Boutique \n Please expect it to be delivered within 3 to 5 working days \n`
+    const body = {message , customer: email}
+    // console.log(body)
     const resp = await sendorderconfirmationemail(body);
     if(resp.status === 200 ){   
       handleOpenmsg('Your order has been placed successfully, you will receive an email shortly')
@@ -206,7 +203,7 @@ function Checkout({setCartbadge,loading,setLoading}) {
             <div className='flex my-16 ml-16 flex-col w-10/12 max-[1000px]:ml-8 gap-4'>
                 <div className='flex justify-between'>
                     <span className='text-3xl max-[1000px]:text-2xl'> Subtotal </span>
-                    <span className='text-3xl max-[1000px]:text-2xl font-semibold'> Rs. {tp.toLocaleString()} </span>
+                    <span className='text-3xl max-[1000px]:text-2xl font-semibold'> Rs. {(tp-299).toLocaleString()} </span>
                 </div>
                 <div className='flex justify-between'>
                     <span className='text-3xl max-[1000px]:text-2xl '> Shipping Total </span>
@@ -214,7 +211,7 @@ function Checkout({setCartbadge,loading,setLoading}) {
                 </div>
                 <div className='flex justify-between'>
                     <span className='text-3xl max-[1000px]:text-2xl font-semibold'> Total </span>
-                    <span className='text-4xl max-[1000px]:text-3xl font-semibold'> Rs. {(tp+299).toLocaleString()} </span>
+                    <span className='text-4xl max-[1000px]:text-3xl font-semibold'> Rs. {tp.toLocaleString()} </span>
                 </div> 
             </div>
           </div>

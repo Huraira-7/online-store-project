@@ -60,7 +60,7 @@ function Navbar({loading,setLoading, navbarfootercolorscheme, search, setSearch,
     }
   }
   function handleOpenCart(){
-    console.log(cart)
+    // console.log(cart)
     setCartOpen(true)
     updateTotalPriceAndQuantities();
     // const sidebardiv = document.getElementById('sidebardiv')

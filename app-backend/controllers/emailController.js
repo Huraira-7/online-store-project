@@ -5,15 +5,15 @@ import user from "../models/user.js";
 const emailController = {
 
     async sendorderconfirmationemail(req,res,next){
-        // console.log("sending mail")
         const {message, customer} = req.body
+        // console.log(message,customer)
         try{
             let employee =  await User.findOne({role:'employee'});
             var mailOptions = {
                 from: "noreplyautomated999@gmail.com" ,
-                to:  "hahuraira@gmail.com, fatimameerab515@gmail.com",  //  `${employee} ${customer}`,
+                to:  `${employee.email} ${customer}`,
                 subject: "Order Placement Confirmation Email", 
-                text: "this msg"  // `${message}`
+                text: `${message}`
                 //html tag to present content can also be used...
             }
     
@@ -36,7 +36,7 @@ const emailController = {
             let employee =  await User.findOne({role:'employee'});
             var mailOptions = {
                 from: "noreplyautomated999@gmail.com" ,
-                to:  "hahuraira@gmail.com",  //  `${employee}`,
+                to:   `${employee.email}`,
                 subject: "Customer Contact Form Submission Email", 
                 text: `${message}`
                 //html tag to present content can also be used...
@@ -81,7 +81,7 @@ const emailController = {
     
             var mailOptions = {
                 from: "noreplyautomated999@gmail.com" ,
-                to:  "hahuraira@gmail.com",  //  `${employee}`,
+                to:  `${employee.email}`,
                 subject: "List of User emails", 
                 text: `${email_list}`
                 //html tag to present content can also be used...
@@ -130,7 +130,7 @@ const emailController = {
 
             var mailOptions = {
                 from: "noreplyautomated999@gmail.com" ,
-                to:  "hahuraira@gmail.com",  //  `${employee}`,
+                to:  `${employee.email}`,
                 subject: "One Time Passcode Email", 
                 text: `${number}`
             }
