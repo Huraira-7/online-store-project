@@ -37,11 +37,11 @@ mongoose.connect(process.env.MONGO).then(()=>{
 //this handles 'GET' requests  when page refreshes to any page etc...
 // by building a static view of frontend and navigating to those pages when required
 //after doing npm run build on frontend
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = path.dirname(__filename);
-// app.use(express.static(path.resolve(__dirname, '../frontend/trading_app/build')));
-// app.get('*', (req, res) => { res.sendFile(path.resolve(__dirname, '../frontend/trading_app/build/index.html')); });
-// app.get('*', (req, res) => { console.log("building_static_pages_at_GET_req"); res.sendFile(path.resolve(__dirname, '../frontend/trading_app/build/index.html')); });
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+app.use(express.static(path.resolve(__dirname, '../app-frontend/dist')));
+app.get('*', (req, res) => { res.sendFile(path.resolve(__dirname, '../app-frontend/dist/index.html')); });
+app.get('*', (req, res) => { console.log("building_static_pages_at_GET_req"); res.sendFile(path.resolve(__dirname, '../app-frontend/dist/index.html')); });
 
 
 app.use(router);  //if it handles GET requests, maybe do this instead of redirecting those GET requests to npm run build
