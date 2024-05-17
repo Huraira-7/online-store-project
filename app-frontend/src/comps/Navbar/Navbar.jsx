@@ -91,17 +91,17 @@ function Navbar({loading,setLoading, navbarfootercolorscheme, search, setSearch,
 
         <>
           {search ? (
-            <div id="srchbr" className={`${colorScheme} headerbarr searchbar h-52 max-[600px]:h-32`} >
+            <div id="srchbr" className={`${colorScheme} headerbarr searchbar h-32`} >
               <input
                 type="text"
                 id="searchInput"
                 placeholder="Search for products........"
                 value = {searchQuery}
                 onChange={(e)=>(setSearchQuery(e.target.value))}
-                className={`${colorScheme} headerbarr  flex text-center w-11/12 h-full px-8 text-black text-4xl max-[600px]:text-2xl placeholder-black rounded-md focus:outline-none`}
+                className={`${colorScheme} headerbarr  flex text-center w-11/12 h-full px-8 text-black text-2xl placeholder-black rounded-md focus:outline-none`}
               />
-              <button id="closeButton" className={`headerbarr fixed right-16 top-16 max-[600px]:right-1 max-[600px]:top-12 focus:outline-none`} onClick={handleCloseSearch}>
-                <CloseIcon className="headerbarr h-12 w-12 max-[600px]:h-8 max-[600px]:w-8 text-white" />
+              <button id="closeButton" className={`headerbarr fixed right-16 top-16 right-1 top-12 focus:outline-none`} onClick={handleCloseSearch}>
+                <CloseIcon className="headerbarr h-12 w-12 h-8 w-8 text-white" />
               </button>
             </div>
           ) : (
@@ -119,11 +119,11 @@ function Navbar({loading,setLoading, navbarfootercolorscheme, search, setSearch,
              </div>
             :
             <header id="hdr" className={`${colorScheme}  shadow-sm dark:bg-gray-950 dark:text-gray-50 h-90 overflow-auto`} >
-              <div className="flex h-52 max-[900px]:h-24 mx-0 items-center justify-between px-4 max-[900px]:gap-1 md:px-6 w-full">
+              <div className="flex h-36 max-[900px]:h-24 mx-0 items-center justify-between px-4 max-[900px]:gap-1 md:px-6 w-full">
               <Sheet>
                 <SheetTrigger asChild className='min-[900px]:hidden'>
                       <button className=" rounded-md p-2 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800">
-                        <MenuIcon className="h-11 w-11 max-[900px]:h-7 max-[900px]:w-7"/>
+                        <MenuIcon className="h-7 w-7"/>
                         <span className="sr-only">Toggle navigation</span>
                     </button>
                   </SheetTrigger> 
@@ -158,30 +158,6 @@ function Navbar({loading,setLoading, navbarfootercolorscheme, search, setSearch,
                      </div>
                      {/* <Separator className='bg-red-400/30' /> */}
                     <div className="my-4 mx-16 rounded-lg w-full flex items-center ">
-                      {/* <SheetClose asChild> 
-                        <button className="px-8 max-[500px]:px-2">
-                          <img alt='tiktok' src={tiktok} className='h-14 w-14 rounded-full' />
-                          <span className="sr-only">Tiktok</span>
-                        </button>
-                      </SheetClose>
-                      <SheetClose asChild> 
-                        <button className="px-8 max-[500px]:px-2">
-                          <img alt='facebook' src={facebook} className="h-14 w-14 rounded-full" />
-                          <span className="sr-only">Facebook</span>
-                        </button>
-                      </SheetClose>
-                      <SheetClose asChild> 
-                        <button className="px-8 max-[500px]:px-2">
-                          <img alt='youtube' src={youtube} className="h-14 w-14 rounded-full" />
-                          <span className="sr-only">Youtube</span>
-                        </button>
-                      </SheetClose> */}
-                      {/* <SheetClose asChild> 
-                        <button className="px-8 max-[500px]:px-2">
-                          <img alt='insta' src={insta} className="h-14 w-14 rounded-full" />
-                          <span className="sr-only">Instagram</span>
-                        </button>
-                      </SheetClose> */}
                     </div>
                     <ScrollBar orientation="vertical" />
                   </ScrollArea>
@@ -197,7 +173,7 @@ function Navbar({loading,setLoading, navbarfootercolorscheme, search, setSearch,
                 <div className="flex items-center gap-2">
                   { window.location.pathname === '/' &&  
                       <button className="searchbarr rounded-md p-2 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 min-[899px]:hidden"  onClick={handleOpenSearch}>
-                        <SearchIcon className="h-11 w-11 searchbarr max-[900px]:h-7 max-[900px]:w-7" />
+                        <SearchIcon className="h-7 w-7" />
                         <span className="sr-only">Open search</span>
                       </button> 
                     }
@@ -205,22 +181,22 @@ function Navbar({loading,setLoading, navbarfootercolorscheme, search, setSearch,
                       <SheetTrigger asChild>
                         <button className="rounded-md p-2 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800" onClick={handleOpenCart}>
                               <Badge badgeContent={cartbadge} max={10} color="primary">
-                                <ShoppingCartIcon className="h-11 w-11 max-[900px]:h-7 max-[900px]:w-7" />
+                                <ShoppingCartIcon className="h-7 w-7" />
                                 <span className="sr-only">Open cart</span>
                               </Badge>
                         </button>
                       </SheetTrigger>
-                      <SheetContent className='bg-red-100 unset-max-width w-[900px] max-[900px]:w-full'>
+                      <SheetContent className='bg-red-100 unset-max-width w-6/12 max-[500px]:w-full'>
                           <ScrollArea className={`border h-screen rounded-md`}>
                             <div className="flex justify-between items-center py-6">
                               <span className="text-4xl px-2 max-[1000px]:text-2xl"> {cart.length === 0 ? '' : 'Your Cart'}</span>
                             </div>
                             { cart.length === 0 ? (
-                              <div className="flex justify-center h-screen px-16 max-[900px]:px-2">
+                              <div className="flex justify-center h-screen px-16 max-[500px]:px-2">
                                 <div className="mt-64">
-                                  <span className="text-5xl max-[900px]:text-3xl max-[900px]:text-nowrap max-[900px]:mx-auto ">Your cart is empty </span>
+                                  <span className="text-3xl text-nowrap mx-auto ">Your cart is empty </span>
                                   <SheetClose asChild>
-                                    <button id="continueshoppingButton" className="flex justify-center p-10 max-[900px]:p-4 mt-16 rounded-lg bg-black focus:outline-none" onClick={handleCloseCart}>
+                                    <button id="continueshoppingButton" className="flex justify-center p-10 max-[500px]:p-4 mt-16 rounded-lg bg-black focus:outline-none" onClick={handleCloseCart}>
                                       <span className='text-white text-3xl '> Continue Shopping </span>
                                     </button>
                                   </SheetClose>
@@ -229,14 +205,14 @@ function Navbar({loading,setLoading, navbarfootercolorscheme, search, setSearch,
                             ) : 
                               <div className='h-screen'>
                                 <div className="flex justify-between items-center py-6 px-2">
-                                    <span className="text-2xl pl-8 max-[900px]:text-xl max-[900px]:pl-0">PRODUCT</span>
-                                    <span className="text-2xl pr-32 max-[450px]:hidden">TOTAL</span>
+                                    <span className="text-xl pl-0">PRODUCT</span>
+                                    <span className="text-2xl pr-32 max-[600px]:hidden">TOTAL</span>
                                 </div>
                                 <Separator className='bg-red-400/30' />
                                 <div className="flex flex-col space-y-16 p-8">
                                   {cart.map((prod,idx) => (
                                     <div key={idx} className='flex max-[600px]:flex-col'>
-                                      <figure className="shrink-0 w-[250px] max-[890px]:w-[150px]">
+                                      <figure className="shrink-0 w-[250px] max-[600px]:w-[150px]">
                                         <div className="overflow-hidden rounded-md">
                                           <img
                                             src={`images/${prod.images[0].imagestring}`}
@@ -244,14 +220,14 @@ function Navbar({loading,setLoading, navbarfootercolorscheme, search, setSearch,
                                             className="aspect-[3/4] object-cover"
                                           />
                                         </div>
-                                        <figcaption className="pt-2 text-3xl max-[900px]:text-2xl text-muted-foreground text-wrap">
+                                        <figcaption className="pt-2 text-2xl text-muted-foreground text-wrap">
                                           {" "}
                                           <span className="font-semibold text-foreground">
                                             {prod.title}
                                           </span>
                                         </figcaption>
                                       </figure>
-                                      <div className="flex max-[450px]:flex-col">
+                                      <div className="flex max-[600px]:flex-col">
                                         <div className='flex flex-col px-8 py-4 max-[600px]:pl-0 '>
                                           <span className='text-2xl text-wrap max-[600px]:hidden'> {prod.title} </span>
                                           <span className='text-2xl mt-4 text-gray-600 text-wrap'> Rs. {(prod.price).toLocaleString()}</span>
@@ -259,10 +235,10 @@ function Navbar({loading,setLoading, navbarfootercolorscheme, search, setSearch,
                                         </div>
                                         <div className='flex flex-col py-4'>
                                           <span className='text-2xl text-nowrap '> 
-                                            <span className="min-[450px]:hidden"> Total: </span>
+                                            <span className="min-[600px]:hidden"> Total: </span>
                                             <span className="font-semibold"> Rs. {(qtys[idx]*prod.price).toLocaleString()} </span> 
                                           </span>
-                                          <button className={`focus:outline-none py-32 px-8 max-[450px]:py-8 max-[450px]:px-2 `} onClick={(e)=>handleDelete(e,idx)}><MdDelete className='text-4xl' /></button>                 
+                                          <button className={`focus:outline-none py-32 px-8 max-[600px]:py-8 max-[600px]:px-2 `} onClick={(e)=>handleDelete(e,idx)}><MdDelete className='text-4xl' /></button>                 
                                         </div>
                                       </div>
                                     </div>

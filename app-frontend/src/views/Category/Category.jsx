@@ -345,7 +345,6 @@ function Category({category,setLoading,loading}) {
           <div className="grid grid-cols-1 max-[1000px]:grid-cols-2  sm:grid-cols-2 lg:grid-cols-3 gap-8 max-[1000px]:gap-1 space-y-2">
             {filteredproducts.length>0 && filteredproducts.map((product, index) => (
               <div key={index} className="relative group rounded-lg shadow-lg hover:shadow-xl transition-transform duration-300 ease-in-out hover:-translate-y-2" onClick={()=> showProduct(product)}>
-                {/* {console.log(product.images[0].imagestring)} */}
                 <img
                 alt={`${product.title}`}
                 src={`images/${product.images[0].imagestring}`}

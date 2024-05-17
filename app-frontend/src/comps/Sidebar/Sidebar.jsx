@@ -33,7 +33,7 @@ function Sidebar({cartopen, setCartOpen, handleCloseCart}) {
   }
 
   return (
-    <div id="sidebardiv" className='sidebardiv fixed hidden right-8 top-0 bg-red-100 w-[900px] h-fit'> 
+    <div id="sidebardiv" className='sidebardiv fixed hidden right-8 top-0 bg-red-100 w-6/12 h-fit'> 
     <ScrollArea className={`border h-screen rounded-md`}>
         <div className="flex justify-between items-center py-6">
               <span className="text-4xl px-2"> {cart.length === 0 ? '' : 'Your Cart'}</span>
