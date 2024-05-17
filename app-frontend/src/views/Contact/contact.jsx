@@ -101,13 +101,13 @@ function Contact({loading,setLoading}) {
     loading ? <Loading/> :
     <div className='mt-16 overflow-auto'>
       <div className='flex flex-col items-center'>
-      <h3 id="contacthdr" className='text-6xl pt-8 mr-16 max-[800px]:text-5xl'> Contact Us </h3>
-      <form onSubmit={handlesubmitForm} id="contactform" className='text-left mt-8 rounded-md p-8'>
+      <h3 id="contacthdr" className='xl:text-6xl pt-8 mr-16 text-5xl'> Contact Us </h3>
+      <form onSubmit={handlesubmitForm} id="contactform" className='text-left mt-8 rounded-md p-8 w-11/12'>
           <div className='space-y-4 text-3xl'>
-              <Input type="name" placeholder="Name" value = {name} onChange = { (e) => setName(e.target.value)}  className='w-[700px] max-[800px]:w-11/12 max-[800px]:m-auto  text-3xl p-10 max-[900px]:text-xl max-[900px]:p-4'/>
-              <Input type="email" id="contactusemail" placeholder="Email" value = {email} onChange = { (e) => setEmail(e.target.value)}  className='w-[700px]  max-[800px]:w-11/12 max-[800px]:m-auto  max-[900px]:p-4 max-[900px]:text-xl text-3xl p-10'/>
-              <Input type="phone" placeholder="Phone" value = {phone} onChange = { (e) => handlesetPhone(e.target.value)} className='w-[700px]  max-[800px]:w-11/12 max-[800px]:m-auto  text-3xl  max-[900px]:p-4 max-[900px]:text-xl p-10' />
-              <Textarea placeholder="Type your message here." value = {comment} onChange = { (e) => setComment(e.target.value)} className='w-[700px]  max-[800px]:w-11/12 max-[800px]:m-auto  text-3xl   max-[900px]:p-4  max-[900px]:text-xl p-10 h-64' />
+              <Input type="name" placeholder="Name" value = {name} onChange = { (e) => setName(e.target.value)}                          className='w-11/12 m-auto xl:text-3xl xl:p-10 text-xl p-4'/>
+              <Input type="email" id="contactusemail" placeholder="Email" value = {email} onChange = { (e) => setEmail(e.target.value)}  className='w-11/12 m-auto xl:text-3xl xl:p-10 text-xl p-4'/>
+              <Input type="phone" placeholder="Phone" value = {phone} onChange = { (e) => handlesetPhone(e.target.value)}                className='w-11/12 m-auto xl:text-3xl xl:p-10 text-xl p-4' />
+              <Textarea placeholder="Type your message here." value = {comment} onChange = { (e) => setComment(e.target.value)}          className='w-11/12 m-auto xl:text-3xl xl:p-10 text-xl p-4' />
           </div>
       </form>
       <Button type="submit" className='mb-8 mr-16 text-3xl p-10 rounded-full' onClick={handlesubmitForm}>  Submit </Button> 

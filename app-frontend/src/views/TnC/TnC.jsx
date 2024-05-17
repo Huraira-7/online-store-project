@@ -9,10 +9,10 @@ function TnC() {
   
   return (
     <div className="min-h-screen">
-     <div className="flex flex-col  my-20 w-8/12 mx-auto gap-20">
-     <span className="text-6xl max-[800px]:text-5xl"> Terms and Conditions</span>
-     <span className="text-3xl">EXCHANGE PROCEDURE</span>
-     <span className="text-3xl flex flex-col gap-1">
+     <div className="flex flex-col my-20 w-8/12 mx-auto gap-16">
+     <span className="xl:text-6xl text-4xl"> Terms and Conditions</span>
+     <span className="text-2xl">EXCHANGE PROCEDURE</span>
+     <span className="xl:text-2xl text-xl flex flex-col xl:gap-1 gap-0">
         <span className="">We aim to facilitate all our clients if they wish to exchange their purchased articles, provided that the purchase was made in Pakistan.</span><br />
         <span className="">Any article purchased can be exchanged within 07 days of purchase by receipt by courier.</span><br/>
         <span className="">Articles are qualified for change if they are either damaged only. The article is to be sent to our location in Lahore and we dispatch the new article after receiving it. In case of damaged goods the new article is sent free of cost and for all other reasons delivery charges 300/- apply.</span><br/>

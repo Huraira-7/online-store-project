@@ -2,14 +2,19 @@ import {useState,useEffect} from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { addItem } from '../../store/userSlice';
-import { ScrollArea,ScrollBar } from "@/components/ui/scroll-area"
+// import { ScrollArea,ScrollBar } from "@/components/ui/scroll-area"
+import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
+import { CarouselItem, CarouselContent, CarouselPrevious, CarouselNext, Carousel } from "@/components/ui/carousel"
+import Autoplay from "embla-carousel-autoplay"
 import { FaPlus,FaMinus } from "react-icons/fa";
 import Loading from '@/lib/Loading';
 
 function Product({setCartbadge,loading,setLoading}) {
   const[product,setProduct] = useState()
+  const [totalSlides , setNumslides] = useState(0)
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const user = useSelector((state) => state.user); 
   const down = useSelector((state) => state.user.down); 
   const location = useLocation();
   const encodedData = location.state?.product
@@ -30,6 +35,8 @@ function Product({setCartbadge,loading,setLoading}) {
         navigate('/downtime',{replace:true}) 
         return
       }
+      // console.log(p.images.length)
+      setNumslides(p.images.length)
       setLoading(false)
     }
     checkifValid()
@@ -67,38 +74,51 @@ function Product({setCartbadge,loading,setLoading}) {
     }
   }
 
+  const [api, setApi] = useState()  //CarouselApi
+
+  const handleNextClick = () => {
+    if(api.canScrollNext()) {api.scrollNext()} else {api.scrollTo(0,false,-1)}
+  };
+
+  const handlePreviousClick = () => {
+    if(api.canScrollPrev()) {api.scrollPrev()} else {api.scrollTo(totalSlides-1,false,1)}
+  };
+
+  const starter=  '' //'http://192.168.100.136:3000/'
+
 
 
   return (
     loading ? <Loading/> :
     <div className="">
-      <div className='my-16 mx-auto flex justify-between max-[600px]:flex-col'>
-      <ScrollArea className="my-16 max-[1500px]:my-0 w-6/12 max-[600px]:w-11/12 whitespace-nowrap">
-        <div className='w-full'>
-          {product && product.images.map((img,idx)=>(
-             !img.is_deleted && 
-              <div key={idx} className="w-10/12 mb-16 relative group rounded-lg shadow-lg hover:shadow-xl transition-transform duration-300 ease-in-out hover:-translate-y-2">
-                <img
-                alt={`${product.title}`}
-                src={`images/${img.imagestring}`}
-                className="object-cover w-full hover:rounded-3xl"
-                style={{ aspectRatio: "5/4" }}
-              />
-            </div>
-          ))}
-
-        </div>
-          <ScrollBar orientation='vertical' className=''/>
-          {/* <ScrollBar orientation='horizontal' className=''/> */}
-        </ScrollArea>
-        <div className='productinfo flex flex-col my-16 mr-60 max-[600px]:my-2 max-[600px]:mr-1 gap-12 max-[600px]:gap-6'>
-          <p className="mt-8 text-3xl text-gray-500 text-nowrap max-[600px]:hidden"> B L I N G &nbsp; B O U T I Q U E</p> 
+      <div className='my-16 flex flex-col justify-center items-center'>
+      <Carousel  setApi={setApi} plugins={[ Autoplay({delay: 5000, }),]} className={`w-9/12 mx-auto rounded-3xl bg-red-100`}>
+        <CarouselContent className="my-6">
+            {product && product.images.map((img,idx)=>(
+              !img.is_deleted && 
+              <CarouselItem key={idx} className=''>
+                <div className='relative w-full flex rounded-lg items-center justify-center'>
+                      <img
+                        alt={`${product.title}`}
+                        src={`${starter}images/${img.imagestring}`}
+                        className="object-contain w-full h-[400px] max-[600px]:h-[220px] max-[600px]:object-cover hover:rounded-3xl"
+                        style={{ aspectRatio: "5/4" }}
+                        />
+                    { totalSlides> 1 && <LeftRightButtons handleNextClick={handleNextClick} handlePreviousClick={handlePreviousClick}/>}
+                </div>
+                </CarouselItem>
+            ))}
+              
+       </CarouselContent>
+      </Carousel>
+        <div className='productinfo flex flex-col items-center justify-center mx-auto my-10 max-[600px]:my-2  gap-6'>
+          <p className="mt-4 text-2xl text-gray-500 text-nowrap"> B L I N G &nbsp; B O U T I Q U E</p> 
           <h1 className='text-xl leading-normal font-semibold text-wrap'>{product && product.title}</h1>
-          <span className='text-xl text-nowrap'>Rs. {product && product.price.toLocaleString()} 
+          <span className='text-lg text-slate-500 text-nowrap'>Rs. {product && product.price.toLocaleString()} 
           {product && product.is_out_stock ?  <span className='ml-8 bg-slate-400 px-8 py-2 rounded-full cursor-pointer'> Sold Out </span> : <span></span> }
           </span>
-          <p className="text-gray-600 text-xl"> Quantity </p>
-          <div className={`h-28 w-[350px] flex max-[600px]:w-11/12 max-[600px]:h-16`} >
+          <p className="text-gray-600 text-lg"> Quantity </p>
+          <div className={`h-20 flex w-9/12 max-[600px]:h-12`} >
               <button className={`focus:outline-none bg-red-900/40 px-2 pl-8 max-[600px]:pl-2  rounded-l-lg noscalebtn outline-none hover:outline-black outline-2 hover:rounded-lg`} onClick={(e)=>handleMinus(e)}><FaMinus className='text-4xl' /></button>
               <input
                   type="text"
@@ -111,11 +131,30 @@ function Product({setCartbadge,loading,setLoading}) {
           <span  className={`hover:scale-105 flex ${product && product.is_out_stock ? 'cursor-not-allowed' : 'cursor-pointer'} justify-center py-8 px-6 max-[600px]:p-3 max-[600px]:mx-0 rounded-lg bg-black w-9/12 focus:outline-none`} onClick={(e)=>handleAddItem(e)}>
             <span className='text-white text-xl '> Add to Cart </span>
           </span>
-          <pre className='text-2xl text-wrap leading-loose text-slate-700'> {product && product.description}  </pre>
+          <pre className='text-xl text-wrap leading-loose text-slate-700 mx-auto max-[600px]:ml-6'> {product && product.description}  </pre>
         </div>
       </div>
     </div>
   )
 }
+
+
+function LeftRightButtons(props) {
+  return (
+    <>
+    <div className="absolute left-4 rounded-md "> 
+      <button className="w-16 h-16 px-4 rounded-full focus:outline-none hover:bg-white text-3xl" onClick={props.handlePreviousClick}>
+        <IoIosArrowBack  />
+      </button>
+    </div>
+    <div className="absolute right-4 rounded-md "> 
+      <button className="w-16 h-16 px-4 rounded-full focus:outline-none hover:bg-white text-3xl" onClick={props.handleNextClick}>
+        <IoIosArrowForward />
+      </button>
+    </div>
+    </>
+  )
+}
+
 
 export default Product

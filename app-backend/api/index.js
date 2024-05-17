@@ -37,7 +37,9 @@ const setContext = (req, res, next) => {
   next();
 };
 
-app.use(setContext);
+
+app.use(setContext); 
+// app.use(cors()) //comment out GET req wala code neechai & comment out const whitelist --> app.use(setContext) tak
 
 
 // app.use(cors(

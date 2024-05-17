@@ -60,7 +60,6 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
 
   useEffect(() => {
     const fetchData = async () => {
-      dispatch(resetUser())
       const resp = await fetchinitialdata();
       // console.log(resp);
       if(resp.status === 200){
@@ -397,7 +396,7 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
                     {`${latestprod.price.toLocaleString()}`} 
                     </span>
                   </figcaption>
-                  <div className='flex justify-center my-8'>
+                  <div className='flex justify-center my-4'>
                     <button className={`'noscalebtn px-16  max-[1500px]:px-8 py-8 ${latestprod.is_out_stock ? 'cursor-not-allowed' : 'cursor-pointer'} text-4xl  max-[1500px]:text-xl bg-white rounded-md outline-none hover:outline-slate-800 outline-1'`} onClick={(e)=>handleAddItem(e,latestprod)}> Add to Cart</button>
                   </div>
                 </figure>

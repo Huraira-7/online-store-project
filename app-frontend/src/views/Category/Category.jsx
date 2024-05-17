@@ -261,12 +261,14 @@ function Category({category,setLoading,loading}) {
     setAnchorEl2(anchorEl2 ? null : e.currentTarget);
   }
 
+  const starter=  '' //'http://192.168.100.136:3000/'
+
   return (
     loading ? <Loading/>
     :<div className='min-h-screen mb-24'>
       <div className='flex flex-col m-16 max-[1500px]:m-8'>
         <span className='text-3xl max-[1500px]:text-xl max-[1500px]:font-semibold'>{capitalize(category) } {category === 'all' ? 'Products' : ''}</span>
-        <div className='text-2xl max-[1500px]:text-xl max-[1500px]:mt-10 max-[600px]:flex-col mt-20 flex justify-between'>
+        <div className='text-2xl max-[1500px]:text-xl max-[1500px]:mt-10 max-[950px]:flex-col mt-20 flex justify-between'>
           <div className='flex'>
             <span className='mr-8 max-[600px]:mr-2'> Filter:  </span>
             <span className='flex cursor-pointer mr-8 max-[600px]:mr-2'> 
@@ -285,7 +287,7 @@ function Category({category,setLoading,loading}) {
                           {selected === 'in' ? <GrCheckboxSelected size={30}/> : <GrCheckbox size={30} onClick={()=>setSelected('in')} /> }
                           <span className=' text-gray-700 text-xl'> In stock {instk} </span>     
                         </div>
-                        <div className='flex justify-between gap-8 max-[1000px]:gap-1'>
+                        <div className='flex justify-between gap-8 max-[600px]:gap-1'>
                           {selected === 'out' ? <GrCheckboxSelected size={30}/> : <GrCheckbox size={30} onClick={()=>setSelected('out')}  /> }
                           <span className='text-gray-700 text-xl'> Out of stock {outstk} </span>
                         </div>
@@ -304,7 +306,7 @@ function Category({category,setLoading,loading}) {
                   <IoIosArrowDown className='mt-1'/>
                   <Popper open={open2} anchorEl={anchorEl2}>
                     <div className="flex max-[600px]:w-9/12 max-[600px]:px-2 max-[600px]:ml-4  bg-slate-100  flex-col gap-2 mt-4 px-4 py-8 rounded-md outline outline-blue-200">
-                      <div className='text-xl gap-6 max-[600px]:gap-1 flex max-[600px]:flex-col '>
+                      <div className='text-xl gap-6 max-[600px]:gap-1 flex max-[700px]:flex-col '>
                           <span className='text-2xl max-[1500px]:text-xl'> Rs. </span>
                           <Input placeholder='From' type='number' value={p1} onChange = { (e) => handlesetP1(e.target.value)}  className='placeholder:text-xl text-xl'/>
                           <span className='text-xl'> Rs. </span>
@@ -319,8 +321,8 @@ function Category({category,setLoading,loading}) {
                 </ClickAwayListener>
             </span>
           </div>
-          <div className='flex max-[1500px]:mt-10'>
-            <span className='mr-8 max-[600px]:mr-4'> Sort:  </span>
+          <div className='flex max-[950px]:mt-4'>
+            <span className='mr-8 max-[600px]:mr-4 '> Sort:  </span>
             <span className='flex cursor-pointer mr-8 max-[600px]:mr-4'> 
             <Select onValueChange={(val)=>handleSelection(val)}>
               <SelectTrigger className='noscalebtn w-72 text-xl max-[600px]:w-32'>
@@ -340,12 +342,12 @@ function Category({category,setLoading,loading}) {
           </div>
         </div>
         <section className='mt-26 px-4 md:px-6 py-16 max-[600px]:py-4 '>
-          <div className="grid grid-cols-2 lg:grid-cols-3 gap-8 max-[600px]:gap-1 space-y-2">
+          <div className="grid grid-cols-2 min-[750px]:grid-cols-3 gap-8 max-[600px]:gap-2 space-y-2">
             {filteredproducts.length>0 && filteredproducts.map((product, index) => (
               <div key={index} className="relative group rounded-lg shadow-lg hover:shadow-xl transition-transform duration-300 ease-in-out hover:-translate-y-2" onClick={()=> showProduct(product)}>
                 <img
                 alt={`${product.title}`}
-                src={`images/${product.images[0].imagestring}`}
+                src={`${starter}images/${product.images[0].imagestring}`}
                 className="object-cover w-11/12 hover:rounded-3xl aspect-[4/4] max-[1000px]:aspect-[3/4]"
               />
               { product.is_out_stock ? 
@@ -354,7 +356,7 @@ function Category({category,setLoading,loading}) {
                     </div> : <div className="p-7 w-9/12 text-center m-auto cursor-pointer relative bottom-20 rounded-full text-3xl">
                     </div> 
               }
-              <div className="bg-white p-8 max-[1000px]:p-1 dark:bg-gray-950">
+              <div className="bg-white p-8 max-[600px]:p-1 dark:bg-gray-950">
                 <h3 className="font-bold text-center text-lg max-[1500px]:text-base">{product.title}</h3> 
                 {   product.oldprice  && product.oldprice > product.price && 
                         <p className="line-through mt-8 max-[1500px]:mt-2 text-base max-[1500px]:text-xs text-center text-gray-500">

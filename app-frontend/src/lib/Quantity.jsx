@@ -35,7 +35,7 @@ function Quantity({setTp, setQtys, qtys, tp, idx}) {
         setTp((oldprice) => oldprice + prod.price)
       }
   return (
-    <div className={`h-28 mt-4 w-[350px] flex max-[750px]:w-[200px] max-[900px]:h-20`} >
+    <div className={`xl:h-28 mt-4 xl:w-[350px] w-[200px] flex h-20`} >
         <button className={`focus:outline-none px-2  bg-white rounded-l-lg noscalebtn outline-none hover:outline-black outline-2`} onClick={(e)=>handleMinus(e,idx)}><FaMinus className='text-4xl' /></button>
         <input
             type="text"

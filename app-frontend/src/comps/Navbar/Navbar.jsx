@@ -186,9 +186,9 @@ function Navbar({loading,setLoading, navbarfootercolorscheme, search, setSearch,
                               </Badge>
                         </button>
                       </SheetTrigger>
-                      <SheetContent className='bg-red-100 unset-max-width w-6/12 max-[500px]:w-full'>
+                      <SheetContent className='bg-red-100 unset-max-width w-[900px] max-[500px]:w-full'>
                           <ScrollArea className={`border h-screen rounded-md`}>
-                            <div className="flex justify-between items-center py-6">
+                            <div className="flex justify-between items-center py-1 xl:py-6">
                               <span className="text-4xl px-2 max-[1000px]:text-2xl"> {cart.length === 0 ? '' : 'Your Cart'}</span>
                             </div>
                             { cart.length === 0 ? (
@@ -204,12 +204,12 @@ function Navbar({loading,setLoading, navbarfootercolorscheme, search, setSearch,
                               </div>
                             ) : 
                               <div className='h-screen'>
-                                <div className="flex justify-between items-center py-6 px-2">
+                                <div className="flex justify-between items-center py-3 xl:py-6 px-2">
                                     <span className="text-xl pl-0">PRODUCT</span>
-                                    <span className="text-2xl pr-32 max-[600px]:hidden">TOTAL</span>
+                                    <span className="text-xl pr-60 xl:pr-32 max-[600px]:hidden">TOTAL</span>
                                 </div>
                                 <Separator className='bg-red-400/30' />
-                                <div className="flex flex-col space-y-16 p-8">
+                                <div className="flex flex-col space-y-4 p-8">
                                   {cart.map((prod,idx) => (
                                     <div key={idx} className='flex max-[600px]:flex-col'>
                                       <figure className="shrink-0 w-[250px] max-[600px]:w-[150px]">
@@ -217,7 +217,7 @@ function Navbar({loading,setLoading, navbarfootercolorscheme, search, setSearch,
                                           <img
                                             src={`images/${prod.images[0].imagestring}`}
                                             alt={`${prod.images[0].imagestring}`}
-                                            className="aspect-[3/4] object-cover"
+                                            className="aspect-[3/4] max-[1300px]:h-[200px] object-cover"
                                           />
                                         </div>
                                         <figcaption className="pt-2 text-2xl text-muted-foreground text-wrap">
@@ -233,12 +233,12 @@ function Navbar({loading,setLoading, navbarfootercolorscheme, search, setSearch,
                                           <span className='text-2xl mt-4 text-gray-600 text-wrap'> Rs. {(prod.price).toLocaleString()}</span>
                                           <Quantity tp={tp} setTp={setTp} qtys={qtys} setQtys={setQtys} idx={idx}/>   
                                         </div>
-                                        <div className='flex flex-col py-4'>
+                                        <div className='flex flex-col py-1 xl:py-4'>
                                           <span className='text-2xl text-nowrap '> 
                                             <span className="min-[600px]:hidden"> Total: </span>
                                             <span className="font-semibold"> Rs. {(qtys[idx]*prod.price).toLocaleString()} </span> 
                                           </span>
-                                          <button className={`focus:outline-none py-32 px-8 max-[600px]:py-8 max-[600px]:px-2 `} onClick={(e)=>handleDelete(e,idx)}><MdDelete className='text-4xl' /></button>                 
+                                          <button className={`focus:outline-none py-24 px-8 max-[600px]:py-8 max-[600px]:px-2 `} onClick={(e)=>handleDelete(e,idx)}><MdDelete className='text-4xl' /></button>                 
                                         </div>
                                       </div>
                                     </div>
@@ -247,10 +247,10 @@ function Navbar({loading,setLoading, navbarfootercolorscheme, search, setSearch,
                                 <Separator className='bg-red-400/30' />
                                 <div className='flex flex-col p-8'>
                                     <div className='px-4 flex justify-between items-center max-[500px]:flex-col max-[500px]:gap-2'>
-                                      <span className='text-4xl font-semibold max-[600px]:text-2xl'> Estimated total</span>
-                                      <span className='text-4xl max-[600px]:text-2xl max-[600px]:text-nowrap'> Rs. {tp.toLocaleString()} PKR</span>
+                                      <span className='text-2xl font-semibold xl:text-4xl'> Estimated total</span>
+                                      <span className='xl:text-4xl text-2xl max-[600px]:text-nowrap'> Rs. {tp.toLocaleString()} PKR</span>
                                     </div>
-                                    <span className='text-wrap text-4xl p-4 text-left max-[600px]:text-xl' > Taxes, discounts and shipping calculated at checkout</span>
+                                    <span className='text-wrap text-2xl p-4 text-left xl:text-xl' > Taxes, discounts and shipping calculated at checkout</span>
                                     <button id="checkoutbtn" className="flex justify-center py-8 max-[600px]:mb-20 max-[600px]:p-4 px-6 mt-8 rounded-lg bg-black focus:outline-none" onClick={(e)=>handleCheckOut(e)}>
                                       <span className='text-white text-3xl max-[600px]:text-xl'> Check Out </span>
                                     </button>
@@ -259,11 +259,6 @@ function Navbar({loading,setLoading, navbarfootercolorscheme, search, setSearch,
                             }
                           <ScrollBar orientation="vertical" />
                         </ScrollArea>
-                          {/* <SheetFooter>
-                            <SheetClose asChild className="bg-red-900">
-                              <button type="submit">Save changes</button>
-                            </SheetClose>
-                          </SheetFooter> */}
                       </SheetContent>
                     </Sheet>
                 </div>
