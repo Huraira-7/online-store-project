@@ -51,14 +51,14 @@ app.use(setContext);
 // app.use(express.urlencoded({ extended: true }));
 // app.use(express.static('public'))
 
-// mongoose.connect(process.env.MONGO).then(()=>{ 
+mongoose.connect(process.env.MONGO).then(()=>{ 
 
-//     // const server = http.createServer(app);
-//     // server.listen (''''''''''''''''''''''''''''''''''''''''')
-//     app.listen(`${process.env.PORT}`, 
-//         () => { console.log(`Connected to Database & listening to ${process.env.PORT}`);  });
-// })
-// .catch((error)=>{  console.log('Error: ',error) });
+    // const server = http.createServer(app);
+    // server.listen (''''''''''''''''''''''''''''''''''''''''')
+    app.listen(`${process.env.PORT}`, 
+        () => { console.log(`Connected to Database & listening to ${process.env.PORT}`);  });
+})
+.catch((error)=>{  console.log('Error: ',error) });
       
 
 //this handles 'GET' requests  when page refreshes to any page etc...
@@ -73,6 +73,6 @@ app.use(setContext);
 
 app.use(router);  //if it handles GET requests, maybe do this instead of redirecting those GET requests to npm run build
 
-// app.use(errorHandler); //after req-res cycle completes
+app.use(errorHandler); //after req-res cycle completes
 
 export default app;

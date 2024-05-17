@@ -1,6 +1,5 @@
 import User from "../models/user.js";
 import transporter from '../middlewares/emailHandler.js';
-import user from "../models/user.js";
 
 const emailController = {
 
