@@ -47,9 +47,9 @@ app.use(setContext);
 //         credentials: true
 //     }
 // ));
-// app.use(express.json());
-// app.use(express.urlencoded({ extended: true }));
-// app.use(express.static('public'))
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static('public'))
 
 mongoose.connect(process.env.MONGO).then(()=>{ 
 
