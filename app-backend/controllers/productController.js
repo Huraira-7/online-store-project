@@ -79,6 +79,8 @@ const productController = {
     },
 
     async fetchproductbycategory(req,res,next){
+        console.log(req)
+        console.log(req.body)
         const  {category} = req.body;
         let products; 
         try {
