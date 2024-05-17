@@ -356,9 +356,9 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
         <section className="px-4 md:px-6 py-12">
           {latest.length>0 && <span className="text-3xl font-semibold flex justify-center ">Fresh Arrivals</span>}     
           <ScrollArea className="mt-16 w-full whitespace-nowrap">
-            <div className="flex w-max space-x-16 max-[900px]:space-x-3 p-1">
+            <div className="flex w-max space-x-16 max-[1500px]:space-x-4 p-1">
               {latest.length>0 && latest.map((latestprod,idx) => (
-                <figure key={idx} className="shrink-0 bg-red-100 rounded-3xl max-[900px]:w-52">
+                <figure key={idx} className="shrink-0 bg-red-100 rounded-3xl max-[1500px]:w-52">
                   <div className="overflow-hidden rounded-md">
                     <img
                       id = {`img-${idx}`}
@@ -376,14 +376,14 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
                       Sold
                     </div> : ''
                   }
-                  <figcaption className="pt-2 text-3xl mt-4 text-muted-foreground text-center max-[900px]:text-xl">
+                  <figcaption className="pt-2 text-2xl mt-4 text-muted-foreground text-center max-[1500px]:text-xl">
                      {"  "}
                     <span className="font-semibold text-foreground text-wrap">
                     {`${latestprod.title}`} 
                     </span>
                   </figcaption>
                   {   latestprod.oldprice  && latestprod.oldprice > latestprod.price ?  
-                        <figcaption className="line-through pmax-[900px]:pt-0 pt-4 text-3xl  max-[900px]:text-xl text-muted-foreground text-center">
+                        <figcaption className="line-through pt-2 max-[500px]:pt-0 pt-4 text-2xl  max-[500px]:text-xl text-muted-foreground text-center">
                           Rs {"  "}
                           <span className="text-foreground">
                           {`${latestprod.oldprice.toLocaleString()}`} 
@@ -391,14 +391,14 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
                         </figcaption> 
                     :  <figcaption className="mt-1"></figcaption> 
                   }
-                  <figcaption className={`"pt-1 text-3xl flex justify-center max-[900px]:text-xl ${(latestprod.oldprice && latestprod.oldprice > latestprod.price)? 'mt-2' : 'mt-20'} text-muted-foreground text-center"`}>
+                  <figcaption className={`"pt-1 text-2xl flex justify-center max-[500px]:text-xl ${(latestprod.oldprice && latestprod.oldprice > latestprod.price)? 'mt-2' : 'mt-20'} text-muted-foreground text-center"`}>
                     Rs {"  "}
                     <span className="text-foreground">
                     {`${latestprod.price.toLocaleString()}`} 
                     </span>
                   </figcaption>
                   <div className='flex justify-center my-8'>
-                    <button className={`'noscalebtn px-16  max-[900px]:px-8 py-8 ${latestprod.is_out_stock ? 'cursor-not-allowed' : 'cursor-pointer'} text-4xl  max-[900px]:text-xl bg-white rounded-md outline-none hover:outline-slate-800 outline-1'`} onClick={(e)=>handleAddItem(e,latestprod)}> Add to Cart</button>
+                    <button className={`'noscalebtn px-16  max-[1500px]:px-8 py-8 ${latestprod.is_out_stock ? 'cursor-not-allowed' : 'cursor-pointer'} text-4xl  max-[1500px]:text-xl bg-white rounded-md outline-none hover:outline-slate-800 outline-1'`} onClick={(e)=>handleAddItem(e,latestprod)}> Add to Cart</button>
                   </div>
                 </figure>
               ))}
@@ -409,10 +409,10 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
         <section className="px-4 md:px-6 py-24 ">
           {bestselling.length > 0 && <span className="text-3xl font-semibold flex justify-center">Best Selling</span>}       
           <ScrollArea className="my-20 w-full whitespace-nowrap">
-            <div className={`flex ${500*bestselling.length < window.innerWidth-50 ? 'justify-center' : 'w-max'} space-x-16 max-[900px]:space-x-4 p-4`}> 
+            <div className={`flex ${500*bestselling.length < window.innerWidth-50 ? 'justify-center' : 'w-max'} space-x-16 max-[1500px]:space-x-4 p-4`}> 
             {/* 500 is width of image ^ */}
               {bestselling.length>0 && bestselling.map((bestprod,idx) => (
-                <figure key={idx} className="shrink-0 bg-red-100 rounded-3xl max-[900px]:w-52" >
+                <figure key={idx} className="shrink-0 bg-red-100 rounded-3xl max-[1500px]:w-52" >
                   <div className="overflow-hidden rounded-md">
                     <img
                       src={`images/${bestprod.images[0].imagestring}`}
@@ -429,14 +429,14 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
                     </div> : <div className="p-7 w-9/12 text-center m-auto cursor-pointer relative bottom-20 rounded-full text-3xl">
                     </div> 
                   }
-                  <figcaption className="pt-2 text-3xl text-center mt-4 text-muted-foreground">
+                  <figcaption className="pt-2 text-2xl text-center mt-4 text-muted-foreground">
                      {"  "}
-                    <span className="font-semibold text-foreground text-wrap max-[900px]:text-xl">
+                    <span className="font-semibold text-foreground text-wrap max-[500px]:text-xl">
                       {`${bestprod.title}`}
                     </span>
                   </figcaption>
                   {   bestprod.oldprice && bestprod.oldprice > bestprod.price ?  
-                        <figcaption className="line-through pt-2 text-3xl max-[900px]:text-xl mt-4 text-muted-foreground text-center">
+                        <figcaption className="line-through pt-2 text-2xl max-[500px]:text-xl mt-4 text-muted-foreground text-center">
                           Rs {"  "}
                           <span className="text-foreground ">
                           {`${bestprod.oldprice.toLocaleString()}`} 
@@ -444,14 +444,14 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
                         </figcaption> 
                     :  <figcaption className="mt-16"></figcaption> 
                   }
-                  <figcaption className="pt-2 text-3xl mt-4 max-[900px]:text-xl text-muted-foreground text-center">
+                  <figcaption className="pt-2 text-2xl mt-4 max-[500px]:text-xl text-muted-foreground text-center">
                     Rs {"  "}
                     <span className="text-foreground">
                     {`${bestprod.price.toLocaleString()}`} 
                     </span>
                   </figcaption>
                   <div className='flex justify-center my-8'>
-                    <button className={`'noscalebtn px-16 max-[900px]:px-8 py-8 text-4xl max-[900px]:text-xl ${bestprod.is_out_stock ? 'cursor-not-allowed' : 'cursor-pointer'} bg-white rounded-md outline-none hover:outline-slate-800 outline-1'`} onClick={(e)=>handleAddItem(e,bestprod)}> Add to Cart</button>
+                    <button className={`'noscalebtn px-16 max-[1500px]:px-8 py-8 text-2xl max-[1500px]:text-xl ${bestprod.is_out_stock ? 'cursor-not-allowed' : 'cursor-pointer'} bg-white rounded-md outline-none hover:outline-slate-800 outline-1'`} onClick={(e)=>handleAddItem(e,bestprod)}> Add to Cart</button>
                   </div>
                 </figure>
               ))}
@@ -462,10 +462,10 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
         <section className="px-4 md:px-6 py-24 ">
           {onsale.length > 0 && <span className="text-3xl font-semibold flex justify-center"> On Sale </span>}       
           <ScrollArea className="my-20 w-full whitespace-nowrap">
-            <div className={`flex ${500*onsale.length < window.innerWidth-50 ? 'justify-center' : 'w-max'} space-x-16 max-[900px]:space-x-4 p-4`}> 
+            <div className={`flex ${500*onsale.length < window.innerWidth-50 ? 'justify-center' : 'w-max'} space-x-16 max-[1500px]:space-x-4 p-4`}> 
             {/* 500 is width of image ^ */}
               {onsale.length>0 && onsale.map((saleprod,idx) => (
-                <figure key={idx} className="shrink-0 bg-red-100 rounded-3xl max-[900px]:w-52" >
+                <figure key={idx} className="shrink-0 bg-red-100 rounded-3xl max-[1500px]:w-52" >
                   <div className="overflow-hidden rounded-md">
                     <img
                       src={`images/${saleprod.images[0].imagestring}`}
@@ -482,14 +482,14 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
                     </div> : <div className="p-7 w-9/12 text-center m-auto cursor-pointer relative bottom-20 rounded-full text-3xl">
                     </div> 
                   }
-                  <figcaption className="pt-2 text-3xl text-center mt-4 text-muted-foreground">
+                  <figcaption className="pt-2 text-2xl text-center mt-4 text-muted-foreground">
                      {"  "}
-                    <span className="font-semibold text-foreground text-wrap max-[900px]:text-xl">
+                    <span className="font-semibold text-foreground text-wrap max-[500px]:text-xl">
                       {`${saleprod.title}`}
                     </span>
                   </figcaption>
                   {   saleprod.oldprice && saleprod.oldprice > saleprod.price ?  
-                        <figcaption className="line-through pt-2 text-3xl max-[900px]:text-xl mt-4 text-muted-foreground text-center">
+                        <figcaption className="line-through pt-2 text-2xl max-[500px]:text-xl mt-4 text-muted-foreground text-center">
                           Rs {"  "}
                           <span className="text-foreground ">
                           {`${saleprod.oldprice.toLocaleString()}`} 
@@ -497,14 +497,14 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
                         </figcaption> 
                     :  <figcaption className="mt-16"></figcaption> 
                   }
-                  <figcaption className="pt-2 text-3xl mt-4 max-[900px]:text-xl text-muted-foreground text-center">
+                  <figcaption className="pt-2 text-2xl mt-4 max-[500px]:text-xl text-muted-foreground text-center">
                     Rs {"  "}
                     <span className="text-foreground">
                     {`${saleprod.price.toLocaleString()}`} 
                     </span>
                   </figcaption>
                   <div className='flex justify-center my-8'>
-                    <button className={`'noscalebtn px-16 max-[900px]:px-8 py-8 text-4xl max-[900px]:text-xl ${saleprod.is_out_stock ? 'cursor-not-allowed' : 'cursor-pointer'} bg-white rounded-md outline-none hover:outline-slate-800 outline-1'`} onClick={(e)=>handleAddItem(e,saleprod)}> Add to Cart</button>
+                    <button className={`'noscalebtn px-16 max-[1500px]:px-8 py-8 text-2xl max-[1500px]:text-xl ${saleprod.is_out_stock ? 'cursor-not-allowed' : 'cursor-pointer'} bg-white rounded-md outline-none hover:outline-slate-800 outline-1'`} onClick={(e)=>handleAddItem(e,saleprod)}> Add to Cart</button>
                   </div>
                 </figure>
               ))}
@@ -515,31 +515,31 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
         </div>
         </div>  ) : (
           <div id="searchresultscreen" className={`searchbarr h-screen ${pagecolorscheme} overflow-auto`}>   
-            {searchRes.length === 0 && <span className='searchbarr text-4xl flex pt-64 justify-center max-[600px]:text-center max-[800px]:text-xl '> No items found matching your search query </span>}
-            <div className='searchbarr flex max-[1500px]:flex-col justify-between mb-52'>  
-                  <div className='searchbarr text-3xl pt-32 max-[1500px]:pt-12 px-6 flex'>
+            {searchRes.length === 0 && <span className='searchbarr text-2xl flex pt-64 justify-center text-center max-[1100px]:text-xl '> No items found matching your search query </span>}
+            <div className='searchbarr flex max-[950px]:flex-col justify-between mb-52'>  
+                  <div className='searchbarr text-3xl pt-32 max-[950px]:pt-12 px-6 flex'>
                     <div> 
                       { searchQuery.length > 0 && searchRes.length >  0 && suggestions.length>0 &&
                         suggestions.map((sugg, idx) => (
-                          <div key = {idx}  className='searchbarr flex flex-col py-4 max-[1500px]:py-0 mr-52 max-[1500px]:mr-0' >
-                              <span className='searchbarr text-3xl mb-16 max-[1500px]:mb-6 max-[1500px]:text-2xl text-center font-semibold'> {idx === 0 ? 'Suggestions' : ''} </span>
-                              <li className='searchbarr max-[1500px]:text-xl'>{sugg.title}</li>
+                          <div key = {idx}  className='searchbarr flex flex-col py-4 max-[950px]:py-0 mr-52 max-[950px]:mr-0' >
+                              <span className='searchbarr text-2xl mb-16 max-[950px]:mb-6 text-center font-semibold'> {idx === 0 ? 'Suggestions' : ''} </span>
+                              <li className='searchbarr text-xl'>{sugg.title}</li>
                             </div>
                         ))}
                     </div>
                   </div>
                   { searchRes.length >  0  && suggestions.length>0 &&
-                    <Separator className="searchbarr my-64 max-[1500px]:my-2 bg-red-900 h-auto" orientation='vertical'/>
+                    <Separator className="searchbarr my-64 max-[950px]:my-2 bg-red-900 h-auto" orientation='vertical'/>
                   }
-                  <div className='searchbarr text-3xl pt-32 px-6 max-[1500px]:pt-4 max-[1500px]:text-2xl'>
+                  <div className='searchbarr pt-32 px-6 max-[950px]:pt-4 text-2xl'>
                     {searchQuery.length > 0 && searchRes.length >  0  &&
                     searchRes.map((result, idx) => (
                       <div key = {idx}  className='searchbarr flex flex-col py-4 mr-52' onClick={()=> navtoProduct(result)} >
-                        <span className='searchbarr mb-16 max-[1500px]:mb-4 text-center font-semibold'> {idx === 0 ? 'Products' : ''} </span>
+                        <span className='searchbarr mb-16 max-[950px]:mb-4 text-center font-semibold'> {idx === 0 ? 'Products' : ''} </span>
                         <div className='flex flex-row cursor-pointer'> 
                           <img src={`images/${result.img}`}
                           height={150} width={150} alt={`${result.title}`} />
-                          <span className='px-6 flex items-center max-[1500px]:text-xl text-wrap'> {result.title}  </span>
+                          <span className='px-6 flex items-center text-xl text-wrap'> {result.title}  </span>
                         </div>
                       </div>
                     ))}
