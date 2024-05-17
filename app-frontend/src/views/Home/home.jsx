@@ -147,7 +147,7 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
                       <img
                         alt="Get earrings, rings, and necklaces on discounted prices"
                         className="h-full w-full object-contain "
-                        src={`${backendlink}/images/theme3.jpg`}
+                        src={`images/theme3.jpg`}
                       />
                       <LeftRightButtons handleNextClick={handleNextClick} handlePreviousClick={handlePreviousClick}/>
                     </div>
@@ -157,7 +157,7 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
                         <img
                           alt="The perfect store for women's beauty products"
                           className="h-full w-full object-contain"
-                          src={`${backendlink}/images/theme2.jpg`}
+                          src={`public/images/theme2.jpg`}
                         />
                         <LeftRightButtons handleNextClick={handleNextClick} handlePreviousClick={handlePreviousClick}/>
                       </div>
