@@ -340,7 +340,7 @@ function Category({category,setLoading,loading}) {
           </div>
         </div>
         <section className='mt-26 px-4 md:px-6 py-16 max-[600px]:py-4 '>
-          <div className="grid grid-cols-1 max-[600px]:grid-cols-2  sm:grid-cols-2 lg:grid-cols-3 gap-8 max-[600px]:gap-1 space-y-2">
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-8 max-[600px]:gap-1 space-y-2">
             {filteredproducts.length>0 && filteredproducts.map((product, index) => (
               <div key={index} className="relative group rounded-lg shadow-lg hover:shadow-xl transition-transform duration-300 ease-in-out hover:-translate-y-2" onClick={()=> showProduct(product)}>
                 <img
