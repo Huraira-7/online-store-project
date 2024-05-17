@@ -87,6 +87,8 @@ function Navbar({loading,setLoading, navbarfootercolorscheme, search, setSearch,
     navigate('/checkout',{replace:true})
   }
 
+  const backendlink = `https://online-store-project-backend.vercel.app`
+
   return (
 
         <>
@@ -239,7 +241,7 @@ function Navbar({loading,setLoading, navbarfootercolorscheme, search, setSearch,
                                       <figure className="shrink-0 w-[250px] max-[890px]:w-[150px]">
                                         <div className="overflow-hidden rounded-md">
                                           <img
-                                            src={`http://localhost:3000/images/${prod.images[0].imagestring}`}
+                                            src={`${backendlink}/images/${prod.images[0].imagestring}`}
                                             alt={`${prod.images[0].imagestring}`}
                                             className="aspect-[3/4] object-cover"
                                           />

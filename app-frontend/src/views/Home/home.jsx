@@ -124,7 +124,7 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
     }
   }
 
-  const backendlink = `https://online-store-project-dun.vercel.app`
+  const backendlink = `https://online-store-project-backend.vercel.app`
   
 
   return (
