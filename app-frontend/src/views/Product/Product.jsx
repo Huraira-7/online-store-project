@@ -67,7 +67,6 @@ function Product({setCartbadge,loading,setLoading}) {
     }
   }
 
-  const backendlink = `https://online-store-project-backend.vercel.app`
 
 
   return (
@@ -81,7 +80,7 @@ function Product({setCartbadge,loading,setLoading}) {
               <div key={idx} className="w-10/12 mb-16 relative group rounded-lg shadow-lg hover:shadow-xl transition-transform duration-300 ease-in-out hover:-translate-y-2">
                 <img
                 alt={`${product.title}`}
-                src={`${backendlink}/images/${img.imagestring}`}
+                src={`images/${img.imagestring}`}
                 className="object-cover w-full hover:rounded-3xl"
                 style={{ aspectRatio: "5/4" }}
               />

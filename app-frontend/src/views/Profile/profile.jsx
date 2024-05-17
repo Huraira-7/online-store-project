@@ -344,7 +344,6 @@ function Profile({loading,setLoading}) {
     fetchData();
   },[]); // Re-run effect only at page load
 
-  const backendlink = `https://online-store-project-backend.vercel.app`
 
 
   return (
@@ -469,7 +468,7 @@ function Profile({loading,setLoading}) {
                 <div className="flex w-max space-x-16 pl-10">
                   {_prod.images.map((img,idx) => (
                     <div className='flex flex-col items-center' key={index+idx}>
-                      <img className='rounded-lg' src={`${backendlink}/images/${img['imagestring']}`} width={200} height={100} alt="imgfile"/>
+                      <img className='rounded-lg' src={`images/${img['imagestring']}`} width={200} height={100} alt="imgfile"/>
                       <Toggle id={`img-${index}-${idx}`} aria-label="Toggle bold" className='border border-red-900 mt-10' onClick={(e)=>handleImgtoggle(e)}>
                         { imgtoggle[index][idx] ?  'Restore Image' : 'Remove Image'}
                       </Toggle>

@@ -87,8 +87,6 @@ function Navbar({loading,setLoading, navbarfootercolorscheme, search, setSearch,
     navigate('/checkout',{replace:true})
   }
 
-  const backendlink = `https://online-store-project-backend.vercel.app`
-
   return (
 
         <>
@@ -195,7 +193,7 @@ function Navbar({loading,setLoading, navbarfootercolorscheme, search, setSearch,
                             <span className="sr-only">Open search</span>
                         </button> 
                 }
-                <div className="text-5xl cursor-pointer max-[900px]:text-2xl max-[900px]:text-nowrap" onClick={()=>navigate('/',{replace:true})}>Bling  💎 Boutique</div>
+                <div className="text-3xl cursor-pointer max-[900px]:text-2xl max-[900px]:text-nowrap" onClick={()=>navigate('/',{replace:true})}>Bling  💎 Boutique</div>
                 <div className="flex items-center gap-2">
                   { window.location.pathname === '/' &&  
                       <button className="searchbarr rounded-md p-2 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 min-[899px]:hidden"  onClick={handleOpenSearch}>
@@ -241,7 +239,7 @@ function Navbar({loading,setLoading, navbarfootercolorscheme, search, setSearch,
                                       <figure className="shrink-0 w-[250px] max-[890px]:w-[150px]">
                                         <div className="overflow-hidden rounded-md">
                                           <img
-                                            src={`${backendlink}/images/${prod.images[0].imagestring}`}
+                                            src={`images/${prod.images[0].imagestring}`}
                                             alt={`${prod.images[0].imagestring}`}
                                             className="aspect-[3/4] object-cover"
                                           />
@@ -295,14 +293,14 @@ function Navbar({loading,setLoading, navbarfootercolorscheme, search, setSearch,
                 </div>
               </div>
               <div className="flex text-center justify-center items-center px-4 md:px-6 py-2 max-[899px]:hidden">
-                  <span className="mr-4 pb-2 text-3xl cursor-pointer" onClick={()=>navigate('/',{replace:true})}> Home</span>
-                  <span className="mr-4 pb-2 text-3xl cursor-pointer" onClick={()=>navigate('/category/all',{replace:true})}> Shop</span>
-                  <span className="mr-4 pb-2 text-3xl cursor-pointer" onClick={()=>navigate('/category/earrings',{replace:true})} > Earrings</span>
-                  <span className="mr-4 pb-2 text-3xl cursor-pointer" onClick={()=>navigate('/category/rings',{replace:true})} > Rings</span>
-                  <span className="mr-4 pb-2 text-3xl cursor-pointer" onClick={()=>navigate('/category/necklace',{replace:true})}> Necklace</span>
-                  <span className="mr-4 pb-2 text-3xl cursor-pointer" onClick={()=>navigate('/category/bracelet',{replace:true})} > Bracelet</span>
-                  <span className="mr-4 pb-2 text-3xl cursor-pointer" onClick={()=>navigate('/category/beauty',{replace:true})} > Beauty</span>
-                  <span className="mr-4 pb-2 text-3xl cursor-pointer" onClick={()=>navigate('/category/sale',{replace:true})}> Sale</span>
+                  <span className="mr-4 pb-2 text-2xl cursor-pointer" onClick={()=>navigate('/',{replace:true})}> Home</span>
+                  <span className="mr-4 pb-2 text-2xl cursor-pointer" onClick={()=>navigate('/category/all',{replace:true})}> Shop</span>
+                  <span className="mr-4 pb-2 text-2xl cursor-pointer" onClick={()=>navigate('/category/earrings',{replace:true})} > Earrings</span>
+                  <span className="mr-4 pb-2 text-2xl cursor-pointer" onClick={()=>navigate('/category/rings',{replace:true})} > Rings</span>
+                  <span className="mr-4 pb-2 text-2xl cursor-pointer" onClick={()=>navigate('/category/necklace',{replace:true})}> Necklace</span>
+                  <span className="mr-4 pb-2 text-2xl cursor-pointer" onClick={()=>navigate('/category/bracelet',{replace:true})} > Bracelet</span>
+                  <span className="mr-4 pb-2 text-2xl cursor-pointer" onClick={()=>navigate('/category/beauty',{replace:true})} > Beauty</span>
+                  <span className="mr-4 pb-2 text-2xl cursor-pointer" onClick={()=>navigate('/category/sale',{replace:true})}> Sale</span>
                 </div>
             </header>
           )}

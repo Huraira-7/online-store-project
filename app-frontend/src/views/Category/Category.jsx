@@ -261,8 +261,6 @@ function Category({category,setLoading,loading}) {
     setAnchorEl2(anchorEl2 ? null : e.currentTarget);
   }
 
-  const backendlink = `https://online-store-project-backend.vercel.app`
-
   return (
     loading ? <Loading/>
     :<div className='min-h-screen mb-52 max-[1000px]:mb-24'>
@@ -350,7 +348,7 @@ function Category({category,setLoading,loading}) {
                 {/* {console.log(product.images[0].imagestring)} */}
                 <img
                 alt={`${product.title}`}
-                src={`${backendlink}/images/${product.images[0].imagestring}`}
+                src={`images/${product.images[0].imagestring}`}
                 className="object-cover w-11/12 hover:rounded-3xl aspect-[4/4] max-[1000px]:aspect-[3/4]"
               />
               { product.is_out_stock ? 
