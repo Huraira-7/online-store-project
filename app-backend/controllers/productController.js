@@ -80,6 +80,13 @@ const productController = {
 
     async fetchproductbycategory(req,res,next){
         console.log(req)
+        console.log("---------------")
+        console.log(req.req)
+        console.log("---------------")
+        console.log(req.request)
+        console.log("---------------")
+        console.log(req.request.body , req.req.body)
+        console.log("------------------")
         console.log(req.body)
         const  {category} = req.body;
         let products; 
