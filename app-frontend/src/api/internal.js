@@ -1,7 +1,8 @@
 import axios from "axios";
 
+const backendlink = `https://online-store-project-backend.vercel.app`
 const api = axios.create({ 
-  baseURL:  'https://online-store-project-dun.vercel.app', //process.env.VITE_APP_INTERNAL_API_PATH,
+  baseURL:  backendlink,   //process.env.VITE_APP_INTERNAL_API_PATH,
   headers: {
     "Content-Type": "application/json",
   },
@@ -14,7 +15,7 @@ const api = axios.create({
 export const addproduct = async (data) => {
   let response;
   try {
-    response = axios.post('https://online-store-project-dun.vercel.app/addproduct', data, {
+    response = axios.post(`${backendlink}/addproduct`, data, {
       headers: {
         'accept': 'application/json',
         'Accept-Language': 'en-US,en;q=0.8',
@@ -30,7 +31,7 @@ export const addproduct = async (data) => {
 export const editproductaddphoto = async (data) => {
   let response;
   try {
-    response = axios.post('https://online-store-project-dun.vercel.app/editproductaddphoto', data, {
+    response = axios.post(`${backendlink}/editproductaddphoto`, data, {
       headers: {
         'accept': 'application/json',
         'Accept-Language': 'en-US,en;q=0.8',
