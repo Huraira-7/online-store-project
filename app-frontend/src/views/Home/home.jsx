@@ -356,7 +356,7 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
         <section className="px-4 md:px-6 py-12">
           {latest.length>0 && <span className="text-3xl font-semibold flex justify-center ">Fresh Arrivals</span>}     
           <ScrollArea className="mt-16 w-full whitespace-nowrap">
-            <div className="flex w-max space-x-16 max-[1500px]:space-x-4 p-1">
+            <div className="flex w-max space-x-8 max-[500px]:space-x-4 p-1">
               {latest.length>0 && latest.map((latestprod,idx) => (
                 <figure key={idx} className="shrink-0 bg-red-100 rounded-3xl max-[1500px]:w-52">
                   <div className="overflow-hidden rounded-md">
@@ -409,7 +409,7 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
         <section className="px-4 md:px-6 py-24 ">
           {bestselling.length > 0 && <span className="text-3xl font-semibold flex justify-center">Best Selling</span>}       
           <ScrollArea className="my-20 w-full whitespace-nowrap">
-            <div className={`flex ${500*bestselling.length < window.innerWidth-50 ? 'justify-center' : 'w-max'} space-x-16 max-[1500px]:space-x-4 p-4`}> 
+            <div className={`flex ${500*bestselling.length < window.innerWidth-50 ? 'justify-center' : 'w-max'} space-x-8 max-[500px]:space-x-4 p-4`}> 
             {/* 500 is width of image ^ */}
               {bestselling.length>0 && bestselling.map((bestprod,idx) => (
                 <figure key={idx} className="shrink-0 bg-red-100 rounded-3xl max-[1500px]:w-52" >
@@ -462,7 +462,7 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
         <section className="px-4 md:px-6 py-24 ">
           {onsale.length > 0 && <span className="text-3xl font-semibold flex justify-center"> On Sale </span>}       
           <ScrollArea className="my-20 w-full whitespace-nowrap">
-            <div className={`flex ${500*onsale.length < window.innerWidth-50 ? 'justify-center' : 'w-max'} space-x-16 max-[1500px]:space-x-4 p-4`}> 
+            <div className={`flex ${500*onsale.length < window.innerWidth-50 ? 'justify-center' : 'w-max'} space-x-8 max-[500px]:space-x-4 p-4`}> 
             {/* 500 is width of image ^ */}
               {onsale.length>0 && onsale.map((saleprod,idx) => (
                 <figure key={idx} className="shrink-0 bg-red-100 rounded-3xl max-[1500px]:w-52" >

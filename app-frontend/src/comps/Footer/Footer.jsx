@@ -83,11 +83,11 @@ function Footer(props) {
               </div>
             </div>
         </div>
-          <div className="flex text-xl pt-4 px-6 md:px-20 md:pt-12 justify-center mb-3 mt-10 max-[750px]:mt-16"> Subscribe to our emails for latest product arrivals</div>
+          <div className="flex text-xl pt-4 px-6 md:px-20 md:pt-12 justify-center mb-3 mt-10 max-[800px]:mt-16"> Subscribe to our emails for latest product arrivals</div>
           <div className="flex items-center justify-between rounded-md">
             <div>
               <input type="email" id="footer-email" placeholder='Email'  value={email} onChange={(e)=>setEmail(e.target.value)} className="w-8/12 placeholder:text-lg text-lg  my-4 mx-4 p-2 md:mx-20 md:my-12 border border-gray-300 hover:border-gray-700  rounded-l-md border-transparent focus:outline-none focus:ring-blue-500 focus:ring-opacity-50"/>
-              <button className="rounded-r-md hover:bg-gray-200 relative right-12 top-2   ">
+              <button className="rounded-r-md hover:bg-gray-200 relative right-12 top-2 min-[760px]:right-28   ">
                   <svg className="h-7 w-7 " viewBox="0 0 24 24" fill="none" onClick={adduserEmail}>
                     <path d="M8.59 16.34l4.58-4.59-4.58-4.59L10 5.75l7.03 7.03-7.03 7.03z" fill="currentColor" />
                   </svg>
