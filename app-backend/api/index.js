@@ -66,9 +66,9 @@ mongoose.connect(process.env.MONGO).then(()=>{
 //after doing npm run build on frontend
 // const __filename = fileURLToPath(import.meta.url);
 // const __dirname = path.dirname(__filename);
-// app.use(express.static(path.resolve(__dirname, '../app-frontend/dist')));
-// app.get('*', (req, res) => { res.sendFile(path.resolve(__dirname, '../app-frontend/dist/index.html')); });
-// app.get('*', (req, res) => { console.log("building_static_pages_at_GET_req"); res.sendFile(path.resolve(__dirname, '../app-frontend/dist/index.html')); });
+// app.use(express.static(path.resolve(__dirname, '../dist')));
+// app.get('*', (req, res) => { res.sendFile(path.resolve(__dirname, '../dist/index.html')); });
+// app.get('*', (req, res) => { console.log("building_static_pages_at_GET_req"); res.sendFile(path.resolve(__dirname, '../dist/index.html')); });
 
 
 app.use(router);  //if it handles GET requests, maybe do this instead of redirecting those GET requests to npm run build
