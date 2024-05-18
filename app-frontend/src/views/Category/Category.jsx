@@ -23,6 +23,7 @@ function Category({category,setLoading,loading}) {
   const [filteredproducts, setFilteredproducts] = useState([])
   const [page,currentPage] = useState(1)
   const [pages,setPages] = useState([1])
+  const [imgs, setImgs] = useState([])
   const [numpages,setNumpages] = useState(1)
   const [selected,setSelected] = useState('')
   const [instk, setInstk] = useState(0)
@@ -58,6 +59,12 @@ function Category({category,setLoading,loading}) {
         // let dup = [...tmp]
         // let dup2 = tmp.concat(dup)
         // let dup3 = dup2.concat(dup2)
+        let tmpimgs = []
+        for(var i in resp.data.products){
+          let p = resp.data.products[i]
+          tmpimgs.push(p.images[0].imagestring)
+        }
+        setImgs(tmpimgs)
         let dup3 = resp.data.products
         setAllProducts(dup3)
         setProducts(dup3)
@@ -261,11 +268,11 @@ function Category({category,setLoading,loading}) {
     setAnchorEl2(anchorEl2 ? null : e.currentTarget);
   }
 
-  const starter=  '' //'http://192.168.100.136:3000/'
+  const starter=  'https://online-store-project-production.up.railway.app/' // 'http://192.168.100.136:3000/'
 
   return (
     loading ? <Loading/>
-    :<div className='min-h-screen mb-24'>
+    :<div className='min-h-screen pt-1 pb-24 bg-amber-800/10'>
       <div className='flex flex-col m-16 max-[1500px]:m-8'>
         <span className='text-3xl max-[1500px]:text-xl max-[1500px]:font-semibold'>{capitalize(category) } {category === 'all' ? 'Products' : ''}</span>
         <div className='text-2xl max-[1500px]:text-xl max-[1500px]:mt-10 max-[950px]:flex-col mt-20 flex justify-between'>
@@ -344,12 +351,14 @@ function Category({category,setLoading,loading}) {
         <section className='mt-26 px-4 md:px-6 py-16 max-[600px]:py-4 '>
           <div className="grid grid-cols-2 min-[750px]:grid-cols-3 gap-8 max-[600px]:gap-2 space-y-2">
             {filteredproducts.length>0 && filteredproducts.map((product, index) => (
-              <div key={index} className="relative group rounded-lg shadow-lg hover:shadow-xl transition-transform duration-300 ease-in-out hover:-translate-y-2" onClick={()=> showProduct(product)}>
+              
+              <div key={index} className="relative outline outline-rose-200 group rounded-lg shadow-lg hover:shadow-xl transition-transform duration-300 ease-in-out hover:-translate-y-2" onClick={()=> showProduct(product)}>
+                {console.log(index, product.images[0].imagestring, imgs[index])}
                 <img
-                alt={`${product.title}`}
-                src={`${starter}images/${product.images[0].imagestring}`}
-                className="object-cover w-11/12 hover:rounded-3xl aspect-[4/4] max-[1000px]:aspect-[3/4]"
-              />
+                  src={`${starter}images/${imgs[index]}`}
+                  alt={`${product.title}`}
+                  className="object-cover w-11/12 hover:rounded-3xl aspect-[4/4] max-[1000px]:aspect-[3/4]"
+                />
               { product.is_out_stock ? 
                     <div className="p-4 bg-pink-500/80 w-9/12 text-center m-auto cursor-pointer relative bottom-20 rounded-full text-3xl max-[1500px]:bottom-4  max-[1500px]:p-1 max-[1500px]:text-xl">
                       Sold

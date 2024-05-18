@@ -90,17 +90,17 @@ function Product({setCartbadge,loading,setLoading}) {
 
   return (
     loading ? <Loading/> :
-    <div className="">
-      <div className='my-16 flex flex-col justify-center items-center'>
-      <Carousel  setApi={setApi} plugins={[ Autoplay({delay: 5000, }),]} className={`w-9/12 mx-auto rounded-3xl bg-red-100`}>
+    <div className="bg-amber-800/10">
+      <div className='py-16 flex flex-col justify-center items-center'>
+      <Carousel  setApi={setApi} plugins={[ Autoplay({delay: 5000, }),]} className={`w-9/12 mx-auto rounded-3xl bg-amber-800/30`}>
         <CarouselContent className="my-6">
             {product && product.images.map((img,idx)=>(
               !img.is_deleted && 
               <CarouselItem key={idx} className=''>
                 <div className='relative w-full flex rounded-lg items-center justify-center'>
                       <img
-                        alt={`${product.title}`}
                         src={`${starter}images/${img.imagestring}`}
+                        alt={`${product.title}`}
                         className="object-contain w-full h-[400px] max-[600px]:h-[220px] max-[600px]:object-cover hover:rounded-3xl"
                         style={{ aspectRatio: "5/4" }}
                         />
@@ -113,7 +113,7 @@ function Product({setCartbadge,loading,setLoading}) {
       </Carousel>
         <div className='productinfo flex flex-col items-center justify-center mx-auto my-10 max-[600px]:my-2  gap-6'>
           <p className="mt-4 text-2xl text-gray-500 text-nowrap"> B L I N G &nbsp; B O U T I Q U E</p> 
-          <h1 className='text-xl leading-normal font-semibold text-wrap'>{product && product.title}</h1>
+          <h1 className='text-xl leading-normal font-semibold text-wrap max-[600px]:ml-2 max-[600px]:mr-2'>{product && product.title}</h1>
           <span className='text-lg text-slate-500 text-nowrap'>Rs. {product && product.price.toLocaleString()} 
           {product && product.is_out_stock ?  <span className='ml-8 bg-slate-400 px-8 py-2 rounded-full cursor-pointer'> Sold Out </span> : <span></span> }
           </span>
@@ -131,7 +131,14 @@ function Product({setCartbadge,loading,setLoading}) {
           <span  className={`hover:scale-105 flex ${product && product.is_out_stock ? 'cursor-not-allowed' : 'cursor-pointer'} justify-center py-8 px-6 max-[600px]:p-3 max-[600px]:mx-0 rounded-lg bg-black w-9/12 focus:outline-none`} onClick={(e)=>handleAddItem(e)}>
             <span className='text-white text-xl '> Add to Cart </span>
           </span>
-          <pre className='text-xl text-wrap leading-loose text-slate-700 mx-auto max-[600px]:ml-6'> {product && product.description}  </pre>
+          <div className='mx-auto max-[600px]:ml-6'>
+            {product && product.description.split("\n").map((line,idx)=>(
+              <>
+                <span key={idx} className='text-xl text-wrap leading-loose text-slate-700'> {line}  </span>
+                <br/>
+              </>
+            ))}
+          </div>
         </div>
       </div>
     </div>

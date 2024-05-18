@@ -471,7 +471,7 @@ function Profile({loading,setLoading}) {
                       </div>
                       </span>
                     </li>
-                    <ScrollArea className="mt-16 w-full whitespace-nowrap  max-[900px]:outline ">
+                    <ScrollArea className="mt-16 w-full whitespace-nowrap max-[900px]:outline ">
                 <div className="flex w-max space-x-16 pl-10">
                   {_prod.images.map((img,idx) => (
                     <div className='flex flex-col items-center' key={index+idx}>

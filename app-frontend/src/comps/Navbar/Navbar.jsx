@@ -186,7 +186,7 @@ function Navbar({loading,setLoading, navbarfootercolorscheme, search, setSearch,
                               </Badge>
                         </button>
                       </SheetTrigger>
-                      <SheetContent className='bg-red-100 unset-max-width w-[900px] max-[500px]:w-full'>
+                      <SheetContent className='bg-red-100 unset-max-width w-[900px] max-[900px]:w-full'>
                           <ScrollArea className={`border h-screen rounded-md`}>
                             <div className="flex justify-between items-center py-1 xl:py-6">
                               <span className="text-4xl px-2 max-[1000px]:text-2xl"> {cart.length === 0 ? '' : 'Your Cart'}</span>
@@ -206,13 +206,13 @@ function Navbar({loading,setLoading, navbarfootercolorscheme, search, setSearch,
                               <div className='h-screen'>
                                 <div className="flex justify-between items-center py-3 xl:py-6 px-2">
                                     <span className="text-xl pl-0">PRODUCT</span>
-                                    <span className="text-xl pr-60 xl:pr-32 max-[600px]:hidden">TOTAL</span>
+                                    <span className="text-xl pr-60 xl:pr-32 max-[885px]:hidden">TOTAL</span>
                                 </div>
                                 <Separator className='bg-red-400/30' />
                                 <div className="flex flex-col space-y-4 p-8">
                                   {cart.map((prod,idx) => (
-                                    <div key={idx} className='flex max-[600px]:flex-col'>
-                                      <figure className="shrink-0 w-[250px] max-[600px]:w-[150px]">
+                                    <div key={idx} className='flex max-[750px]:flex-col'>
+                                      <figure className="shrink-0 w-[250px] max-[750px]:w-[150px]">
                                         <div className="overflow-hidden rounded-md">
                                           <img
                                             src={`images/${prod.images[0].imagestring}`}
@@ -228,14 +228,14 @@ function Navbar({loading,setLoading, navbarfootercolorscheme, search, setSearch,
                                         </figcaption>
                                       </figure>
                                       <div className="flex max-[600px]:flex-col">
-                                        <div className='flex flex-col px-8 py-4 max-[600px]:pl-0 '>
-                                          <span className='text-2xl text-wrap max-[600px]:hidden'> {prod.title} </span>
+                                        <div className='flex flex-col px-8 py-4 max-[750px]:pl-0 '>
+                                          <span className='text-2xl text-wrap max-[900px]:hidden'> {prod.title} </span>
                                           <span className='text-2xl mt-4 text-gray-600 text-wrap'> Rs. {(prod.price).toLocaleString()}</span>
                                           <Quantity tp={tp} setTp={setTp} qtys={qtys} setQtys={setQtys} idx={idx}/>   
                                         </div>
                                         <div className='flex flex-col py-1 xl:py-4'>
                                           <span className='text-2xl text-nowrap '> 
-                                            <span className="min-[600px]:hidden"> Total: </span>
+                                            <span className="min-[885px]:hidden"> Total: </span>
                                             <span className="font-semibold"> Rs. {(qtys[idx]*prod.price).toLocaleString()} </span> 
                                           </span>
                                           <button className={`focus:outline-none py-24 px-8 max-[600px]:py-8 max-[600px]:px-2 `} onClick={(e)=>handleDelete(e,idx)}><MdDelete className='text-4xl' /></button>                 
