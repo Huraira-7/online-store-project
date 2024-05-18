@@ -359,37 +359,44 @@ function Profile({loading,setLoading}) {
           <Toggle aria-label="Toggle bold" className='border w-52 border-red-900 mt-5' onClick={toggleDowntime}>
                     { isdown ?  'Bring Website Back up' : 'Enable Website Downtime'}
           </Toggle>
-          <span className='mt-10 text-xl'> The input field below is used to change your <b>GMAIL</b> where you receive all website related emails (order placement emails, list of user emails, contact form submission emails ) </span>
-          <div className="flex gap-4 mt-5">
-            <Input type="email" id="newmail" placeholder="Email" value = {newmail} onChange = { (e) => setNewmail(e.target.value)}  className='w-[700px] text-3xl p-7'/>
-            <span className='p-4 text-2xl bg-blue-300 rounded-full cursor-pointer' onClick={updateEmail}>Change Email</span>
+          <span className='mt-10 text-xl ml-2 mr-2'> The input field below is used to change your <b>GMAIL</b> where you receive all website related emails (order placement emails, list of user emails, contact form submission emails ) </span>
+          <div className="flex max-[900px]:flex-col gap-4 mt-5">
+            <Input type="email" id="newmail" placeholder="Email" value = {newmail} onChange = { (e) => setNewmail(e.target.value)}  className='w-[700px] max-[900px]:w-9/12 xl:text-2xl text-xl xl:p-6 p-3'/>
+            <span className='p-4 xl:text-xl text-lg max-[900px]:p-3 max-[900px]:w-9/12 max-[900px]:rounded-lg bg-blue-300 rounded-full cursor-pointer' onClick={updateEmail}>Change Email</span>
           </div>
-          <span className='mt-5 text-xl'> The button below is used to get list all user emails to your email address </span>
-          <span className=' mt-5 p-4 text-2xl bg-blue-500 rounded-lg cursor-pointer' onClick={getEmailList}>Get Email List</span>
+          <span className='mt-5 xl:text-xl text-lg'> The button below is used to get list all user emails to your email address </span>
+          <span className=' mt-5 p-4 xl:text-xl text-lg bg-blue-500 rounded-lg cursor-pointer' onClick={getEmailList}>Get Email List</span>
         </div>
-        <div className='absolute right-0 top-70 text-3xl p-4 bg-yellow-200 w-[380px] rounded-lg '>
-          Note: You can only add one picture while adding a product (however you can add more images and even remove images below in the Edit Products section)
+        <div className='xl:text-xl text-lg p-4 bg-yellow-200 w-full rounded-lg '>
+          <span className='flex justify-center font-bold'>Notes</span> <br/>
+          You can only add one picture while adding a product (however you can add more images and even remove images below in the Edit Products section)
           <br/> <br/>
           At successfull add, edit, or deletion of product, the page should reload itself so you can see the changes in the 'Edit Products' section
+          <br/> <br/>
+          When you change the price of a product to a lower price, it will automatically show in the 'On Sale' products at end of home page as well as the separate 'Sale' category page
+          <br/> <br/>
+          When you mark something as 'Out of Stock', it will show 'Sold' badge on image of the product, and then customers wont be able to add it to their carts anymore
+          <br/> <br/>
+          When you mark something as 'Best Selling product', it will show on 'Best Selling' right below 'Fresh Arrivals' section at home page
         </div>
-        <div className='flex flex-col justify-center items-center bg-red-100'>
-          <h2 className='font-bold text-3xl pt-8'> Add New Product </h2>
+        <div className='flex flex-col justify-center items-center bg-red-100 overflow-auto'>
+          <h2 className='font-bold xl:text-2xl text-xl pt-8'> Add New Product </h2>
           <form onSubmit={handleAddProd} className='text-left mt-8'>
-              <div style={{ marginBottom: 15 }} className=''>
-                <label htmlFor="title" style={{ marginRight: 10 }} >Title:</label>
-                <input type="text" id="title" name="title" className='text-xl' value = {title} onChange = { (e) => setTitle(e.target.value)} />
+              <div  className='mb-2 flex max-[768px]:flex-col'>
+                <label htmlFor="title" style={{ marginRight: 10 }} className='max-[768px]:text-center' >Title:</label>
+                <input type="text" id="title" name="title" className='xl:text-xl text-lg max-[768px]:w-8/12 max-[768px]:mx-auto' value = {title} onChange = { (e) => setTitle(e.target.value)}/>
               </div>
-              <div className='mb-4 '>
-                <label htmlFor="price"  style={{ marginRight: 10 }} >Price:</label>
-                <input type="text" id="price" name="price" className='text-xl' value = {price} onChange = { (e) => handleSetPrice(e)} />
+              <div className='mb-4 flex max-[768px]:flex-col'>
+                <label htmlFor="price"  style={{ marginRight: 10 }} className='max-[768px]:text-center' >Price:</label>
+                <input type="text" id="price" name="price" className='xl:text-xl text-lg max-[768px]:w-8/12 max-[768px]:mx-auto' value = {price} onChange = { (e) => handleSetPrice(e)} />
               </div>
-              <div  className='mb-4 '>
-                <label htmlFor="desc" className='flex justify-center mb-4' >Description:</label>
-                <textarea rows={6} cols={40} type="text" className='text-xl' id="desc" name="desc" value = {desc} onChange = { (e) => setDesc(e.target.value)} />
+              <div  className='mb-4 flex max-[768px]:flex-col gap-1'>
+                <label htmlFor="desc" className='mb-4 max-[768px]:text-center' >Description:</label>
+                <textarea rows={6} cols={40} type="text" className='xl:text-xl text-lg max-[768px]:w-8/12 max-[768px]:mx-auto' id="desc" name="desc" value = {desc} onChange = { (e) => setDesc(e.target.value)} />
               </div>
-              <div className="update-status">
-              <label htmlFor="category"  >Category:</label>  
-                  <select id="select" className='text-xl' onChange={(e)=>{setSelected(e.target.value)}}>
+              <div className="update-status max-[768px]:flex-col">
+              <label htmlFor="category" className='xl:text-xl text-lg'  >Category:</label>  
+                  <select id="select" className='xl:text-xl text-lg' onChange={(e)=>{setSelected(e.target.value)}}>
                       <option value="Earrings" >Earrings</option>
                       <option value="Rings" >Rings</option>
                       <option value="Necklace" >Necklace</option>
@@ -397,32 +404,32 @@ function Profile({loading,setLoading}) {
                       <option value="Beauty" >Beauty</option>
                   </select>
               </div>
-              <div className='fileinput flex justify-center py-6'>
+              <div className='fileinput  max-[768px]:text-base flex justify-center py-6'>
                 {/* <Input id="newpic" type="file" onChange={(e) => handlesetFile(e)} /> */}
                 <input type="file"  onChange={(e) => handlesetFile(e)}/>
               </div>
           </form>
           <button type="submit" className='btn text-2xl bg-white px-4 py-2 rounded-md mb-4' style={{ marginTop: 15 }} onClick={handleAddProd}>Submit</button>
         </div> 
-        <h2 className='font-bold text-3xl py-8 text-center bg-red-200'> Edit Products </h2>
+        <h2 className='font-bold xl:text-2xl text-xl py-8 text-center bg-red-200'> Edit Products </h2>
         {/* <div className='absolute right-0 top-50 text-3xl p-4 bg-yellow-200 w-[400px] rounded-lg '>
           Note: While editing a product, changes will be made permanently when u click on 'Save Chnages' below in the Edit Products section
         </div> */}
         <div className="bg-red-400 p-4 flex justify-between cursor-pointer">
-          <span className={`text-2xl hover:underline rounded-lg p-2 ${selectedcatgry === 'Earrings' ? "bg-slate-300" : ''}`} onClick={()=>setselectedcatgry('Earrings')}>Earrings</span>
-          <span className={`text-2xl hover:underline rounded-lg p-2 ${selectedcatgry === 'Necklace' ? "bg-slate-300" : ''}`} onClick={()=>setselectedcatgry('Necklace')}>Necklace</span>
-          <span className={`text-2xl hover:underline rounded-lg p-2 ${selectedcatgry === 'Rings' ? "bg-slate-300" : ''}`}  onClick={()=>setselectedcatgry('Rings')}>Rings</span>
-          <span className={`text-2xl hover:underline rounded-lg p-2 ${selectedcatgry === 'Bracelet' ? "bg-slate-300" : ''}`} onClick={()=>setselectedcatgry('Bracelet')}>Bracelet</span>
-          <span className={`text-2xl hover:underline rounded-lg p-2 ${selectedcatgry === 'Beauty' ? "bg-slate-300" : ''}`} onClick={()=>setselectedcatgry('Beauty')}>Beauty</span>
+          <span className={`xl:text-xl text-sm hover:underline rounded-lg p-1 xl:p-2 ${selectedcatgry === 'Earrings' ? "bg-slate-300" : ''}`} onClick={()=>setselectedcatgry('Earrings')}>Earrings</span>
+          <span className={`xl:text-xl text-sm  hover:underline rounded-lg p-1 xl:p-2 ${selectedcatgry === 'Necklace' ? "bg-slate-300" : ''}`} onClick={()=>setselectedcatgry('Necklace')}>Necklace</span>
+          <span className={`xl:text-xl  text-sm hover:underline rounded-lg p-1 xl:p-2 ${selectedcatgry === 'Rings' ? "bg-slate-300" : ''}`}  onClick={()=>setselectedcatgry('Rings')}>Rings</span>
+          <span className={`xl:text-xl text-sm  hover:underline rounded-lg p-1 xl:p-2 ${selectedcatgry === 'Bracelet' ? "bg-slate-300" : ''}`} onClick={()=>setselectedcatgry('Bracelet')}>Bracelet</span>
+          <span className={`xl:text-xl text-sm  hover:underline rounded-lg p-1 xl:p-2 ${selectedcatgry === 'Beauty' ? "bg-slate-300" : ''}`} onClick={()=>setselectedcatgry('Beauty')}>Beauty</span>
         </div>
         <div className='flex flex-col bg-red-200'>
         {products.length>0 && products.map((_prod, index) => (
           _prod.category === selectedcatgry && 
             <div key={index} className='w-inherit p-6'>
-            <div className=' flex'>
+            <div className=' flex  max-[900px]:flex-col'>
                   <li className='list-none'>
                     <span className='text-xl text-wrap'>
-                    <span className='text-3xl flex justify-between'>
+                    <span className='xl:text-2xl flex justify-between'>
                         Product {index+1} 
                         <AlertDialog open={isOpen2[index]}>
                           <AlertDialogTrigger>
@@ -442,19 +449,19 @@ function Profile({loading,setLoading}) {
                           </AlertDialogContent>
                         </AlertDialog>
                       </span> 
-                      <div className='my-4'>
+                      <div className='my-4 flex max-[768px]:flex-col'>
                         <label htmlFor={`title-${index}`} style={{ marginRight: 10 }} >Title:</label>
                         <input id={`t-${index}`} value = {titles[index]} onChange={handleTitleChange}/>
                       </div>
-                      <div className='mb-4 '>
+                      <div className='mb-4 flex max-[768px]:flex-col '>
                         <label htmlFor={`price-${index}`}  style={{ marginRight: 10 }} >Price:</label>
                         <input id={`p-${index}`} value = {prices[index]} onChange={handlePriceChange}  />
                       </div>
                       <div  className='mb-4 '>
                         <label htmlFor={`desc-${index}`} className='flex justify-center mb-4' >Description:</label>
-                        <textarea id={`d-${index}`} rows={6} cols={40}  value = {descs[index]} onChange={handleDescChange}  />
+                        <textarea id={`d-${index}`} rows={6} cols={40} className=' max-[768px]:w-11/12' value = {descs[index]} onChange={handleDescChange}  />
                       </div> 
-                      <div className='flex justify-between'>
+                      <div className='flex justify-between max-[768px]:mx-auto  max-[768px]:gap-2 max-[768px]:flex-col'>
                         <Toggle id={`s-${index}`} aria-label="Toggle bold" className='border border-red-900' onClick={handleStocktoggle}>
                           { stocktoggle[index] ?  'Mark As In Stock' : 'Mark as Out of Stock'}
                         </Toggle>
@@ -464,7 +471,7 @@ function Profile({loading,setLoading}) {
                       </div>
                       </span>
                     </li>
-                    <ScrollArea className="mt-16 w-full whitespace-nowrap">
+                    <ScrollArea className="mt-16 w-full whitespace-nowrap  max-[900px]:outline ">
                 <div className="flex w-max space-x-16 pl-10">
                   {_prod.images.map((img,idx) => (
                     <div className='flex flex-col items-center' key={index+idx}>
@@ -474,7 +481,7 @@ function Profile({loading,setLoading}) {
                       </Toggle>
                     </div>
                   ))}
-                  <div className='fileinput py-6'>
+                  <div className='fileinput py-6 text-lg max-[768px]:text-base'>
                     <span>
                       <input id={`f-${index}`} type="file" onChange={(e) => handlesetFiles(e)}/> 
                       {   files[index] ? <button id={`fbtn-${index}`} className='bg-white px-2 rounded-md hover:bg-red-400' onClick={(e)=> handleremoveFiles(e)}>Remove file</button> 
@@ -489,7 +496,7 @@ function Profile({loading,setLoading}) {
               <div className='flex justify-center py-8 '>
                   <AlertDialog open={isOpen[index]}>
                   <AlertDialogTrigger>
-                    <div className='p-4 bg-white rounded-lg flex text-3xl' onClick={() => handlesetIsOpen(true,index)} >  
+                    <div className='p-4  max-[768px]:p-2 bg-white rounded-lg flex xl:text-2xl text-xl ' onClick={() => handlesetIsOpen(true,index)} >  
                       Save Changes
                     </div>
                   </AlertDialogTrigger>

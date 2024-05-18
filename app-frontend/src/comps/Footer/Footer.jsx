@@ -110,7 +110,7 @@ function Footer(props) {
             </div>
             </div>
             <div className="row flex justify-center text-wrap">
-              <div className="flex text-xl max-[650px]:text-sm py-4 px-4 md:px-20 md:pt-12 md:pb-6 max-[500px]:flex-col">
+              <div className="flex text-xl max-[700px]:text-sm py-4 px-4 md:px-20 md:pt-2 md:pb-2 max-[500px]:flex-col">
               <span className='flex'> © 2024, <span className='cursor-pointer px-2 ' onClick={()=>maindiv.scrollTo({top: 0, behavior: 'smooth', })}>   Bling Boutique   </span> </span>  
                   <span className='flex'> |  Design & Developed by 
                   <a className='hover:underline px-2' aria-label='linked-in' href=""  target="_blank" rel="noopener"
