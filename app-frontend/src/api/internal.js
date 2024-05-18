@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const backendlink =  `https://online-store-project-production.up.railway.app` // 'http://192.168.100.136:3000'
-//`https://online-store-project-backend.vercel.app` 
+const backendlink =  //`https://online-store-project-production.up.railway.app` // 'http://192.168.100.136:3000'
+`https://online-store-project-backend-z0bqj2z6s-huraira-7s-projects.vercel.app/` 
 const api = axios.create({ 
   baseURL:  backendlink,   //process.env.VITE_APP_INTERNAL_API_PATH,
   headers: {
