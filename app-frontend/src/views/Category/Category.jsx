@@ -268,7 +268,7 @@ function Category({category,setLoading,loading}) {
     setAnchorEl2(anchorEl2 ? null : e.currentTarget);
   }
 
-  const starter=  `https://online-store-project-backend.vercel.app/` // 'https://online-store-project-production.up.railway.app/' // 'http://192.168.100.136:3000/'
+  const starter=  `https://www.blingboutique.site/` // 'https://online-store-project-production.up.railway.app/' // 'http://192.168.100.136:3000/'
 
   return (
     loading ? <Loading/>
