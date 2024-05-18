@@ -353,9 +353,8 @@ function Category({category,setLoading,loading}) {
             {filteredproducts.length>0 && filteredproducts.map((product, index) => (
               
               <div key={index} className="relative outline outline-rose-200 group rounded-lg shadow-lg hover:shadow-xl transition-transform duration-300 ease-in-out hover:-translate-y-2" onClick={()=> showProduct(product)}>
-                {console.log(index, product.images[0].imagestring, imgs[index])}
                 <img
-                  src={`${starter}images/${imgs[index]}`}
+                  src={`${starter}images/${product.images[0].imagestring}`}
                   alt={`${product.title}`}
                   className="object-cover w-11/12 hover:rounded-3xl aspect-[4/4] max-[1000px]:aspect-[3/4]"
                 />
