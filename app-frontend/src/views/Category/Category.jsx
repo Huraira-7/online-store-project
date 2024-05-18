@@ -392,7 +392,8 @@ function Category({category,setLoading,loading}) {
               { pages.map((pg,idx)=>(
                 <PaginationItem key={idx}>
                   {pg === page ? <PaginationLink href="#" isActive={true} className='text-2xl'>{pg}</PaginationLink>
-                  : <PaginationLink href="#" isActive={false} className='text-2xl'>{pg}</PaginationLink>
+                  : ''
+                  // <PaginationLink href="#" isActive={false} className='text-2xl'>{pg}</PaginationLink>
                   }
                 </PaginationItem>
               ))}
