@@ -50,7 +50,7 @@ function Confirmation() {
     if(innertxt === 'Enter to get OTP') {
         setInnertxt('Enter OTP')
         const response = await otp();
-        console.log(response)
+        // console.log(response)
         setVal(response.data.number)
     } else {
         if(num.toString() === val.toString()){
@@ -72,12 +72,12 @@ function Confirmation() {
                 <Helmet>
                     <meta name='robots' content='noindex'/>
                 </Helmet>
-                <span className='xl:text-2xl text-xl'> An 6 digit OTP will be sent to your email when you click at this button, enter it within 2 minutes to see your profile </span>
+                <span className='2xl:text-2xl text-xl'> A 6 digit OTP will be sent to your email when you click at this button, enter it within 2 minutes to see your profile </span>
                 <div className='flex'>
-                    <Input type="text" className='xl:text-2xl text-xl' value={num} onChange={(e)=>setNum(e.target.value)}></Input>
-                    <Button onClick={getsetOTP} className='ml-1 xl:text-2xl text-xl' > {innertxt} </Button>
+                    <Input type="text" className='2xl:text-2xl text-xl' value={num} onChange={(e)=>setNum(e.target.value)}></Input>
+                    <Button onClick={getsetOTP} className='ml-1 2xl:text-2xl text-xl' > {innertxt} </Button>
                 </div>
-                <span className='xl:text-2xl text-xl'>Time left: <span className='text-red-400'> {secondsRemaining}  </span></span>
+                <span className='2xl:text-2xl text-xl'>Time left: <span className='text-red-400'> {secondsRemaining}  </span></span>
             </div>
         }
     </>

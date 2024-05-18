@@ -27,6 +27,7 @@ img:hover{
     scale: 1.05;
 }
 
+
 @keyframes fade{
     from {
         opacity: 0;

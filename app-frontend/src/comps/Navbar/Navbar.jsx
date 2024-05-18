@@ -188,7 +188,7 @@ function Navbar({loading,setLoading, navbarfootercolorscheme, search, setSearch,
                       </SheetTrigger>
                       <SheetContent className='bg-red-100 unset-max-width w-[900px] max-[900px]:w-full'>
                           <ScrollArea className={`border h-screen rounded-md`}>
-                            <div className="flex justify-between items-center py-1 xl:py-6">
+                            <div className="flex justify-between items-center py-1 2xl:py-6">
                               <span className="text-4xl px-2 max-[1000px]:text-2xl"> {cart.length === 0 ? '' : 'Your Cart'}</span>
                             </div>
                             { cart.length === 0 ? (
@@ -204,7 +204,7 @@ function Navbar({loading,setLoading, navbarfootercolorscheme, search, setSearch,
                               </div>
                             ) : 
                               <div className='h-screen'>
-                                <div className="flex justify-between items-center py-3 xl:py-6 px-2">
+                                <div className="flex justify-between items-center py-3 2xl:py-6 px-2">
                                     <span className="text-xl pl-0">PRODUCT</span>
                                     <span className="text-xl pr-60 xl:pr-32 max-[885px]:hidden">TOTAL</span>
                                 </div>
@@ -233,7 +233,7 @@ function Navbar({loading,setLoading, navbarfootercolorscheme, search, setSearch,
                                           <span className='text-2xl mt-4 text-gray-600 text-wrap'> Rs. {(prod.price).toLocaleString()}</span>
                                           <Quantity tp={tp} setTp={setTp} qtys={qtys} setQtys={setQtys} idx={idx}/>   
                                         </div>
-                                        <div className='flex flex-col py-1 xl:py-4'>
+                                        <div className='flex flex-col py-1 2xl:py-4'>
                                           <span className='text-2xl text-nowrap '> 
                                             <span className="min-[885px]:hidden"> Total: </span>
                                             <span className="font-semibold"> Rs. {(qtys[idx]*prod.price).toLocaleString()} </span> 
@@ -247,8 +247,8 @@ function Navbar({loading,setLoading, navbarfootercolorscheme, search, setSearch,
                                 <Separator className='bg-red-400/30' />
                                 <div className='flex flex-col p-8'>
                                     <div className='px-4 flex justify-between items-center max-[500px]:flex-col max-[500px]:gap-2'>
-                                      <span className='text-2xl font-semibold xl:text-4xl'> Estimated total</span>
-                                      <span className='xl:text-4xl text-2xl max-[600px]:text-nowrap'> Rs. {tp.toLocaleString()} PKR</span>
+                                      <span className='text-2xl font-semibold 2xl:text-4xl'> Estimated total</span>
+                                      <span className='2xl:text-4xl text-2xl max-[600px]:text-nowrap'> Rs. {tp.toLocaleString()} PKR</span>
                                     </div>
                                     <span className='text-wrap text-2xl p-4 text-left xl:text-xl' > Taxes, discounts and shipping calculated at checkout</span>
                                     <button id="checkoutbtn" className="flex justify-center py-8 max-[600px]:mb-20 max-[600px]:p-4 px-6 mt-8 rounded-lg bg-black focus:outline-none" onClick={(e)=>handleCheckOut(e)}>
@@ -264,14 +264,14 @@ function Navbar({loading,setLoading, navbarfootercolorscheme, search, setSearch,
                 </div>
               </div>
               <div className="flex text-center justify-center items-center px-4 md:px-6 py-2 max-[899px]:hidden">
-                  <span className="mr-4 pb-2 text-xl xl:text-2xl cursor-pointer" onClick={()=>navigate('/',{replace:true})}> Home</span>
-                  <span className="mr-4 pb-2 text-xl xl:text-2xl cursor-pointer" onClick={()=>navigate('/category/all',{replace:true})}> Shop</span>
-                  <span className="mr-4 pb-2 text-xl xl:text-2xl cursor-pointer" onClick={()=>navigate('/category/earrings',{replace:true})} > Earrings</span>
-                  <span className="mr-4 pb-2 text-xl xl:text-2xl cursor-pointer" onClick={()=>navigate('/category/rings',{replace:true})} > Rings</span>
-                  <span className="mr-4 pb-2 text-xl xl:text-2xl cursor-pointer" onClick={()=>navigate('/category/necklace',{replace:true})}> Necklace</span>
-                  <span className="mr-4 pb-2 text-xl xl:text-2xl cursor-pointer" onClick={()=>navigate('/category/bracelet',{replace:true})} > Bracelet</span>
-                  <span className="mr-4 pb-2 text-xl xl:text-2xl cursor-pointer" onClick={()=>navigate('/category/beauty',{replace:true})} > Beauty</span>
-                  <span className="mr-4 pb-2 text-xl xl:text-2xl cursor-pointer" onClick={()=>navigate('/category/sale',{replace:true})}> Sale</span>
+                  <span className="mr-4 pb-2 text-xl 2xl:text-2xl cursor-pointer" onClick={()=>navigate('/',{replace:true})}> Home</span>
+                  <span className="mr-4 pb-2 text-xl 2xl:text-2xl cursor-pointer" onClick={()=>navigate('/category/all',{replace:true})}> Shop</span>
+                  <span className="mr-4 pb-2 text-xl 2xl:text-2xl cursor-pointer" onClick={()=>navigate('/category/earrings',{replace:true})} > Earrings</span>
+                  <span className="mr-4 pb-2 text-xl 2xl:text-2xl cursor-pointer" onClick={()=>navigate('/category/rings',{replace:true})} > Rings</span>
+                  <span className="mr-4 pb-2 text-xl 2xl:text-2xl cursor-pointer" onClick={()=>navigate('/category/necklace',{replace:true})}> Necklace</span>
+                  <span className="mr-4 pb-2 text-xl 2xl:text-2xl cursor-pointer" onClick={()=>navigate('/category/bracelet',{replace:true})} > Bracelet</span>
+                  <span className="mr-4 pb-2 text-xl 2xl:text-2xl cursor-pointer" onClick={()=>navigate('/category/beauty',{replace:true})} > Beauty</span>
+                  <span className="mr-4 pb-2 text-xl 2xl:text-2xl cursor-pointer" onClick={()=>navigate('/category/sale',{replace:true})}> Sale</span>
                 </div>
             </header>
           )}

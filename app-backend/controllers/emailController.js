@@ -8,10 +8,11 @@ const emailController = {
         // console.log(message,customer)
         try{
             let employee =  await User.findOne({role:'employee'});
+            let email = employee.email;
             var mailOptions = {
                 from: "noreplyautomated999@gmail.com" ,
-                to:  `${employee.email} ${customer}`,
-                subject: "Order Placement Confirmation Email", 
+                to:  `${email} ${customer}`,
+                subject: "Order Placement Confirmation Email - Bling Boutique", 
                 text: `${message}`
                 //html tag to present content can also be used...
             }
@@ -33,10 +34,11 @@ const emailController = {
         const {message} = req.body
         try{
             let employee =  await User.findOne({role:'employee'});
+            let email = employee.email;
             var mailOptions = {
                 from: "noreplyautomated999@gmail.com" ,
-                to:   `${employee.email}`,
-                subject: "Customer Contact Form Submission Email", 
+                to:   `${email}`,
+                subject: "Customer Contact Form Submission Email - Bling Boutique", 
                 text: `${message}`
                 //html tag to present content can also be used...
             }
@@ -77,11 +79,12 @@ const emailController = {
             }
 
             let employee =  await User.findOne({role:'employee'});
+            let email = employee.email;
     
             var mailOptions = {
                 from: "noreplyautomated999@gmail.com" ,
-                to:  `${employee.email}`,
-                subject: "List of User emails", 
+                to:  `${email}`,
+                subject: "List of User emails -  Bling Boutique Admin", 
                 text: `${email_list}`
                 //html tag to present content can also be used...
             }
@@ -119,9 +122,9 @@ const emailController = {
     },
 
     async otp(req,res,next) {
-        // console.log("sending mail")
         try{
             let employee =  await User.findOne({role:'employee'});
+            let email = employee.email;
 
             const randomDecimal = Math.random();
             const randomNumber = Math.floor(randomDecimal * 1000000);
@@ -129,8 +132,8 @@ const emailController = {
 
             var mailOptions = {
                 from: "noreplyautomated999@gmail.com" ,
-                to:  `${employee.email}`,
-                subject: "One Time Passcode Email", 
+                to:  `${email}`,
+                subject: "One Time Passcode Email - Bling Boutique Admin", 
                 text: `${number}`
             }
     

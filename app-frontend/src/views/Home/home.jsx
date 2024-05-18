@@ -139,8 +139,8 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
               :
               <div className='mainhomepage'>
                 <Carousel  setApi={setApi} plugins={[ Autoplay({delay: 5000, }),]} className={`w-full overflow-hidden ${navbarfootercolorscheme}`}>
-                <CarouselContent className="mb-10">
-                    <CarouselItem className=''>
+                <CarouselContent className="bg-rose-200 pb-10">
+                    <CarouselItem className='bg-rose-200'>
                     <div className="relative h-[600px]  w-full rounded-lg flex items-center justify-center">
                       <img
                         alt="Get earrings, rings, and necklaces on discounted prices"
@@ -150,7 +150,7 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
                       <LeftRightButtons handleNextClick={handleNextClick} handlePreviousClick={handlePreviousClick}/>
                     </div>
                   </CarouselItem>
-                  <CarouselItem>
+                  <CarouselItem className='bg-rose-200'>
                       <div className="relative h-[600px] w-full rounded-lg flex items-center justify-center">
                         <img
                           alt="The perfect store for women's beauty products"
@@ -160,7 +160,7 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
                         <LeftRightButtons handleNextClick={handleNextClick} handlePreviousClick={handlePreviousClick}/>
                       </div>
                     </CarouselItem>
-                    <CarouselItem>
+                    <CarouselItem className='bg-rose-200'>
                       <div className="relative h-[600px] w-full rounded-lg flex items-center justify-center">
                         <img
                           alt="Sparkle with our latest collections, here at Bling Boutique"

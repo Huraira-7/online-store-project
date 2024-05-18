@@ -130,37 +130,37 @@ function Checkout({setCartbadge,loading,setLoading}) {
   return (
     loading ? <Loading/> :
     <div className='overflow-y-auto'>
-      <div className='xl:my-8 xl:mx-32 mx-8 my-4 flex'>
-        <div className='xl:text-5xl text-3xl text-nowrap mb-4 font-semibold cursor-pointer xl:h-11 h-6 ' onClick={()=>navigate('/',{replace:true})} > Bling Boutique </div>
+      <div className='2xl:my-8 2xl:mx-32 mx-8 my-4 flex'>
+        <div className='2xl:text-5xl text-3xl text-nowrap mb-4 font-semibold cursor-pointer 2xl:h-11 h-6 ' onClick={()=>navigate('/',{replace:true})} > Bling Boutique </div>
       </div>
       <Separator className='bg-slate-300' />
       <div className='flex max-[1400px]:flex-col'>
           <div className='w-6/12 mb-64 max-[1400px]:mb-16 max-[1400px]:w-full'>
-            <div className='ml-8 mt-8 xl:mt-16 w-11/12 flex flex-col gap-4'>
-              <span className='xl:text-3xl text-2xl font-semibold'>Contact</span>
-              <Input type="email" id="checkoutmail" placeholder="Email" value = {email} onChange = { (e) => setEmail(e.target.value)}   className='xl:p-7 w-11/12 p-3 text-xl placeholder:text-xl xl:mt-8 xl:placeholder:text-2xl xl:text-2xl focus:outline-blue-500' />
-              <Input type="phone" placeholder="Mobile Phone Number" value = {phone} onChange = { (e) => handlesetPhone(e.target.value)} className='xl:p-7 w-11/12 p-3 text-xl placeholder:text-xl xl:mt-8 xl:placeholder:text-2xl xl:text-2xl focus:outline-blue-500' />
-              <span className='xl:text-3xl text-2xl font-semibold mt-8'>Delivery</span>
+            <div className='ml-8 mt-8 2xl:mt-16 w-11/12 flex flex-col gap-4'>
+              <span className='2xl:text-3xl text-2xl font-semibold'>Contact</span>
+              <Input type="email" id="checkoutmail" placeholder="Email" value = {email} onChange = { (e) => setEmail(e.target.value)}   className='2xl:p-7 w-11/12 p-3 text-xl placeholder:text-xl 2xl:mt-8 2xl:placeholder:text-2xl 2xl:text-2xl focus:outline-blue-500' />
+              <Input type="phone" placeholder="Mobile Phone Number" value = {phone} onChange = { (e) => handlesetPhone(e.target.value)} className='2xl:p-7 w-11/12 p-3 text-xl placeholder:text-xl 2xl:mt-8 2xl:placeholder:text-2xl 2xl:text-2xl focus:outline-blue-500' />
+              <span className='2xl:text-3xl text-2xl font-semibold mt-8'>Delivery</span>
               <div className='flex max-[900px]:flex-col max-[900px]:gap-4 gap-8 mt-8'>
-                <Input type="name" placeholder="First Name" value = {fname} onChange = { (e) => setFname(e.target.value)}                className='xl:p-10 w-11/12 p-3 text-xl placeholder:text-xl xl:placeholder:text-2xl xl:text-3xl focus:outline-blue-500' />
-                <Input type="name" placeholder="Last Name" value = {lname} onChange = { (e) => setLname(e.target.value)}                 className='xl:p-10 w-11/12 p-3 text-xl placeholder:text-xl xl:placeholder:text-2xl xl:text-3xl focus:outline-blue-500' />
+                <Input type="name" placeholder="First Name" value = {fname} onChange = { (e) => setFname(e.target.value)}                className='2xl:p-10 w-11/12 p-3 text-xl placeholder:text-xl 2xl:placeholder:text-2xl 2xl:text-3xl focus:outline-blue-500' />
+                <Input type="name" placeholder="Last Name" value = {lname} onChange = { (e) => setLname(e.target.value)}                 className='2xl:p-10 w-11/12 p-3 text-xl placeholder:text-xl 2xl:placeholder:text-2xl 2xl:text-3xl focus:outline-blue-500' />
               </div>
-              <Input type="address" placeholder="Address" value = {address} onChange = { (e) => setAddress(e.target.value)}              className='xl:p-10 w-11/12 p-3 text-xl placeholder:text-xl xl:placeholder:text-2xl xl:text-3xl focus:outline-blue-500' />
+              <Input type="address" placeholder="Address" value = {address} onChange = { (e) => setAddress(e.target.value)}              className='2xl:p-10 w-11/12 p-3 text-xl placeholder:text-xl 2xl:placeholder:text-2xl 2xl:text-3xl focus:outline-blue-500' />
               <div className='flex max-[900px]:flex-col max-[900px]:gap-4 gap-8'>
-                <Input type="city" placeholder="City" value = {city} onChange = { (e) => setCity(e.target.value)}                        className='xl:p-10 w-11/12 p-3 text-xl placeholder:text-xl xl:placeholder:text-2xl xl:text-3xl focus:outline-blue-500' />
-                <Input type="postalcode" placeholder="Postal Code" value = {postcode} onChange = { (e) => handlesetPost(e.target.value)} className='xl:p-10 w-11/12 p-3 text-xl placeholder:text-xl xl:placeholder:text-2xl xl:text-3xl focus:outline-blue-500' />
+                <Input type="city" placeholder="City" value = {city} onChange = { (e) => setCity(e.target.value)}                        className='2xl:p-10 w-11/12 p-3 text-xl placeholder:text-xl 2xl:placeholder:text-2xl 2xl:text-3xl focus:outline-blue-500' />
+                <Input type="postalcode" placeholder="Postal Code" value = {postcode} onChange = { (e) => handlesetPost(e.target.value)} className='2xl:p-10 w-11/12 p-3 text-xl placeholder:text-xl 2xl:placeholder:text-2xl 2xl:text-3xl focus:outline-blue-500' />
               </div>
-              <span className='xl:text-3xl font-semibold mt-8 text-2xl'>Shipping Method</span>
-              <div className='flex justify-between bg-blue-200 p-6 xl:text-2xl text-xl max-[900px]:w-11/12 rounded-md'>
+              <span className='2xl:text-3xl font-semibold mt-8 text-2xl'>Shipping Method</span>
+              <div className='flex justify-between bg-blue-200 p-6 2xl:text-2xl text-xl max-[900px]:w-11/12 rounded-md'>
                 <span>Standard </span>
                 <span> Rs. 299 </span>
               </div>
-              <span className='xl:text-3xl font-semibold mt-8 text-2xl'> Payment </span>
-              <div onClick={()=>setPaymentMethod('COD')} className='cursor-pointer max-[900px]:w-11/12  flex justify-between bg-blue-200 p-6 xl:text-2xl text-xl rounded-md'>
+              <span className='2xl:text-3xl font-semibold mt-8 text-2xl'> Payment </span>
+              <div onClick={()=>setPaymentMethod('COD')} className='cursor-pointer max-[900px]:w-11/12  flex justify-between bg-blue-200 p-6 2xl:text-2xl text-xl rounded-md'>
                 <span> Cash on Delivery </span>
                 {paymentmethod === 'COD' ?  <GrRadialSelected /> : '' }
               </div>
-              <div onClick={()=>setPaymentMethod('OT')} className='cursor-pointer flex max-[900px]:w-11/12  justify-between bg-blue-200 p-6 xl:text-2xl text-xl rounded-md'>
+              <div onClick={()=>setPaymentMethod('OT')} className='cursor-pointer flex max-[900px]:w-11/12  justify-between bg-blue-200 p-6 2xl:text-2xl text-xl rounded-md'>
                 <span> Online Transfer </span>
                 {paymentmethod === 'OT' ?  <GrRadialSelected /> : '' }
               </div>
@@ -196,27 +196,27 @@ function Checkout({setCartbadge,loading,setLoading}) {
                   </Badge>
               </div>
                   <div className='flex  max-[1000px]:flex-col max-[1000px]:mt-5 items-center'>
-                    <span className='xl:text-3xl text-2xl mx-auto min-[1000px]:ml-52'>{prod.title}</span>
-                    <span className='min-[1000px]:ml-52 xl:text-2xl max-[1000px]:mt-5 text-xl'>Rs. {prod.price.toLocaleString()}</span>
+                    <span className='2xl:text-3xl text-2xl mx-auto min-[1000px]:ml-52'>{prod.title}</span>
+                    <span className='min-[1000px]:ml-52 2xl:text-2xl max-[1000px]:mt-5 text-xl'>Rs. {prod.price.toLocaleString()}</span>
                   </div>         
               </div>
             ))}
             <div className='flex my-16 ml-16 flex-col w-10/12 max-[1000px]:ml-8 gap-4'>
                 <div className='flex justify-between'>
-                    <span className='xl:text-3xl text-xl'> Subtotal </span>
-                    <span className='xl:text-3xl text-xl font-semibold'> Rs. {(tp-299).toLocaleString()} </span>
+                    <span className='2xl:text-3xl text-xl'> Subtotal </span>
+                    <span className='2xl:text-3xl text-xl font-semibold'> Rs. {(tp-299).toLocaleString()} </span>
                 </div>
                 <div className='flex justify-between'>
-                    <span className='xl:text-3xl text-xl '> Shipping Total </span>
-                    <span className='xl:text-3xl text-xl font-semibold'> Rs. 299 </span>
+                    <span className='2xl:text-3xl text-xl '> Shipping Total </span>
+                    <span className='2xl:text-3xl text-xl font-semibold'> Rs. 299 </span>
                 </div>
                 <div className='flex justify-between'>
-                    <span className='xl:text-4xl text-2xl font-semibold'> Total </span>
-                    <span className='xl:text-4xl text-2xl font-semibold'> Rs. {tp.toLocaleString()} </span>
+                    <span className='2xl:text-4xl text-2xl font-semibold'> Total </span>
+                    <span className='2xl:text-4xl text-2xl font-semibold'> Rs. {tp.toLocaleString()} </span>
                 </div> 
             </div>
           </div>
-          <span onClick={handleCheckOut} className='min-[1400px]:hidden my-8 w-9/12 mx-auto cursor-pointer hover:scale-105 flex justify-center bg-blue-600 xl:p-10 p-4 xl:text-4xl text-2xl text-white text-center rounded-lg'>
+          <span onClick={handleCheckOut} className='min-[1400px]:hidden my-8 w-9/12 mx-auto cursor-pointer hover:scale-105 flex justify-center bg-blue-600 2xl:p-10 p-4 2xl:text-4xl text-2xl text-white text-center rounded-lg'>
                 Complete Order
            </span> 
       </div>

@@ -361,13 +361,13 @@ function Profile({loading,setLoading}) {
           </Toggle>
           <span className='mt-10 text-xl ml-2 mr-2'> The input field below is used to change your <b>GMAIL</b> where you receive all website related emails (order placement emails, list of user emails, contact form submission emails ) </span>
           <div className="flex max-[900px]:flex-col gap-4 mt-5">
-            <Input type="email" id="newmail" placeholder="Email" value = {newmail} onChange = { (e) => setNewmail(e.target.value)}  className='w-[700px] max-[900px]:w-9/12 xl:text-2xl text-xl xl:p-6 p-3'/>
-            <span className='p-4 xl:text-xl text-lg max-[900px]:p-3 max-[900px]:w-9/12 max-[900px]:rounded-lg bg-blue-300 rounded-full cursor-pointer' onClick={updateEmail}>Change Email</span>
+            <Input type="email" id="newmail" placeholder="Email" value = {newmail} onChange = { (e) => setNewmail(e.target.value)}  className='w-[700px] max-[900px]:w-9/12 2xl:text-2xl text-xl 2xl:p-6 p-3'/>
+            <span className='p-4 2xl:text-xl text-lg max-[900px]:p-3 max-[900px]:w-9/12 max-[900px]:rounded-lg bg-blue-300 rounded-full cursor-pointer' onClick={updateEmail}>Change Email</span>
           </div>
-          <span className='mt-5 xl:text-xl text-lg'> The button below is used to get list all user emails to your email address </span>
-          <span className=' mt-5 p-4 xl:text-xl text-lg bg-blue-500 rounded-lg cursor-pointer' onClick={getEmailList}>Get Email List</span>
+          <span className='mt-5 2xl:text-xl text-lg'> The button below is used to get list all user emails to your email address </span>
+          <span className=' mt-5 p-4 2xl:text-xl text-lg bg-blue-500 rounded-lg cursor-pointer' onClick={getEmailList}>Get Email List</span>
         </div>
-        <div className='xl:text-xl text-lg p-4 bg-yellow-200 w-full rounded-lg '>
+        <div className='2xl:text-xl text-lg p-4 bg-yellow-200 w-full rounded-lg '>
           <span className='flex justify-center font-bold'>Notes</span> <br/>
           You can only add one picture while adding a product (however you can add more images and even remove images below in the Edit Products section)
           <br/> <br/>
@@ -380,23 +380,23 @@ function Profile({loading,setLoading}) {
           When you mark something as 'Best Selling product', it will show on 'Best Selling' right below 'Fresh Arrivals' section at home page
         </div>
         <div className='flex flex-col justify-center items-center bg-red-100 overflow-auto'>
-          <h2 className='font-bold xl:text-2xl text-xl pt-8'> Add New Product </h2>
+          <h2 className='font-bold 2xl:text-2xl text-xl pt-8'> Add New Product </h2>
           <form onSubmit={handleAddProd} className='text-left mt-8'>
               <div  className='mb-2 flex max-[768px]:flex-col'>
                 <label htmlFor="title" style={{ marginRight: 10 }} className='max-[768px]:text-center' >Title:</label>
-                <input type="text" id="title" name="title" className='xl:text-xl text-lg max-[768px]:w-8/12 max-[768px]:mx-auto' value = {title} onChange = { (e) => setTitle(e.target.value)}/>
+                <input type="text" id="title" name="title" className='2xl:text-xl text-lg max-[768px]:w-8/12 max-[768px]:mx-auto' value = {title} onChange = { (e) => setTitle(e.target.value)}/>
               </div>
               <div className='mb-4 flex max-[768px]:flex-col'>
                 <label htmlFor="price"  style={{ marginRight: 10 }} className='max-[768px]:text-center' >Price:</label>
-                <input type="text" id="price" name="price" className='xl:text-xl text-lg max-[768px]:w-8/12 max-[768px]:mx-auto' value = {price} onChange = { (e) => handleSetPrice(e)} />
+                <input type="text" id="price" name="price" className='2xl:text-xl text-lg max-[768px]:w-8/12 max-[768px]:mx-auto' value = {price} onChange = { (e) => handleSetPrice(e)} />
               </div>
               <div  className='mb-4 flex max-[768px]:flex-col gap-1'>
                 <label htmlFor="desc" className='mb-4 max-[768px]:text-center' >Description:</label>
-                <textarea rows={6} cols={40} type="text" className='xl:text-xl text-lg max-[768px]:w-8/12 max-[768px]:mx-auto' id="desc" name="desc" value = {desc} onChange = { (e) => setDesc(e.target.value)} />
+                <textarea rows={6} cols={40} type="text" className='2xl:text-xl text-lg max-[768px]:w-8/12 max-[768px]:mx-auto' id="desc" name="desc" value = {desc} onChange = { (e) => setDesc(e.target.value)} />
               </div>
               <div className="update-status max-[768px]:flex-col">
-              <label htmlFor="category" className='xl:text-xl text-lg'  >Category:</label>  
-                  <select id="select" className='xl:text-xl text-lg' onChange={(e)=>{setSelected(e.target.value)}}>
+              <label htmlFor="category" className='2xl:text-xl text-lg'  >Category:</label>  
+                  <select id="select" className='2xl:text-xl text-lg' onChange={(e)=>{setSelected(e.target.value)}}>
                       <option value="Earrings" >Earrings</option>
                       <option value="Rings" >Rings</option>
                       <option value="Necklace" >Necklace</option>
@@ -411,16 +411,16 @@ function Profile({loading,setLoading}) {
           </form>
           <button type="submit" className='btn text-2xl bg-white px-4 py-2 rounded-md mb-4' style={{ marginTop: 15 }} onClick={handleAddProd}>Submit</button>
         </div> 
-        <h2 className='font-bold xl:text-2xl text-xl py-8 text-center bg-red-200'> Edit Products </h2>
+        <h2 className='font-bold 2xl:text-2xl text-xl py-8 text-center bg-red-200'> Edit Products </h2>
         {/* <div className='absolute right-0 top-50 text-3xl p-4 bg-yellow-200 w-[400px] rounded-lg '>
           Note: While editing a product, changes will be made permanently when u click on 'Save Chnages' below in the Edit Products section
         </div> */}
         <div className="bg-red-400 p-4 flex justify-between cursor-pointer">
-          <span className={`xl:text-xl text-sm hover:underline rounded-lg p-1 xl:p-2 ${selectedcatgry === 'Earrings' ? "bg-slate-300" : ''}`} onClick={()=>setselectedcatgry('Earrings')}>Earrings</span>
-          <span className={`xl:text-xl text-sm  hover:underline rounded-lg p-1 xl:p-2 ${selectedcatgry === 'Necklace' ? "bg-slate-300" : ''}`} onClick={()=>setselectedcatgry('Necklace')}>Necklace</span>
-          <span className={`xl:text-xl  text-sm hover:underline rounded-lg p-1 xl:p-2 ${selectedcatgry === 'Rings' ? "bg-slate-300" : ''}`}  onClick={()=>setselectedcatgry('Rings')}>Rings</span>
-          <span className={`xl:text-xl text-sm  hover:underline rounded-lg p-1 xl:p-2 ${selectedcatgry === 'Bracelet' ? "bg-slate-300" : ''}`} onClick={()=>setselectedcatgry('Bracelet')}>Bracelet</span>
-          <span className={`xl:text-xl text-sm  hover:underline rounded-lg p-1 xl:p-2 ${selectedcatgry === 'Beauty' ? "bg-slate-300" : ''}`} onClick={()=>setselectedcatgry('Beauty')}>Beauty</span>
+          <span className={`2xl:text-xl text-sm hover:underline rounded-lg p-1 2xl:p-2 ${selectedcatgry === 'Earrings' ? "bg-slate-300" : ''}`} onClick={()=>setselectedcatgry('Earrings')}>Earrings</span>
+          <span className={`2xl:text-xl text-sm  hover:underline rounded-lg p-1 2xl:p-2 ${selectedcatgry === 'Necklace' ? "bg-slate-300" : ''}`} onClick={()=>setselectedcatgry('Necklace')}>Necklace</span>
+          <span className={`2xl:text-xl  text-sm hover:underline rounded-lg p-1 2xl:p-2 ${selectedcatgry === 'Rings' ? "bg-slate-300" : ''}`}  onClick={()=>setselectedcatgry('Rings')}>Rings</span>
+          <span className={`2xl:text-xl text-sm  hover:underline rounded-lg p-1 2xl:p-2 ${selectedcatgry === 'Bracelet' ? "bg-slate-300" : ''}`} onClick={()=>setselectedcatgry('Bracelet')}>Bracelet</span>
+          <span className={`2xl:text-xl text-sm  hover:underline rounded-lg p-1 2xl:p-2 ${selectedcatgry === 'Beauty' ? "bg-slate-300" : ''}`} onClick={()=>setselectedcatgry('Beauty')}>Beauty</span>
         </div>
         <div className='flex flex-col bg-red-200'>
         {products.length>0 && products.map((_prod, index) => (
@@ -429,7 +429,7 @@ function Profile({loading,setLoading}) {
             <div className=' flex  max-[900px]:flex-col'>
                   <li className='list-none'>
                     <span className='text-xl text-wrap'>
-                    <span className='xl:text-2xl flex justify-between'>
+                    <span className='2xl:text-2xl flex justify-between'>
                         Product {index+1} 
                         <AlertDialog open={isOpen2[index]}>
                           <AlertDialogTrigger>
@@ -496,7 +496,7 @@ function Profile({loading,setLoading}) {
               <div className='flex justify-center py-8 '>
                   <AlertDialog open={isOpen[index]}>
                   <AlertDialogTrigger>
-                    <div className='p-4  max-[768px]:p-2 bg-white rounded-lg flex xl:text-2xl text-xl ' onClick={() => handlesetIsOpen(true,index)} >  
+                    <div className='p-4  max-[768px]:p-2 bg-white rounded-lg flex 2xl:text-2xl text-xl ' onClick={() => handlesetIsOpen(true,index)} >  
                       Save Changes
                     </div>
                   </AlertDialogTrigger>
