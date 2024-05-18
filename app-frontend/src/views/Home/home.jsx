@@ -138,8 +138,8 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
                <Loading/>
               :
               <div className='mainhomepage'>
-                <Carousel  setApi={setApi} plugins={[ Autoplay({delay: 5000, }),]} className={`w-full overflow-hidden ${navbarfootercolorscheme}`}>
-                <CarouselContent className="bg-rose-200 pb-10">
+                <Carousel  setApi={setApi} plugins={[ Autoplay({delay: 5000, }),]} className={`bg-rose-200 pb-10 w-full overflow-hidden`}>
+                <CarouselContent className="">
                     <CarouselItem className='bg-rose-200'>
                     <div className="relative h-[600px]  w-full rounded-lg flex items-center justify-center">
                       <img
