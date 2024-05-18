@@ -57,8 +57,9 @@ mongoose.connect(process.env.MONGO).then(()=>{
 
     // const server = http.createServer(app);
     // server.listen (''''''''''''''''''''''''''''''''''''''''')
-    app.listen(`${process.env.PORT}`, 
-        () => { console.log(`Connected to Database & listening to ${process.env.PORT}`);  });
+    const port = process.env.PORT || 3000;
+    app.listen(port, 
+        () => { console.log(`Connected to Database & listening to ${port}`);  });
 })
 .catch((error)=>{  console.log('Error: ',error) });
       
