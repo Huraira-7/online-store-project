@@ -84,7 +84,7 @@ function Product({setCartbadge,loading,setLoading}) {
     if(api.canScrollPrev()) {api.scrollPrev()} else {api.scrollTo(totalSlides-1,false,1)}
   };
 
-  const starter=  '' //'http://192.168.100.136:3000/'
+  const starter=  '../../../../app-backend/public/' //'http://192.168.100.136:3000/'
 
 
 
