@@ -3,7 +3,8 @@ import path from 'path';
 
 //find a way to display multer Errors
 const storage = multer.diskStorage({
-    destination: require.main?.path + "/" + "../app-frontend/public/images",
+    destination: path.join(__dirname, "../app-frontend/public/images"),
+    // main?.path + "/" +  "../app-frontend/public/images",
     // (req,file,callback) => {
     //     callback(null,'../app-frontend/public/images')
     // },
