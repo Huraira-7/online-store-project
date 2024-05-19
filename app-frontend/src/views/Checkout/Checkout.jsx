@@ -25,6 +25,8 @@ function Checkout({setCartbadge,loading,setLoading}) {
   const[lname,setLname] = useState('')
   const[city,setCity] = useState('')
   const[address,setAddress] = useState('')
+  const[billaddress,setbillAddress] = useState('')
+  const[diffaddress,setDiffAddress] = useState(false)
   const[phone,setPhone] = useState('')
   const[postcode,setPostCode] = useState()
   const [paymentmethod, setPaymentMethod] = useState('COD')
@@ -98,7 +100,7 @@ function Checkout({setCartbadge,loading,setLoading}) {
     //maybe test on city (allow select option for some cities only) ??
 
     // console.log(cart)
-    const message = `Customer Name: ${fname} ${lname} \n Customer Email: ${email} \n Customer Phone Number: ${phone} \n Customer Address: ${address}, ${city}, ${postcode} \n Payment Method: ${paymentmethod === 'COD' ? 'Cash on Delivery' : 'Online Transfer'} \n This email is to inform you that your order of  ${cart.map(item => ` ${item.qty}  ${item.title} , `).join('')} for Rs. ${tp} has been successfully placed at Bling Boutique \n Please expect it to be delivered within 3 to 5 working days \n`
+    const message = `Customer Name: ${fname} ${lname} \n Customer Email: ${email} \n Customer Phone Number: ${phone} \n Customer Shipping Address: ${address}, ${city}, ${postcode} \n Customer Billing Address: ${diffaddress && billaddress!=='' ? billaddress : 'Same as Shipping Address'} \n Payment Method: ${paymentmethod === 'COD' ? 'Cash on Delivery' : 'Online Transfer'} \n ${paymentmethod !== 'COD' ? "Details: Account Holder: Ansa Iqbal\nBranch Name: New Anarkali Bazaar Branch Lahore\nAccount Number: 02720107745960\nIBAN: PK15MEZN0002720107745960\nWhatsapp screenshot to this number: 0320-8585354\n" : ""  } This email is to inform you that your order of  ${cart.map(item => ` ${item.qty}  ${item.title} , `).join('')} for Rs. ${tp} has been successfully placed at Bling Boutique \n Please expect it to be delivered within 3 to 5 working days \n`
     const body = {message , customer: email}
     // console.log(body)
     const resp = await sendorderconfirmationemail(body);
@@ -150,6 +152,18 @@ function Checkout({setCartbadge,loading,setLoading}) {
                 <Input type="city" placeholder="City" value = {city} onChange = { (e) => setCity(e.target.value)}                        className='2xl:p-10 w-11/12 p-3 text-xl placeholder:text-xl 2xl:placeholder:text-2xl 2xl:text-3xl focus:outline-blue-500' />
                 <Input type="postalcode" placeholder="Postal Code" value = {postcode} onChange = { (e) => handlesetPost(e.target.value)} className='2xl:p-10 w-11/12 p-3 text-xl placeholder:text-xl 2xl:placeholder:text-2xl 2xl:text-3xl focus:outline-blue-500' />
               </div>
+              <span className='2xl:text-3xl font-semibold mt-8 text-2xl'>Billing Address</span>
+              <div onClick={()=>setDiffAddress(false)} className='cursor-pointer max-[900px]:w-11/12  flex justify-between bg-blue-200 p-6 2xl:text-2xl text-xl rounded-md'>
+                <span> Same as Shipping Address </span>
+                {diffaddress === false ?  <GrRadialSelected /> : '' }
+              </div>
+              <div onClick={()=>setDiffAddress(true)} className='cursor-pointer flex max-[900px]:w-11/12  justify-between bg-blue-200 p-6 2xl:text-2xl text-xl rounded-md'>
+                <span> Use a different Billing Address </span>
+                {diffaddress === true ?  <GrRadialSelected /> : '' }
+              </div>
+              {diffaddress &&
+                  <Input type="address" placeholder="Billing Address" value = {billaddress} onChange = { (e) => setbillAddress(e.target.value)}              className='2xl:p-10 w-11/12 p-3 text-xl placeholder:text-xl 2xl:placeholder:text-2xl 2xl:text-3xl focus:outline-blue-500' /> 
+              }
               <span className='2xl:text-3xl font-semibold mt-8 text-2xl'>Shipping Method</span>
               <div className='flex justify-between bg-blue-200 p-6 2xl:text-2xl text-xl max-[900px]:w-11/12 rounded-md'>
                 <span>Standard </span>

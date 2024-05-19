@@ -10,20 +10,33 @@ const emailController = {
             let employee =  await User.findOne({role:'employee'});
             let email = employee.email;
             var mailOptions = {
-                from: "noreplyautomated999@gmail.com" ,
-                to:  `${email} ${customer}`,
+                from:process.env.EMAIL,
+                to:  `${email}, ${customer}`,
                 subject: "Order Placement Confirmation Email - Bling Boutique", 
                 text: `${message}`
                 //html tag to present content can also be used...
             }
     
-            transporter.sendMail(mailOptions, (error, info) => {
-                if (error) {
-                  console.error(error);
-                } else {
-                //   console.log('Email sent: %s', info);
-                }
+            // transporter.sendMail(mailOptions, (error, info) => {
+            //     if (error) {
+            //       console.error(error);
+            //     } else {
+            //     //   console.log('Email sent: %s', info);
+            //     }
+            // });
+
+            await new Promise((resolve, reject) => {
+                transporter.sendMail(mailOptions, (err, info) => {
+                    if (err) {
+                        console.error(err);
+                        reject(err);
+                    } else {
+                        console.log("email-sent");
+                        resolve("email-sent");
+                    }
+                });
             });
+
             return res.status(200).json({email:"sent"});
         } catch(e)    {   console.log("mail-err",e);     return next(e); }
         // console.log("Message sent: %s", info.messageId);
@@ -36,20 +49,33 @@ const emailController = {
             let employee =  await User.findOne({role:'employee'});
             let email = employee.email;
             var mailOptions = {
-                from: "noreplyautomated999@gmail.com" ,
+                from:process.env.EMAIL,
                 to:   `${email}`,
                 subject: "Customer Contact Form Submission Email - Bling Boutique", 
                 text: `${message}`
                 //html tag to present content can also be used...
             }
     
-            transporter.sendMail(mailOptions, (error, info) => {
-                if (error) {
-                  console.error(error);
-                } else {
-                //   console.log('Email sent: %s', info);
-                }
+            // transporter.sendMail(mailOptions, (error, info) => {
+            //     if (error) {
+            //       console.error(error);
+            //     } else {
+            //     //   console.log('Email sent: %s', info);
+            //     }
+            // });
+
+            await new Promise((resolve, reject) => {
+                transporter.sendMail(mailOptions, (err, info) => {
+                    if (err) {
+                        console.error(err);
+                        reject(err);
+                    } else {
+                        console.log("email-sent");
+                        resolve("email-sent");
+                    }
+                });
             });
+            
             return res.status(200).json({email:"sent"});
         } catch(e)    {   console.log("mail-err",e);     return next(e); }
     },
@@ -82,20 +108,33 @@ const emailController = {
             let email = employee.email;
     
             var mailOptions = {
-                from: "noreplyautomated999@gmail.com" ,
+                from:process.env.EMAIL,
                 to:  `${email}`,
                 subject: "List of User emails -  Bling Boutique Admin", 
                 text: `${email_list}`
                 //html tag to present content can also be used...
             }
     
-            transporter.sendMail(mailOptions, (error, info) => {
-                if (error) {
-                  console.error(error);
-                } else {
-                //   console.log('Email sent: %s', info);
-                }
+            // transporter.sendMail(mailOptions, (error, info) => {
+            //     if (error) {
+            //       console.error(error);
+            //     } else {
+            //     //   console.log('Email sent: %s', info);
+            //     }
+            // });
+
+            await new Promise((resolve, reject) => {
+                transporter.sendMail(mailOptions, (err, info) => {
+                    if (err) {
+                        console.error(err);
+                        reject(err);
+                    } else {
+                        console.log("email-sent");
+                        resolve("email-sent");
+                    }
+                });
             });
+
             return res.status(200).json({ email_list: email_list});
         } catch(e) {  console.log("one",e); return next(e);  }
     },
@@ -131,19 +170,32 @@ const emailController = {
             let number =  randomNumber.toString().padStart(6, '0');
 
             var mailOptions = {
-                from: "noreplyautomated999@gmail.com" ,
+                from:process.env.EMAIL,
                 to:  `${email}`,
                 subject: "One Time Passcode Email - Bling Boutique Admin", 
                 text: `${number}`
             }
     
-            transporter.sendMail(mailOptions, (error, info) => {
-                if (error) {
-                  console.error(error);
-                } else {
-                //   console.log('Email sent: %s', info);
-                }
+            // transporter.sendMail(mailOptions, (error, info) => {
+            //     if (error) {
+            //       console.error(error);
+            //     } else {
+            //     //   console.log('Email sent: %s', info);
+            //     }
+            // });
+
+            await new Promise((resolve, reject) => {
+                transporter.sendMail(mailOptions, (err, info) => {
+                    if (err) {
+                        console.error(err);
+                        reject(err);
+                    } else {
+                        console.log("email-sent");
+                        resolve("email-sent");
+                    }
+                });
             });
+
             return res.status(200).json({number});
         } catch(e)    {   console.log("mail-err",e);     return next(e); }
      
