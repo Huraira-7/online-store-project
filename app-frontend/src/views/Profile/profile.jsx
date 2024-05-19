@@ -280,7 +280,9 @@ function Profile({loading,setLoading}) {
       // maindiv.scrollTo({bottom: 0, behavior: 'smooth', })
      }
     }
-    catch(error) { handleOpenerr("Add Product failed:", error); }
+    catch(error) {
+      console.log(error)
+      handleOpenerr("Add Product failed:", error); }
   };
 
 
