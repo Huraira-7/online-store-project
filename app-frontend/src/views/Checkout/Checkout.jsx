@@ -201,7 +201,7 @@ function Checkout({setCartbadge,loading,setLoading}) {
                     <figure className="shrink-0 w-[200px]">
                       <div className="overflow-hidden rounded-md">
                         <img
-                          src={`images/${prod.images[0].imagestring}`}
+                          src={prod.images[0].imagestring[0] === 'f' ? `images/${prod.images[0].imagestring}` : prod.images[0].imagestring}
                           alt={`${prod.title}`}
                           className="aspect-[4/4] object-cover"
                           />

@@ -1,17 +1,21 @@
 import Image from "../models/image.js";
 import User from "../models/user.js";
 import Product from "../models/product.js";
+import upload from '../middlewares/uploadHandler.js'; //CLOUDINARY
 
 const productController = {
 
     async addproduct(req,res,next) {
-        const {title,description,category,price} = req.body
-        try{
+        const {title,description,category,price,file} = req.body
+        try{    
+            const results = await upload(file, "bling-boutique")
+            // console.log(results)
             let product;
              const productToAdd = new Product({
                 images : [
                     new Image({
-                        imagestring: req.file.filename,
+                        imagestring: results.url,
+                        // id: results.publicId,
                         is_deleted : false
                     })
                 ],
@@ -48,24 +52,31 @@ const productController = {
     },
 
     async editproductaddphoto(req,res,next) {
-        const {_id,title,description,price,is_out_stock,best_selling,imgdel} = req.body
+        const {_id,title,description,price,is_out_stock,best_selling,imgdel,file} = req.body
         try{
-            let product = await Product.findById(_id);
-            product.title = title;
-            product.description = description;
-            if(product.price != price) {  product.oldprice = product.price;  }
-            product.price = price;
-            product.is_out_stock = is_out_stock;
-            product.best_selling = best_selling;
-            for (var i in product.images) {
-                product.images[i]['is_deleted'] = imgdel[i];
+            const results = await upload(file, "bling-boutique")
+            // console.log(results)
+            if(results && results.url){
+                let product = await Product.findById(_id);
+                product.title = title;
+                product.description = description;
+                if(product.price != price) {  product.oldprice = product.price;  }
+                product.price = price;
+                product.is_out_stock = is_out_stock;
+                product.best_selling = best_selling;
+                for (var i in product.images) {
+                    product.images[i]['is_deleted'] = imgdel[i];
+                }
+                product.images.push(new Image({
+                    imagestring: results.url,
+                    // id: results.publicId,
+                    is_deleted : false
+                }))
+                await product.save();
+                return res.status(202).json({product:product});
+            } else {
+                console.log("got error uploading image")
             }
-            product.images.push(new Image({
-                imagestring: req.file.filename,
-                is_deleted : false
-            }))
-            await product.save();
-            return res.status(202).json({product:product});
         } catch(e) {  console.log("one",e); return next(e);  }
     },
 

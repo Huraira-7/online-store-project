@@ -255,7 +255,7 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
           <div className=" mt-20 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             <div className="relative group rounded-lg shadow-lg hover:shadow-xl transition-transform duration-300 ease-in-out hover:-translate-y-2">
               <img
-                src={`images/${categorywise['Earrings'].images[0].imagestring}`}
+                src={categorywise['Earrings'].images[0].imagestring[0] === 'f' ? `images/${categorywise['Earrings'].images[0].imagestring}` : categorywise['Earrings'].images[0].imagestring}
                 alt="Earrings"
                 className="object-cover w-full h-auto rounded-3xl"
                 height={400}
@@ -274,7 +274,7 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
             <div className="relative group rounded-lg shadow-lg hover:shadow-xl transition-transform duration-300 ease-in-out hover:-translate-y-2">
               <img
                 alt="Bracelet"
-                src={`images/${categorywise['Bracelet'].images[0].imagestring}`}
+                src={categorywise['Bracelet'].images[0].imagestring[0] === 'f' ? `images/${categorywise['Bracelet'].images[0].imagestring}` : categorywise['Bracelet'].images[0].imagestring}
                 className="object-cover w-full h-auto rounded-3xl"
                 height={400}
                 width={500}
@@ -292,7 +292,7 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
             <div className="relative group rounded-lg shadow-lg hover:shadow-xl transition-transform duration-300 ease-in-out hover:-translate-y-2">
               <img
                 alt="Beauty"
-                src={`images/${categorywise['Beauty'].images[0].imagestring}`}
+                src={categorywise['Beauty'].images[0].imagestring[0] === 'f' ? `images/${categorywise['Beauty'].images[0].imagestring}` : categorywise['Beauty'].images[0].imagestring}
                 className="object-cover w-full h-auto rounded-3xl"
                 height={400}
                 width={500}
@@ -314,7 +314,7 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
               <div className="relative group rounded-lg shadow-lg hover:shadow-xl transition-transform duration-300 ease-in-out hover:-translate-y-2">
               <img
                 alt="Rings"
-                src={`images/${categorywise['Rings'].images[0].imagestring}`}
+                src={categorywise['Rings'].images[0].imagestring[0] === 'f' ? `images/${categorywise['Rings'].images[0].imagestring}` : categorywise['Rings'].images[0].imagestring}
                 className="object-cover w-full h-auto rounded-3xl"
                 height={400}
                 width={500}
@@ -334,7 +334,7 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
             <div className="relative group rounded-lg shadow-lg hover:shadow-xl transition-transform duration-300 ease-in-out hover:-translate-y-2">
               <img
                 alt="Necklaces"
-                src={`images/${categorywise['Necklace'].images[0].imagestring}`}
+                src={categorywise['Necklace'].images[0].imagestring[0] === 'f' ? `images/${categorywise['Necklace'].images[0].imagestring}` : categorywise['Necklace'].images[0].imagestring}
                 className="object-cover w-full h-auto rounded-3xl"
                 height={400}
                 width={500}
@@ -362,7 +362,7 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
                     <img
                       id = {`img-${idx}`}
                       onMouseEnter = {handleHoverImg}
-                      src={`images/${latestprod.images[currimg[idx]].imagestring}`}
+                      src={latestprod.images[currimg[idx]].imagestring[0] === 'f' ? `images/${latestprod.images[currimg[idx]].imagestring}` : latestprod.images[currimg[idx]].imagestring}
                       alt={`${latestprod.title}`}
                       className="aspect-[3/4] object-contain outline"
                       width={500}
@@ -414,7 +414,7 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
                 <figure key={idx} className="shrink-0 bg-red-100 rounded-3xl max-[1500px]:w-52" >
                   <div className="overflow-hidden rounded-md">
                     <img
-                      src={`images/${bestprod.images[0].imagestring}`}
+                      src={bestprod.images[0].imagestring[0] === 'f' ? `images/${bestprod.images[0].imagestring}` : bestprod.images[0].imagestring}
                       alt={`${bestprod.title}`}
                       className="aspect-[3/4] object-cover"
                       width={500}
@@ -467,7 +467,7 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
                 <figure key={idx} className="shrink-0 bg-red-100 rounded-3xl max-[1500px]:w-52" >
                   <div className="overflow-hidden rounded-md">
                     <img
-                      src={`images/${saleprod.images[0].imagestring}`}
+                      src={saleprod.images[0].imagestring[0] === 'f' ? `images/${saleprod.images[0].imagestring}` : saleprod.images[0].imagestring}
                       alt={`${saleprod.title}`}
                       className="aspect-[3/4] object-cover"
                       width={500}

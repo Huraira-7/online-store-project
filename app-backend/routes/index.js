@@ -1,7 +1,7 @@
 import express from 'express';
 import emailController from '../controllers/emailController.js';
 import productController from '../controllers/productController.js';
-import upload from '../middlewares/uploadHandler.js';
+// import upload from '../middlewares/uploadHandler.js';
 
 const router = express.Router();
 
@@ -14,9 +14,11 @@ const router = express.Router();
 
 // product endpoints ----------------------------------------------------------------
 
-router.post('/addproduct',upload.single('file'),productController.addproduct);
+// router.post('/addproduct',upload.single('file'),productController.addproduct); //MULTER
+router.post('/addproduct',productController.addproduct);
 
-router.post('/editproductaddphoto',upload.single('file'),productController.editproductaddphoto);
+// router.post('/editproductaddphoto',upload.single('file'),productController.editproductaddphoto); //MULTER
+router.post('/editproductaddphoto',productController.editproductaddphoto);
 
 router.post('/editproduct',productController.editproduct); 
 

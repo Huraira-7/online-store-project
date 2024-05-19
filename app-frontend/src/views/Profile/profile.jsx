@@ -74,10 +74,38 @@ function Profile({loading,setLoading}) {
     setIsOpen2([...isOpen2.slice(0, idx), !isOpen2[idx], ...isOpen2.slice(idx + 1)]); 
   }
 
+  const setFileBase64 = (e,type,idx)  => {
+
+    if(e.size>=2097152){ //file size comparison in bytes (should be <2MB)
+      handleOpenerr("File size should be less than 2MB");
+      return;
+    }
+
+    const fileExtension = e.name.split('.').pop(); // Extract extension
+    // console.log("File Extension:", fileExtension);
+    if(allowedFileExtensions.includes(fileExtension) === false){
+      handleOpenerr('File extension not allowed')
+      // handleOpenerr('Allowed file extensions are .jpg, .jpeg, .png, .bmp, .gif, .tiff')
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.readAsDataURL(e);
+    reader.onloadend = () => { 
+      console.log("reader-atload-end")
+      // console.log(reader.result)
+      if(type==='single') {  setFile(reader.result);  } 
+      else {
+        setFiles([...files.slice(0, idx), reader.result, ...files.slice(idx + 1)]);
+      }
+    };
+  }
 
   const handlesetFile = (e) => {
     e.preventDefault()
-    setFile(e.target.files[0])
+    const f = e.target.files[0]
+    setFile(f)
+    setFileBase64(f,"single",-1)
   }
 
   const handlesetFiles = (e) => {
@@ -85,6 +113,7 @@ function Profile({loading,setLoading}) {
     const { id } = e.target;
     const index = parseInt(id.split('-')[1], 10);
     setFiles([...files.slice(0, index), e.target.files[0], ...files.slice(index + 1)]); 
+    setFileBase64(e.target.files[0],"multiple",index)
   }
 
   const handleremoveFiles = (e) => {
@@ -193,17 +222,36 @@ function Profile({loading,setLoading}) {
     // console.log("index",idx)
     // console.log(data)
     let resp;
-    if (files[idx] == undefined){ //normal edit product
+    if (files[idx] === undefined || files[idx] === null){ //normal edit product
       // console.log("no new img file",data)
       resp = await editproduct(data);
     }  else { //upload new photo also
-      const formdata = new FormData();
-      for (const key in data) {
-        if(key === 'imgdel') { imgtoggle[idx].forEach(item => formdata.append('imgdel[]', item)) }
-        else   { formdata.append(key, data[key]); }
+      // console.log(file)
+      if(files[idx].size>=2097152){ //file size comparison in bytes (should be <2MB)
+        handleOpenerr("File size should be less than 2MB");
+        return;
       }
-      formdata.append('file',files[idx])
+
+    const formdata = {};
+      for (const key in data) {
+        if (key === 'imgdel') {
+          formdata[key] = imgtoggle[idx].map(item => item); // Use map to create a new array
+        } else {
+          formdata[key] = data[key];
+        }
+      }
+    formdata.file = files[idx];
+
+      // const formdata2 = new FormData();
+      // for (const key in data) {
+      //   if(key === 'imgdel') { imgtoggle[idx].forEach(item => formdata2.append('imgdel[]', item)) }
+      //   else   { formdata2.append(key, data[key]); }
+      // }
+      // formdata2.append('file',files[idx])
+      // console.log(formdata)
+      // console.log(formdata2)
       // console.log("new img file",data)
+
       resp = await editproductaddphoto(formdata);
     }
     // console.log(resp)
@@ -235,11 +283,11 @@ function Profile({loading,setLoading}) {
 
   async function handleAddProd(e) {
     e.preventDefault(); 
-    // console.log(file)
     if(title === "" || desc === ""  || file === undefined || file === null ) {
       handleOpenerr("No field should be left empty");
       return;
     }
+
     if (price <= 0){
       handleOpenerr("Price must be greater than 0");
       return;
@@ -248,19 +296,12 @@ function Profile({loading,setLoading}) {
       handleOpenerr("Did you set the category of the product correctly?");
       return;
     }
-    const fileExtension = file.name.split('.').pop(); // Extract extension
-    // console.log("File Extension:", fileExtension);
-    if(allowedFileExtensions.includes(fileExtension) === false){
-      handleOpenerr('File extension not allowed')
-      // handleOpenerr('Allowed file extensions are .jpg, .jpeg, .png, .bmp, .gif, .tiff')
-      return;
-    }
-    const data = new FormData();
-    data.append('file',file)
-    data.append('title',title)
-    data.append('description',desc)
-    data.append('price',price)
-    data.append('category',selected)
+    const data = {file, title, description: desc, price, category: selected}
+    // data.append('file',file)
+    // data.append('title',title)
+    // data.append('description',desc)
+    // data.append('price',price)
+    // data.append('category',selected)
     try  { 
       // console.log("handling add products-----",title,desc,price,selected);
       const response = await addproduct(data);
@@ -477,7 +518,7 @@ function Profile({loading,setLoading}) {
                 <div className="flex w-max space-x-16 pl-10">
                   {_prod.images.map((img,idx) => (
                     <div className='flex flex-col items-center' key={index+idx}>
-                      <img className='rounded-lg' src={`images/${img['imagestring']}`} width={200} height={100} alt="imgfile"/>
+                      <img className='rounded-lg' src={img.imagestring[0] === 'f' ? `images/${img.imagestring}` : `${img.imagestring}`} width={200} height={100} alt="imgfile"/>
                       <Toggle id={`img-${index}-${idx}`} aria-label="Toggle bold" className='border border-red-900 mt-10' onClick={(e)=>handleImgtoggle(e)}>
                         { imgtoggle[index][idx] ?  'Restore Image' : 'Remove Image'}
                       </Toggle>

@@ -354,7 +354,7 @@ function Category({category,setLoading,loading}) {
               
               <div key={index} className="relative outline outline-rose-200 group rounded-lg shadow-lg hover:shadow-xl transition-transform duration-300 ease-in-out hover:-translate-y-2" onClick={()=> showProduct(product)}>
                 <img
-                  src={`${starter}images/${product.images[0].imagestring}`}
+                  src={product.images[0].imagestring[0] === 'f' ?  `${starter}images/${product.images[0].imagestring}` : product.images[0].imagestring}
                   alt={`${product.title}`}
                   className="object-cover w-11/12 hover:rounded-3xl aspect-[4/4] max-[1000px]:aspect-[3/4]"
                 />

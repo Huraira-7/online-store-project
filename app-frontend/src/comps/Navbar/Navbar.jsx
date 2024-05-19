@@ -215,8 +215,8 @@ function Navbar({loading,setLoading, navbarfootercolorscheme, search, setSearch,
                                       <figure className="shrink-0 w-[250px] max-[750px]:w-[150px]">
                                         <div className="overflow-hidden rounded-md">
                                           <img
-                                            src={`images/${prod.images[0].imagestring}`}
-                                            alt={`${prod.images[0].imagestring}`}
+                                            src={prod.images[0].imagestring[0] === 'f' ? `images/${prod.images[0].imagestring}` : prod.images[0].imagestring}
+                                            alt={`${prod.title}`}
                                             className="aspect-[3/4] max-[1300px]:h-[200px] object-cover"
                                           />
                                         </div>

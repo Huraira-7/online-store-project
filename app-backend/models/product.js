@@ -3,6 +3,7 @@ const {Schema} = mongoose;
 
 const imageSchema = new Schema({
     imagestring: { type: String, required: true },
+    // id : {type: String, required: true},
     is_deleted: { type: Boolean, required: true }
 });
 

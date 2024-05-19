@@ -99,7 +99,7 @@ function Product({setCartbadge,loading,setLoading}) {
               <CarouselItem key={idx} className=''>
                 <div className='relative w-full flex rounded-lg items-center justify-center'>
                       <img
-                        src={`${starter}images/${img.imagestring}`}
+                        src={img.imagestring[0] === 'f' ?  `${starter}images/${img.imagestring}` : img.imagestring}
                         alt={`${product.title}`}
                         className="object-contain w-full h-[400px] max-[600px]:h-[220px] max-[600px]:object-cover hover:rounded-3xl"
                         style={{ aspectRatio: "5/4" }}
