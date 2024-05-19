@@ -5,6 +5,7 @@ import { otp } from '@/api/internal'
 import { useNavigate } from 'react-router-dom'
 import { Helmet } from 'react-helmet';
 // import Profile from '../Profile/profile'
+//control shift R to fix cache and it should show the page then ... 
 
 function Confirmation() {
 

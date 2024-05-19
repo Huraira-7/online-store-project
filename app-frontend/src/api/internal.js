@@ -75,6 +75,14 @@ export const fetchallproducts = async () => {
   return response;
 };
 
+export const fetchcategories = async () => {
+  let response;
+  try { response = await api.post("/fetchcategories"); } 
+  catch (error) { return error; }
+
+  return response;
+};
+
 export const editproduct = async (data) => {
   let response;
   try { response = await api.post("/editproduct",data); } 

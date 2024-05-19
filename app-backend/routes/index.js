@@ -30,6 +30,7 @@ router.post('/fetchallproducts',productController.fetchallproducts);
 
 router.post('/fetchinitialdata',productController.fetchinitialdata); 
 
+router.post('/fetchcategories',productController.fetchcategories);
 
 // email endpoints ----------------------------------------------------------------
 

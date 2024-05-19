@@ -97,13 +97,31 @@ const productController = {
         } catch(e) {  console.log("one",e); return next(e);  }
     },
 
+    async fetchcategories(req,res,next){
+        let products; 
+        let categories = [];
+        try {
+            products = await Product.find();
+            for (var i in products){
+                let p = products[i]
+                if (categories.indexOf(p.category) === -1) {  categories.push(p.category) }
+            }
+            return res.status(200).json({ categories: categories});
+        } catch(e) {  console.log("one",e); return next(e);  }
+    },
+
     async fetchallproducts(req,res,next){
         let products; 
+        let categories = [];
         try {
             products = await Product.find();
             let user = await User.findOne({role:'downtime'});
             let down = user.email === 'false' ? false : true
-            return res.status(200).json({ products: products, down});
+            for (var i in products){
+                let p = products[i]
+                if (categories.indexOf(p.category) === -1) {  categories.push(p.category) }
+            }
+            return res.status(200).json({ products: products, down, categories});
         } catch(e) {  console.log("one",e); return next(e);  }
     },
 

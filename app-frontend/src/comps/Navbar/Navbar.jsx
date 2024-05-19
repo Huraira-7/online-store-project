@@ -18,12 +18,13 @@ import Badge from '@mui/material/Badge';
 // import insta from '../../assets/insta.jpeg'
 // import tiktok from '../../assets/tiktok.png'
 
-function Navbar({loading,setLoading, navbarfootercolorscheme, search, setSearch, searchQuery, setSearchQuery, setSearchRes, cartopen, setCartOpen, handleCloseCart, cartbadge, setCartbadge}) {
+function Navbar({loading, navbarfootercolorscheme, search, setSearch, searchQuery, setSearchQuery, setSearchRes, cartopen, setCartOpen, handleCloseCart, cartbadge, setCartbadge}) {
   const maindiv = document.getElementById('maindiv');
   const colorScheme = navbarfootercolorscheme;
   const user = useSelector((state) => state.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const categories = user.categories
 
   const [tp, setTp] = useState(0) //tp : totalPrice
 
@@ -87,6 +88,8 @@ function Navbar({loading,setLoading, navbarfootercolorscheme, search, setSearch,
     navigate('/checkout',{replace:true})
   }
 
+  function capitalize(string) {  return string.charAt(0).toUpperCase() + string.slice(1); }
+
   return (
 
         <>
@@ -134,10 +137,12 @@ function Navbar({loading,setLoading, navbarfootercolorscheme, search, setSearch,
                     <SheetClose asChild> 
                       <span className="py-12 px-8 text-5xl cursor-pointer hover:bg-red-200 rounded-full max-[900px]:text-xl max-[900px]:px-4 max-[900px]:py-8" onClick={()=>navigate('/',{replace:true})}> Home</span>
                     </SheetClose>
-                    <SheetClose asChild> 
-                      <span className="py-12 px-8  text-5xl cursor-pointer hover:bg-red-200 rounded-full max-[900px]:text-xl max-[900px]:px-4 max-[900px]:py-8" onClick={()=>navigate('/category/all',{replace:true})}> Shop</span>
+                    {categories.map((c,idx)=>(
+                    <SheetClose asChild key={idx}> 
+                      <span className="py-12 px-8  text-5xl cursor-pointer hover:bg-red-200 rounded-full max-[900px]:text-xl max-[900px]:px-4 max-[900px]:py-8" onClick={()=>navigate(`/category/${c}`,{replace:true})}> {c==='all' ? 'Shop' : capitalize(c)}</span>
                     </SheetClose>
-                    <SheetClose asChild> 
+                    ))}
+                    {/* <SheetClose asChild> 
                       <span className="py-12 px-8  text-5xl cursor-pointer hover:bg-red-200 rounded-full max-[900px]:text-xl max-[900px]:px-4 max-[900px]:py-8" onClick={()=>navigate('/category/earrings',{replace:true})} > Earrings</span>
                     </SheetClose>
                     <SheetClose asChild> 
@@ -154,7 +159,7 @@ function Navbar({loading,setLoading, navbarfootercolorscheme, search, setSearch,
                     </SheetClose>
                     <SheetClose asChild> 
                       <span className="py-12 px-8  text-5xl cursor-pointer hover:bg-red-200 rounded-full max-[900px]:text-xl max-[900px]:px-4 max-[900px]:py-8" onClick={()=>navigate('/category/sale',{replace:true})}> Sale </span>
-                    </SheetClose>
+                    </SheetClose> */}
                      </div>
                      {/* <Separator className='bg-red-400/30' /> */}
                     <div className="my-4 mx-16 rounded-lg w-full flex items-center ">
@@ -264,14 +269,16 @@ function Navbar({loading,setLoading, navbarfootercolorscheme, search, setSearch,
                 </div>
               </div>
               <div className="flex text-center justify-center items-center px-4 md:px-6 py-2 max-[899px]:hidden">
-                  <span className="mr-4 pb-2 text-xl 2xl:text-2xl cursor-pointer" onClick={()=>navigate('/',{replace:true})}> Home</span>
-                  <span className="mr-4 pb-2 text-xl 2xl:text-2xl cursor-pointer" onClick={()=>navigate('/category/all',{replace:true})}> Shop</span>
-                  <span className="mr-4 pb-2 text-xl 2xl:text-2xl cursor-pointer" onClick={()=>navigate('/category/earrings',{replace:true})} > Earrings</span>
+                <span className="mr-4 pb-2 text-xl 2xl:text-2xl cursor-pointer" onClick={()=>navigate('/',{replace:true})}> Home</span>     
+                {categories.map((c,idx)=>(
+                  <span key={idx} className="mr-4 pb-2 text-xl 2xl:text-2xl cursor-pointer" onClick={()=>navigate(`/category/${c}`,{replace:true})}> {c==='all' ? 'Shop' : capitalize(c)} </span>
+                  ))}
+                  {/* <span className="mr-4 pb-2 text-xl 2xl:text-2xl cursor-pointer" onClick={()=>navigate('/category/earrings',{replace:true})} > Earrings</span>
                   <span className="mr-4 pb-2 text-xl 2xl:text-2xl cursor-pointer" onClick={()=>navigate('/category/rings',{replace:true})} > Rings</span>
                   <span className="mr-4 pb-2 text-xl 2xl:text-2xl cursor-pointer" onClick={()=>navigate('/category/necklace',{replace:true})}> Necklace</span>
                   <span className="mr-4 pb-2 text-xl 2xl:text-2xl cursor-pointer" onClick={()=>navigate('/category/bracelet',{replace:true})} > Bracelet</span>
                   <span className="mr-4 pb-2 text-xl 2xl:text-2xl cursor-pointer" onClick={()=>navigate('/category/beauty',{replace:true})} > Beauty</span>
-                  <span className="mr-4 pb-2 text-xl 2xl:text-2xl cursor-pointer" onClick={()=>navigate('/category/sale',{replace:true})}> Sale</span>
+                  <span className="mr-4 pb-2 text-xl 2xl:text-2xl cursor-pointer" onClick={()=>navigate('/category/sale',{replace:true})}> Sale</span> */}
                 </div>
             </header>
           )}

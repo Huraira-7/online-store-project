@@ -4,6 +4,7 @@ const initialState = {
   _id: "",
   cart : [],
   sale : [],
+  categories : [],
   down: false
   // username: "",
   // auth: false,
@@ -21,6 +22,7 @@ const userSlice = createSlice({
       state.cart = [];
       state.down = false;
       state.sale = [];
+      state.categories = [];
       //set homepage data
     },
     addItem: (state,action) => {
@@ -78,6 +80,7 @@ const userSlice = createSlice({
       state._id = "";
       state.cart = [];
       state.sale = [];
+      state.categories = [];
       state.down = false;
     },
     setDown: (state,action) => {
@@ -86,10 +89,13 @@ const userSlice = createSlice({
     additemsOnSale : (state, action) => {
       state.sale = action.payload;
     },
+    setCategories : (state, action) => {
+      state.categories = action.payload;
+    },
   }
 });
 
-export const { setUser, addItem, incrementItem, decrementItem, removeItem, setItemquantity, emptyCart, additemsOnSale,  resetUser, setDown } = userSlice.actions;
+export const { setUser, addItem, incrementItem, decrementItem, removeItem, setItemquantity, emptyCart, setCategories, additemsOnSale,  resetUser, setDown } = userSlice.actions;
 
 export default userSlice.reducer;
 

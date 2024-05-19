@@ -11,6 +11,7 @@ import ErrorMessage from '@/lib/ErrorMessage';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Loading from '@/lib/Loading';
 import { Helmet } from 'react-helmet';
+import { GrRadialSelected } from 'react-icons/gr';
 import './profile.css'
 
 
@@ -42,6 +43,9 @@ function Profile({loading,setLoading}) {
   const [isdown, setIsdown] = useState(false)
   const [newmail, setNewmail] = useState('')
   const [selectedcatgry, setselectedcatgry] = useState("Earrings"); //while editing
+  const [categories, setCategories] = useState([])
+  const [newcatg, setnewCatg] = useState('')
+  const [diffcatg, setdiffCatg] = useState(false)
   const dispatch = useDispatch()
 
   //errors 
@@ -292,11 +296,26 @@ function Profile({loading,setLoading}) {
       handleOpenerr("Price must be greater than 0");
       return;
     }
-    if(selected === '') {
+    if(diffcatg === false && selected === '') {
       handleOpenerr("Did you set the category of the product correctly?");
       return;
     }
-    const data = {file, title, description: desc, price, category: selected}
+    if(diffcatg === true && newcatg === ''){
+      handleOpenerr("Did you set the new category of the product correctly?");
+      return;
+    }
+    // console.log(selected)
+    // console.log(newcatg.trim().includes(' '))
+    if(diffcatg === true && newcatg.trim().includes(' ')===true){
+      handleOpenerr("There can only be one word categories");
+      return;
+    }
+    let data;
+    if(diffcatg === false){
+      data = {file, title, description: desc, price, category: selected}
+    } else {
+      data = {file, title, description: desc, price, category: capitalize(newcatg.trim())}
+    }
     // data.append('file',file)
     // data.append('title',title)
     // data.append('description',desc)
@@ -322,7 +341,7 @@ function Profile({loading,setLoading}) {
      }
     }
     catch(error) {
-      console.log(error)
+      // console.log(error)
       handleOpenerr("Add Product failed:", error); }
   };
 
@@ -338,6 +357,8 @@ function Profile({loading,setLoading}) {
       const resp = await fetchallproducts()
       // console.log(resp)
       if(resp.status === 200){
+        setCategories(resp.data.categories)
+        console.log(resp.data.categories)
         setProducts(resp.data.products)
         setIsdown(resp.data.down === true)
         let ts = []
@@ -388,6 +409,7 @@ function Profile({loading,setLoading}) {
   },[]); // Re-run effect only at page load
 
 
+  function capitalize(string) {  return string.charAt(0).toUpperCase() + string.slice(1); }
 
   return (
     loading ? <Loading/> :
@@ -437,16 +459,30 @@ function Profile({loading,setLoading}) {
                 <label htmlFor="desc" className='mb-4 max-[768px]:text-center' >Description:</label>
                 <textarea rows={6} cols={40} type="text" className='2xl:text-xl text-lg max-[768px]:w-8/12 max-[768px]:mx-auto' id="desc" name="desc" value = {desc} onChange = { (e) => setDesc(e.target.value)} />
               </div>
-              <div className="update-status max-[768px]:flex-col">
-              <label htmlFor="category" className='2xl:text-xl text-lg'  >Category:</label>  
-                  <select id="select" className='2xl:text-xl text-lg' onChange={(e)=>{setSelected(e.target.value)}}>
-                      <option value="Earrings" >Earrings</option>
-                      <option value="Rings" >Rings</option>
-                      <option value="Necklace" >Necklace</option>
-                      <option value="Bracelet" >Bracelet</option>
-                      <option value="Beauty" >Beauty</option>
-                  </select>
+              <div onClick={()=>setdiffCatg(false)} className='my-2 cursor-pointer max-[900px]:w-11/12 mx-auto max-[900px]:p-3 flex justify-between bg-blue-200 p-6 2xl:text-2xl text-xl rounded-md'>
+                <span> Use old Category </span>
+                {diffcatg === false ?  <GrRadialSelected /> : '' }
               </div>
+              {diffcatg === false && 
+                  <div className="update-status max-[768px]:flex-col">
+                  <label htmlFor="category" className='2xl:text-xl text-lg'  >Category:</label>  
+                    <select id="select" className='2xl:text-xl text-lg' onChange={(e)=>{setSelected(e.target.value)}}>
+                      {categories.map((c,idx)=>(
+                        <option key={idx} value={c} >{c}</option>
+                      ))}
+                    </select>
+                  </div>
+               }
+              <div onClick={()=>setdiffCatg(true)} className='my-2 cursor-pointer max-[900px]:w-11/12 mx-auto max-[900px]:p-3 flex justify-between bg-blue-200 p-6 2xl:text-2xl text-xl rounded-md'>
+                <span>  Add a New Category </span>
+                {diffcatg === true ?  <GrRadialSelected /> : '' }
+              </div>
+              {diffcatg===true && 
+                <div className="update-status max-[768px]:flex-col">
+                  <label htmlFor="category" className='2xl:text-xl text-lg'  >Category:</label>  
+                  <input type="text" id="category" name="category" className='2xl:text-xl text-lg max-[768px]:w-8/12 max-[768px]:mx-auto' value = {newcatg} onChange = { (e) => setnewCatg(e.target.value)}/>
+                </div>
+               }
               <div className='fileinput  max-[768px]:text-base flex justify-center py-6'>
                 {/* <Input id="newpic" type="file" onChange={(e) => handlesetFile(e)} /> */}
                 <input type="file"  onChange={(e) => handlesetFile(e)}/>
@@ -455,15 +491,10 @@ function Profile({loading,setLoading}) {
           <button type="submit" className='btn text-2xl bg-white px-4 py-2 rounded-md mb-4' style={{ marginTop: 15 }} onClick={handleAddProd}>Submit</button>
         </div> 
         <h2 className='font-bold 2xl:text-2xl text-xl py-8 text-center bg-red-200'> Edit Products </h2>
-        {/* <div className='absolute right-0 top-50 text-3xl p-4 bg-yellow-200 w-[400px] rounded-lg '>
-          Note: While editing a product, changes will be made permanently when u click on 'Save Chnages' below in the Edit Products section
-        </div> */}
         <div className="bg-red-400 p-4 flex justify-between cursor-pointer">
-          <span className={`2xl:text-xl text-sm hover:underline rounded-lg p-1 2xl:p-2 ${selectedcatgry === 'Earrings' ? "bg-slate-300" : ''}`} onClick={()=>setselectedcatgry('Earrings')}>Earrings</span>
-          <span className={`2xl:text-xl text-sm  hover:underline rounded-lg p-1 2xl:p-2 ${selectedcatgry === 'Necklace' ? "bg-slate-300" : ''}`} onClick={()=>setselectedcatgry('Necklace')}>Necklace</span>
-          <span className={`2xl:text-xl  text-sm hover:underline rounded-lg p-1 2xl:p-2 ${selectedcatgry === 'Rings' ? "bg-slate-300" : ''}`}  onClick={()=>setselectedcatgry('Rings')}>Rings</span>
-          <span className={`2xl:text-xl text-sm  hover:underline rounded-lg p-1 2xl:p-2 ${selectedcatgry === 'Bracelet' ? "bg-slate-300" : ''}`} onClick={()=>setselectedcatgry('Bracelet')}>Bracelet</span>
-          <span className={`2xl:text-xl text-sm  hover:underline rounded-lg p-1 2xl:p-2 ${selectedcatgry === 'Beauty' ? "bg-slate-300" : ''}`} onClick={()=>setselectedcatgry('Beauty')}>Beauty</span>
+          {categories.map((c,idx)=>(
+            <span key={idx} className={`2xl:text-xl text-sm hover:underline rounded-lg p-1 2xl:p-2 ${selectedcatgry === c ? "bg-slate-300" : ''}`} onClick={()=>setselectedcatgry(c)}>{c}</span>
+          ))}
         </div>
         <div className='flex flex-col bg-red-200'>
         {products.length>0 && products.map((_prod, index) => (

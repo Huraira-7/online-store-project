@@ -11,15 +11,18 @@ import Checkout from './views/Checkout/Checkout';
 import Profile from './views/Profile/profile';
 import Layout from './lib/PageLayout';
 import Confirmation from './views/Confirmation/Confirmation';
+import { fetchcategories } from './api/internal';
+import { setCategories } from './store/userSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 
 function App() {
  
-    // const down = useSelector((state) => state.user.down); 
-    // console.log("auth=",isAuth);
+    const user = useSelector((state) => state.user);
     const navbarfootercolorscheme = 'bg-rose-400/60'
     const pagecolorscheme = "bg-red-400/70";
-    const categories = ['earrings', 'necklace', 'bracelet', 'beauty', 'rings', 'all', 'sale'];
+    let categories = ['earrings', 'necklace', 'bracelet', 'beauty', 'rings', 'all', 'sale'];
+    const dispatch = useDispatch();
 
     const [titles,setTitles] = useState([])
     const [suggestions,setSuggestions] = useState([])
@@ -29,6 +32,8 @@ function App() {
     const [searchRes,setSearchRes] = useState([])
     const [lastScroll,setlastScroll] = useState(0)
     const [cartbadge, setCartbadge] = useState(0)
+
+    const [fetched,setFetched] = useState(false)
 
     const hdr=document.getElementById('hdr')
     //window is NOT scrolling (hence should not add event listener to window) 
@@ -57,7 +62,28 @@ function App() {
         
       }, [searchQuery]) //fetch all items by title 
 
-    
+
+    useEffect(() => {
+        async function fetchCategories(){
+            const resp = await fetchcategories();
+            console.log("fetch-cat",resp)
+            if(resp.status === 200){
+              for(var i in resp.data.categories){
+                let c = resp.data.categories[i]
+                if(categories.indexOf(c.toLowerCase()) === -1) {
+                  // console.log("pushing",c)
+                  categories.push(c.toLowerCase())
+                }
+              }
+              dispatch(setCategories(categories))
+              setFetched(true)
+              // console.log(categories)
+              // categories = user.categories
+            }
+        }
+        fetchCategories();
+    }, [])
+        
     function handleCloseCart(){
       setCartOpen(false)
     }
@@ -75,7 +101,6 @@ function App() {
                     hdr.style.top = '0'
                 }
               } else{ //searchbar is opened
-    
               }
         }
         setlastScroll(currentScrollY)
@@ -112,11 +137,11 @@ function App() {
     }
 
     return (
-    <div id="maindiv" className="fixed top-0 bottom-0 left-0 right-0 overflow-auto" onScroll = {handleScroll} >
+    fetched && <div id="maindiv" className="fixed top-0 bottom-0 left-0 right-0 overflow-auto" onScroll = {handleScroll} >
       <BrowserRouter>
           <Routes>
-               
-              {categories.map((category,idx) => (
+              {console.log(user.categories)}
+              {user.categories.map((category,idx) => (
                 <Route key={idx} path={`/category/${category}`} 
                 element={ <Layout key={`/category/${category}`} pagename={`category/${category}`} {...navbarfooterprops} category={category} /> } />
               ))}

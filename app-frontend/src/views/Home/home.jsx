@@ -16,7 +16,7 @@ import './home.css'
 import Loading from '@/lib/Loading';
 // import { works,halfworks } from '@/assets/randomdata';
 
-function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSearchRes, searchRes,navbarfootercolorscheme,pagecolorscheme,loading,setLoading, setTitles,setCartbadge}) {
+function Home({ suggestions,search,searchQuery,setSearch, setSearchQuery, setSearchRes, searchRes,navbarfootercolorscheme,pagecolorscheme,loading,setLoading, setTitles,setCartbadge}) {
   const totalSlides = 4
   const [categorywise, setCategorywise] = useState([])
   const [bestselling, setBestselling] = useState([])
@@ -30,6 +30,7 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
   const navigate = useNavigate();
   
   const user = useSelector((state) => state.user);
+  const categories = user.categories
   // console.log(user)
 
   useEffect(() => {
@@ -123,7 +124,9 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
     }
   }
 
-  
+  function capitalize(string) {  return string.charAt(0).toUpperCase() + string.slice(1); }
+
+  const captions = ['Comfortable and Stylish', 'Complete your look', 'Tailored and versatile', 'Elegant and chic']
 
   return (
     <>
@@ -170,185 +173,36 @@ function Home({suggestions,search,searchQuery,setSearch, setSearchQuery, setSear
                         <LeftRightButtons handleNextClick={handleNextClick} handlePreviousClick={handlePreviousClick}/>
                       </div>
                     </CarouselItem>
-                    {/* <CarouselItem>
-                    <div className="relative h-[400px] w-full rounded-lg flex items-center justify-center">
-                    <img
-                        alt="Slide 4"
-                        className="h-full w-full object-cover"
-                        height={400}
-                        src="/placeholder.svg"
-                        style={{
-                          aspectRatio: "1600/400",
-                          objectFit: "cover",
-                        }}
-                        width={1600}
-                      />
-                      <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 p-4 text-center text-white">
-                        <h2 className="text-3xl font-bold">Sustainable Style</h2>
-                        <p className="text-lg">Explore our eco-friendly collections</p>
-                        <Button>Shop Now</Button>
-                      </div>
-                      <LeftRightButtons handleNextClick={handleNextClick} handlePreviousClick={handlePreviousClick}/>
-                      </div>
-                    </CarouselItem> */}
                 </CarouselContent>
                 <CarouselPrevious />
                 <CarouselNext />
               </Carousel>
-        {/* <div className="px-4 md:px-6 py-12"> */}
-        {/* <Carousel plugins={[ Autoplay({delay: 5000, }),]} className="px-4 md:px-6 py-10 w-full overflow-hidden">
-            <CarouselContent className="full">
-            <CarouselItem>
-            <div className="relative h-[300px] w-full rounded-lg">
-            <img
-            alt="Slide 1"
-            className="h-full w-full object-cover"
-            height={300}
-                    src="/placeholder.svg"
-                    style={{
-                      aspectRatio: "1200/300",
-                      objectFit: "cover",
-                    }}
-                    width={1200}
-                    />
-                    </div>
-                    </CarouselItem>
-              <CarouselItem>
-                <div className="relative h-[300px] w-full rounded-lg">
-                <img
-                alt="Slide 2"
-                className="h-full w-full object-cover"
-                    height={300}
-                    src="/placeholder.svg"
-                    style={{
-                      aspectRatio: "1200/300",
-                      objectFit: "cover",
-                    }}
-                    width={1200}
-                    />
-                    </div>
-                    </CarouselItem>
-                    <CarouselItem>
-                    <div className="relative h-[300px] w-full rounded-lg">
-                    <img
-                    alt="Slide 3"
-                    className="h-full w-full object-cover"
-                    height={300}
-                    src="/placeholder.svg"
-                    style={{
-                      aspectRatio: "1200/300",
-                      objectFit: "cover",
-                    }}
-                    width={1200}
-                  />
-                </div>
-              </CarouselItem>
-            </CarouselContent>
-            <CarouselPrevious />
-            <CarouselNext />
-          </Carousel> */}
-        {/* </div> */}
         <div className={`bg-amber-800/10`}>
         {Object.keys(categorywise).length > 0 && <div>
         <section className="px-4 md:px-6 py-12">
           <span className="text-3xl font-semibold">Categories</span>
           <div className=" mt-20 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div className="relative group rounded-lg shadow-lg hover:shadow-xl transition-transform duration-300 ease-in-out hover:-translate-y-2">
-              <img
-                src={categorywise['Earrings'].images[0].imagestring[0] === 'f' ? `images/${categorywise['Earrings'].images[0].imagestring}` : categorywise['Earrings'].images[0].imagestring}
-                alt="Earrings"
-                className="object-cover w-full h-auto rounded-3xl"
-                height={400}
-                width={500}
-                style={{
-                  aspectRatio: "500/400",
-                  objectFit: "cover",
-                }}
-                onClick={()=>navigate('/category/earrings')}
-              />
-              <div className="bg-white p-4 dark:bg-gray-950">
-                <h3 className="font-bold text-xl">Earrings</h3>
-                <p className="text-sm text-gray-500">Comfortable and stylish</p>
-              </div>
-            </div>
-            <div className="relative group rounded-lg shadow-lg hover:shadow-xl transition-transform duration-300 ease-in-out hover:-translate-y-2">
-              <img
-                alt="Bracelet"
-                src={categorywise['Bracelet'].images[0].imagestring[0] === 'f' ? `images/${categorywise['Bracelet'].images[0].imagestring}` : categorywise['Bracelet'].images[0].imagestring}
-                className="object-cover w-full h-auto rounded-3xl"
-                height={400}
-                width={500}
-                style={{
-                  aspectRatio: "500/400",
-                  objectFit: "cover",
-                }}
-                onClick={()=>navigate('/category/bracelet')}
-              />
-              <div className="bg-white p-4 dark:bg-gray-950">
-                <h3 className="font-bold text-xl">Bracelet</h3>
-                <p className="text-sm text-gray-500">Stylish and comfortable</p>
-              </div>
-            </div>
-            <div className="relative group rounded-lg shadow-lg hover:shadow-xl transition-transform duration-300 ease-in-out hover:-translate-y-2">
-              <img
-                alt="Beauty"
-                src={categorywise['Beauty'].images[0].imagestring[0] === 'f' ? `images/${categorywise['Beauty'].images[0].imagestring}` : categorywise['Beauty'].images[0].imagestring}
-                className="object-cover w-full h-auto rounded-3xl"
-                height={400}
-                width={500}
-                style={{
-                  aspectRatio: "500/400",
-                  objectFit: "cover",
-                }}
-                onClick={()=>navigate('/category/beauty')}
+            {categories.map((c,idx)=>(
+              c!== 'all' && c!=='sale' &&
+              <div key={idx} className="relative group rounded-lg shadow-lg hover:shadow-xl transition-transform duration-300 ease-in-out hover:-translate-y-2">
+                <img
+                  src={categorywise[capitalize(c)].images[0].imagestring[0] === 'f' ? `images/${categorywise[capitalize(c)].images[0].imagestring}` : categorywise[capitalize(c)].images[0].imagestring}
+                  alt={capitalize(c)}
+                  className="object-cover w-full h-auto rounded-3xl"
+                  height={400}
+                  width={500}
+                  style={{
+                    aspectRatio: "500/400",
+                    objectFit: "cover",
+                  }}
+                  onClick={()=>navigate(`/category/${c}`)}
                 />
-              <div className="bg-white p-4 dark:bg-gray-950">
-                <h3 className="font-bold text-xl">Beauty</h3>
-                <p className="text-sm text-gray-500">Complete your look</p>
+                <div className="bg-white p-4 dark:bg-gray-950">
+                  <h3 className="font-bold text-xl">{capitalize(c)}</h3>
+                  <p className="text-sm text-gray-500">{captions[idx % (captions.length)]}</p>
+                </div>
               </div>
-            </div>
-            </div>
-          </section>
-          <section className="px-4 md:px-6 py-12">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8">
-              <div className="relative group rounded-lg shadow-lg hover:shadow-xl transition-transform duration-300 ease-in-out hover:-translate-y-2">
-              <img
-                alt="Rings"
-                src={categorywise['Rings'].images[0].imagestring[0] === 'f' ? `images/${categorywise['Rings'].images[0].imagestring}` : categorywise['Rings'].images[0].imagestring}
-                className="object-cover w-full h-auto rounded-3xl"
-                height={400}
-                width={500}
-                style={{
-                  aspectRatio: "500/400",
-                  objectFit: "cover",
-                }}
-                onClick={()=>navigate('/category/rings')}
-              />
-              <div className="bg-white p-4 dark:bg-gray-950">
-                <h3 className="font-bold text-xl">Rings</h3>
-                <p className="text-sm text-gray-500">Tailored and versatile</p>
-              </div>
-            </div>
-        
-        
-            <div className="relative group rounded-lg shadow-lg hover:shadow-xl transition-transform duration-300 ease-in-out hover:-translate-y-2">
-              <img
-                alt="Necklaces"
-                src={categorywise['Necklace'].images[0].imagestring[0] === 'f' ? `images/${categorywise['Necklace'].images[0].imagestring}` : categorywise['Necklace'].images[0].imagestring}
-                className="object-cover w-full h-auto rounded-3xl"
-                height={400}
-                width={500}
-                style={{
-                  aspectRatio: "500/400",
-                  objectFit: "cover",
-                }}
-                onClick={()=>navigate('/category/necklace')}
-              />
-              <div className="bg-white p-4 dark:bg-gray-950">
-                <h3 className="font-bold text-xl">Necklaces</h3>
-                <p className="text-sm text-gray-500">Elegant and chic</p>
-              </div>
-            </div>    
+            ))}
             </div>
           </section>
           </div>}
