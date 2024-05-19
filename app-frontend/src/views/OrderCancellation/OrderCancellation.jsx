@@ -1,9 +1,10 @@
 import {useEffect} from 'react'
 
-function OrderCancellation() {
+function OrderCancellation({setLoading}) {
   useEffect(() => {
     const maindiv = document.getElementById('maindiv');
     maindiv.scrollTo({top: 0, behavior: 'smooth', })
+    setLoading(false)
   }, [])
   
   return (

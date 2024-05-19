@@ -1,10 +1,11 @@
 import {useEffect} from 'react'
 
 
-function TnC() {
+function TnC({setLoading}) {
   useEffect(() => {
     const maindiv = document.getElementById('maindiv');
     maindiv.scrollTo({top: 0, behavior: 'smooth', })
+    setLoading(false)
   }, [])
   
   return (
