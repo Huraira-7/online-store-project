@@ -1,9 +1,9 @@
 import axios from "axios";
 
-const backendlink =   //'http://192.168.100.136:3000' //`https://online-store-project-production.up.railway.app`
- `https://www.blingboutique.site/` 
+const backendlink =  process.env.BACKENDLINK || `http://localhost:3000` 
+ //`https://www.blingboutique.site/` 
 const api = axios.create({ 
-  baseURL:  backendlink,   //process.env.VITE_APP_INTERNAL_API_PATH,
+  baseURL:  backendlink,
   headers: {
     "Content-Type": "application/json",
   },

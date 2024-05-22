@@ -28,7 +28,11 @@ function Footer(props) {
         const resp = await addemail(body);
         // console.log(resp)
         setEmail('')
-        handleOpenmsg('Your email has been submitted successfully')
+        if(resp.status === 200){
+          handleOpenmsg('That email already exists - has been submitted once')
+        } else {
+          handleOpenmsg('Your email has been submitted successfully')
+        }
       } else {
         handleOpenerr('Badly formatted email address')
         // console.log("invalid email")

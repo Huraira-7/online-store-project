@@ -66,7 +66,7 @@ function App() {
     useEffect(() => {
         async function fetchCategories(){
             const resp = await fetchcategories();
-            console.log("fetch-cat",resp)
+            // console.log("fetch-cat",resp)
             if(resp.status === 200){
               for(var i in resp.data.categories){
                 let c = resp.data.categories[i]
@@ -140,7 +140,7 @@ function App() {
     fetched && <div id="maindiv" className="fixed top-0 bottom-0 left-0 right-0 overflow-auto" onScroll = {handleScroll} >
       <BrowserRouter>
           <Routes>
-              {console.log(user.categories)}
+              {/* /{console.log(user.categories)} */}
               {user.categories.map((category,idx) => (
                 <Route key={idx} path={`/category/${category}`} 
                 element={ <Layout key={`/category/${category}`} pagename={`category/${category}`} {...navbarfooterprops} category={category} /> } />

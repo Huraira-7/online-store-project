@@ -4,7 +4,7 @@ import transporter from '../middlewares/emailHandler.js';
 const emailController = {
 
     async sendorderconfirmationemail(req,res,next){
-        const {message, customer} = req.body
+        const {message, msghtml, customer} = req.body
         // console.log(message,customer)
         try{
             let employee =  await User.findOne({role:'employee'});
@@ -13,7 +13,8 @@ const emailController = {
                 from:process.env.EMAIL,
                 to:  `${email}, ${customer}`,
                 subject: "Order Placement Confirmation Email - Bling Boutique", 
-                text: `${message}`
+                // text: `${message}`,
+                html : `${msghtml}`
                 //html tag to present content can also be used...
             }
     
@@ -83,6 +84,12 @@ const emailController = {
     async addemail(req,res,next){
         const {email} = req.body
         try{
+            let isexisting =  await User.findOne({email:email});
+            // console.log(isexisting)
+            if(isexisting !== null) {
+                // console.log("exists")
+                return res.status(200).json({message:"Email already exists (has already been added) "});
+            }
             let user;
              const userToAdd = new User({
                     email: email,

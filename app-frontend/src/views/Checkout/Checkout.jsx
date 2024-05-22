@@ -82,8 +82,158 @@ function Checkout({setCartbadge,loading,setLoading}) {
       
     }
   }
+  // console.log(cart)
 
   async function handleCheckOut() {
+    var part1 = `<!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Order Confirmation - Bling Boutique</title>
+      <style>
+      body {
+        font-family: sans-serif;
+        margin: 6px;
+        padding: 0;
+      }
+      .store-heading {
+        font-size: 2em;
+        font-weight: bold;
+        margin-bottom: 1em;
+      }
+      .order-message {
+        font-size: 1.2em;
+        color: black;
+        margin-bottom: 1em;
+      }
+      .order-details {
+        font-size: 1.0em;
+        color: gray;
+        margin-bottom: 1em;
+      }
+      .table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+      .table th, .table td {
+        padding: 0.5em;
+        border: 1px solid #ddd;
+      }
+      .table th {
+        text-align: left;
+        font-weight: bold;
+      }
+      .t2 td{
+        text-align: right;
+      }
+      .t2{
+      margin-top:3em;
+      }
+      
+      .order-summary {
+        margin-top: 1em;
+      }
+      .order-summary td {
+        padding: 0.5em;
+        text-align: right;
+      }
+      .order-summary td:first-child {
+        text-align: left;
+        font-weight: bold;
+      }
+      .address-container {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 2em;
+      }
+      .address-section {
+        border: 1px solid #ddd;
+        padding: 1em;
+      }
+      .t1{
+        margin-top: 2em;
+      }
+      .ot{
+        margin: 2em;
+      }
+        
+      </style>
+    </head>
+    <body>
+      <h1 class="store-heading">Bling Boutique</h1>
+      <p class="order-message">Thank you for your purchase!</p>
+      <p class="order-details">We're getting your order ready to be shipped. We will notify you when it has been sent.</p>
+    
+      <table class="table t1">
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Price</th>
+          </tr>
+        </thead>
+        <tbody>`
+    for(var i in cart){
+      let p = cart[i];
+      part1+= `
+          <tr>
+            <td>${p.title}</td>
+            <td>${p.qty}</td>
+            <td> Rs. ${p.price.toLocaleString()}</td>
+          </tr>
+       `
+    }
+    part1+=`
+    </tbody>
+    </table>
+    <table class="table t2">
+      <tbody>
+        <tr>
+          <td>Subtotal:</td>
+          <td>Rs. ${(tp-299).toLocaleString()}</td>  </tr>
+        <tr>
+          <td>Shipping:</td>
+          <td>Rs. 299</td>  </tr>
+        <tr>
+          <td>Payment Method:</td>
+          <td>${paymentmethod === 'OT' ? 'Online Transfer' : 'Cash on Delivery'}</td>  </tr>
+        <tr>
+          <td>Total:</td>
+          <td>Rs. ${tp.toLocaleString()}</td>  </tr>
+      </tbody>
+    </table>
+
+    ${paymentmethod === 'OT' ?  `<div class="ot">
+            <h3> Online Transfer Details </h3>
+            <p>Account Holder: Ansa Iqbal </p>
+            <p>Branch Name: New Anarkali Bazaar Branch Lahore</p>
+            <p> Account Number: <b> 02720107745960 </b> </p>
+            <p> IBAN: <b> PK15MEZN0002720107745960 </b> </p>
+            <p> Whatsapp screenshot to this number: <b> 0320-8585354  </b> </p>
+          </div>` : ''
+  }
+    <div class="address-container">
+      <div class="address-section">
+        <h2>Shipping Address</h2>
+        <p>${fname} ${lname}</p>
+        <p>${address}</p>
+        <p>${city}</p>
+        <p>${postcode}</p>
+      </div>
+      <div class="address-section">
+        <h2>Billing Address</h2>
+        <p>${fname} ${lname}</p>
+        <p>${(diffaddress === true && billaddress!=='') ? billaddress : address}</p>
+        <p>${city}</p>
+        <p>${postcode}</p>
+      </div>
+    </div>
+  </body>
+  </html>
+    `
+
+    // console.log(part1)
     if(fname === '' || lname === '' || email === '' || phone === '' || city === '' || address == '' || postcode === ''){
       handleOpenerr('All fields are required')
       return;
@@ -101,7 +251,7 @@ function Checkout({setCartbadge,loading,setLoading}) {
 
     // console.log(cart)
     const message = `Customer Name: ${fname} ${lname} \n Customer Email: ${email} \n Customer Phone Number: ${phone} \n Customer Shipping Address: ${address}, ${city}, ${postcode} \n Customer Billing Address: ${diffaddress && billaddress!=='' ? billaddress : 'Same as Shipping Address'} \n Payment Method: ${paymentmethod === 'COD' ? 'Cash on Delivery' : 'Online Transfer'} \n ${paymentmethod !== 'COD' ? "Details: Account Holder: Ansa Iqbal\nBranch Name: New Anarkali Bazaar Branch Lahore\nAccount Number: 02720107745960\nIBAN: PK15MEZN0002720107745960\nWhatsapp screenshot to this number: 0320-8585354\n" : ""  } This email is to inform you that your order of  ${cart.map(item => ` ${item.qty}  ${item.title} , `).join('')} for Rs. ${tp} has been successfully placed at Bling Boutique \n Please expect it to be delivered within 3 to 5 working days \n`
-    const body = {message , customer: email}
+    const body = {message , msghtml :part1,  customer: email}
     // console.log(body)
     const resp = await sendorderconfirmationemail(body);
     if(resp.status === 200 ){   
@@ -136,6 +286,11 @@ function Checkout({setCartbadge,loading,setLoading}) {
         <div className='2xl:text-5xl text-3xl text-nowrap mb-4 font-semibold cursor-pointer 2xl:h-11 h-6 ' onClick={()=>navigate('/',{replace:true})} > Bling Boutique </div>
       </div>
       <Separator className='bg-slate-300' />
+      {/* <div className='flex flex-col'>
+          <h3 > Bling Boutique </h3>
+          <h6 className='text-wrap'> Thank you for your purchase! </h6>
+          <span className='text-gray text-wrap'> We're getting your order ready to be shipped. We will notify you when has it been sent</span>
+      </div> */}
       <div className='flex max-[1400px]:flex-col'>
           <div className='w-6/12 mb-64 max-[1400px]:mb-16 max-[1400px]:w-full'>
             <div className='ml-8 mt-8 2xl:mt-16 w-11/12 flex flex-col gap-4'>
