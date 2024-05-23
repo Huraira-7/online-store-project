@@ -85,6 +85,21 @@ function Checkout({setCartbadge,loading,setLoading}) {
   // console.log(cart)
 
   async function handleCheckOut() {
+
+    if(fname === '' || lname === '' || email === '' || phone === '' || city === '' || address == '' || postcode === ''){
+      handleOpenerr('All fields are required')
+      return;
+    }
+    if(phone[0] < 0 && String(phone).length !== 11 && /^\d+$/.test(phone) !== true){
+      handleOpenerr('A phone number  >= 0 and of 11 digits should be submitted in order to process the form');
+      return;
+    }
+    const emailInput = document.getElementById('checkoutmail');
+    if (!emailInput.validity.valid) { 
+      handleOpenerr('Badly formatted Email address')
+      return;
+    }
+
     var part1 = `<!DOCTYPE html>
     <html lang="en">
     <head>
@@ -101,6 +116,12 @@ function Checkout({setCartbadge,loading,setLoading}) {
         font-size: 2em;
         font-weight: bold;
         margin-bottom: 1em;
+      }
+      order-heading{
+        font-size: 0.3em;
+        font-weight: bold;
+        margin-top: 0.3em;
+        margin-bottom: 0.3em;
       }
       .order-message {
         font-size: 1.2em;
@@ -163,8 +184,9 @@ function Checkout({setCartbadge,loading,setLoading}) {
     <body>
       <h1 class="store-heading">Bling Boutique</h1>
       <p class="order-message">Thank you for your purchase!</p>
-      <p class="order-details">We're getting your order ready to be shipped. We will notify you when it has been sent.</p>
+      <p class="order-details">We're getting your order ready to be shipped. We will notify you when it has been sent.</p>`
     
+    var part2 = `
       <table class="table t1">
         <thead>
           <tr>
@@ -176,7 +198,7 @@ function Checkout({setCartbadge,loading,setLoading}) {
         <tbody>`
     for(var i in cart){
       let p = cart[i];
-      part1+= `
+      part2+= `
           <tr>
             <td>${p.title}</td>
             <td>${p.qty}</td>
@@ -184,7 +206,7 @@ function Checkout({setCartbadge,loading,setLoading}) {
           </tr>
        `
     }
-    part1+=`
+    part2+=`
     </tbody>
     </table>
     <table class="table t2">
@@ -232,30 +254,13 @@ function Checkout({setCartbadge,loading,setLoading}) {
   </body>
   </html>
     `
-
-    // console.log(part1)
-    if(fname === '' || lname === '' || email === '' || phone === '' || city === '' || address == '' || postcode === ''){
-      handleOpenerr('All fields are required')
-      return;
-    }
-    if(phone[0] < 0 && String(phone).length !== 11 && /^\d+$/.test(phone) !== true){
-      handleOpenerr('A phone number  >= 0 and of 11 digits should be submitted in order to process the form');
-      return;
-    }
-    const emailInput = document.getElementById('checkoutmail');
-    if (!emailInput.validity.valid) { 
-      handleOpenerr('Badly formatted Email address')
-      return;
-    }
-    //maybe test on city (allow select option for some cities only) ??
-
+    handleOpenmsg('Your order has been placed successfully, you will receive an email shortly')
     // console.log(cart)
     const message = `Customer Name: ${fname} ${lname} \n Customer Email: ${email} \n Customer Phone Number: ${phone} \n Customer Shipping Address: ${address}, ${city}, ${postcode} \n Customer Billing Address: ${diffaddress && billaddress!=='' ? billaddress : 'Same as Shipping Address'} \n Payment Method: ${paymentmethod === 'COD' ? 'Cash on Delivery' : 'Online Transfer'} \n ${paymentmethod !== 'COD' ? "Details: Account Holder: Ansa Iqbal\nBranch Name: New Anarkali Bazaar Branch Lahore\nAccount Number: 02720107745960\nIBAN: PK15MEZN0002720107745960\nWhatsapp screenshot to this number: 0320-8585354\n" : ""  } This email is to inform you that your order of  ${cart.map(item => ` ${item.qty}  ${item.title} , `).join('')} for Rs. ${tp} has been successfully placed at Bling Boutique \n Please expect it to be delivered within 3 to 5 working days \n`
-    const body = {message , msghtml :part1,  customer: email}
+    const body = {message , msghtml :part1, msghtml2: part2, customer: email}
     // console.log(body)
     const resp = await sendorderconfirmationemail(body);
     if(resp.status === 200 ){   
-      handleOpenmsg('Your order has been placed successfully, you will receive an email shortly')
       setCartbadge(0)
       dispatch(emptyCart())
       navigate('/',{replace:true})   

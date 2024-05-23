@@ -12,7 +12,9 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import Loading from '@/lib/Loading';
 import { Helmet } from 'react-helmet';
 import { GrRadialSelected } from 'react-icons/gr';
+import { splitIntoChunks } from '@/lib/utils';
 import './profile.css'
+import { split } from 'postcss/lib/list';
 
 
 function Profile({loading,setLoading}) {
@@ -44,6 +46,7 @@ function Profile({loading,setLoading}) {
   const [newmail, setNewmail] = useState('')
   const [selectedcatgry, setselectedcatgry] = useState("Earrings"); //while editing
   const [categories, setCategories] = useState([])
+  const [chunks, setChunks] = useState([])
   const [newcatg, setnewCatg] = useState('')
   const [diffcatg, setdiffCatg] = useState(false)
   const dispatch = useDispatch()
@@ -358,7 +361,8 @@ function Profile({loading,setLoading}) {
       // console.log(resp)
       if(resp.status === 200){
         setCategories(resp.data.categories)
-        console.log(resp.data.categories)
+        // console.log(resp.data.categories)
+        setChunks(splitIntoChunks(resp.data.categories,5))
         setProducts(resp.data.products)
         setIsdown(resp.data.down === true)
         let ts = []
@@ -491,9 +495,13 @@ function Profile({loading,setLoading}) {
           <button type="submit" className='btn text-2xl bg-white px-4 py-2 rounded-md mb-4' style={{ marginTop: 15 }} onClick={handleAddProd}>Submit</button>
         </div> 
         <h2 className='font-bold 2xl:text-2xl text-xl py-8 text-center bg-red-200'> Edit Products </h2>
-        <div className="bg-red-400 p-4 flex justify-between cursor-pointer">
-          {categories.map((c,idx)=>(
-            <span key={idx} className={`2xl:text-xl text-sm hover:underline rounded-lg p-1 2xl:p-2 ${selectedcatgry === c ? "bg-slate-300" : ''}`} onClick={()=>setselectedcatgry(c)}>{c}</span>
+        <div className="bg-red-400 flex flex-col">
+          {chunks.map((categories,index)=>(
+            <div key={index} className='p-4 flex justify-between'>
+              {categories.map((c,idx)=>(
+                <span key={idx} className={`2xl:text-xl text-sm  cursor-pointer hover:underline rounded-lg p-1 2xl:p-2 ${selectedcatgry === c ? "bg-slate-300" : ''}`} onClick={()=>setselectedcatgry(c)}>{c}</span>
+              ))}
+            </div>
           ))}
         </div>
         <div className='flex flex-col bg-red-200'>

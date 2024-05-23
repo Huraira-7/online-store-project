@@ -11,6 +11,7 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 import { Separator } from "@/components/ui/separator"
 import { MdDelete } from "react-icons/md";
 import Badge from '@mui/material/Badge';
+import { splitIntoChunks } from "@/lib/utils";
 
 
 // import youtube from '../../assets/youtube.png/'
@@ -25,6 +26,7 @@ function Navbar({loading, navbarfootercolorscheme, search, setSearch, searchQuer
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const categories = user.categories
+  const categorychunks = splitIntoChunks(categories,7)
 
   const [tp, setTp] = useState(0) //tp : totalPrice
 
@@ -269,10 +271,18 @@ function Navbar({loading, navbarfootercolorscheme, search, setSearch, searchQuer
                 </div>
               </div>
               <div className="flex text-center justify-center items-center px-4 md:px-6 py-2 max-[899px]:hidden">
-                <span className="mr-4 pb-2 text-xl 2xl:text-2xl cursor-pointer" onClick={()=>navigate('/',{replace:true})}> Home</span>     
-                {categories.map((c,idx)=>(
-                  <span key={idx} className="mr-4 pb-2 text-xl 2xl:text-2xl cursor-pointer" onClick={()=>navigate(`/category/${c}`,{replace:true})}> {c==='all' ? 'Shop' : capitalize(c)} </span>
-                  ))}
+                {categorychunks.length===1 && <span className="pb-1 mr-4 text-xl 2xl:text-2xl cursor-pointer" onClick={()=>navigate('/',{replace:true})}> Home</span>   } 
+                <div className="flex flex-col">
+                {categorychunks.map((categories,index)=>(
+                  <div key={index} className='pb-1'>
+                      {console.log(categories)}
+                      {index===0 && categorychunks.length>1 && <span className="pb-1 mr-4 text-xl 2xl:text-2xl cursor-pointer" onClick={()=>navigate('/',{replace:true})}> Home</span>  }
+                      {categories.map((c,idx)=>(
+                        <span key={idx} className="mr-4 text-xl 2xl:text-2xl cursor-pointer" onClick={()=>navigate(`/category/${c}`,{replace:true})}> {c==='all' ? 'Shop' : capitalize(c)} </span>
+                      ))}
+                    </div>
+                  ))} 
+                </div>
                   {/* <span className="mr-4 pb-2 text-xl 2xl:text-2xl cursor-pointer" onClick={()=>navigate('/category/earrings',{replace:true})} > Earrings</span>
                   <span className="mr-4 pb-2 text-xl 2xl:text-2xl cursor-pointer" onClick={()=>navigate('/category/rings',{replace:true})} > Rings</span>
                   <span className="mr-4 pb-2 text-xl 2xl:text-2xl cursor-pointer" onClick={()=>navigate('/category/necklace',{replace:true})}> Necklace</span>

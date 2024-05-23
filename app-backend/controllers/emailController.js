@@ -4,18 +4,26 @@ import transporter from '../middlewares/emailHandler.js';
 const emailController = {
 
     async sendorderconfirmationemail(req,res,next){
-        const {message, msghtml, customer} = req.body
-        // console.log(message,customer)
+        const {msghtml, msghtml2, customer} = req.body
+        // console.log(msghtml, msghtml2, customer)
         try{
             let employee =  await User.findOne({role:'employee'});
+            let oc =  await User.findOne({role:'ordercount'});
+            let count = parseInt(oc.email)
+            // console.log(oc.email,count)
+            let middlehtml = `
+            <h1 class="order-heading"> [Order#${count}] (${(new Date()).toDateString().split(" ").splice(1).join(' ')}) </h1>
+            `
+
+            let finalhtml = msghtml + middlehtml + msghtml2
+            
             let email = employee.email;
             var mailOptions = {
                 from:process.env.EMAIL,
                 to:  `${email}, ${customer}`,
                 subject: "Order Placement Confirmation Email - Bling Boutique", 
                 // text: `${message}`,
-                html : `${msghtml}`
-                //html tag to present content can also be used...
+                html : `${finalhtml}`
             }
     
             // transporter.sendMail(mailOptions, (error, info) => {
@@ -38,6 +46,8 @@ const emailController = {
                 });
             });
 
+            oc.email = (count+1).toString()
+            await oc.save();
             return res.status(200).json({email:"sent"});
         } catch(e)    {   console.log("mail-err",e);     return next(e); }
         // console.log("Message sent: %s", info.messageId);
