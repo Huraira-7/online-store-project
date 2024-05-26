@@ -86,7 +86,7 @@ function Checkout({setCartbadge,loading,setLoading}) {
 
   async function handleCheckOut() {
 
-    if(fname === '' || lname === '' || email === '' || phone === '' || city === '' || address == '' || postcode === ''){
+    if(fname.trim() === '' || lname.trim() === '' || email.trim() === '' || phone.trim() === '' || city.trim() === '' || address.trim() === '' || postcode === undefined){
       handleOpenerr('All fields are required')
       return;
     }
@@ -97,6 +97,10 @@ function Checkout({setCartbadge,loading,setLoading}) {
     const emailInput = document.getElementById('checkoutmail');
     if (!emailInput.validity.valid) { 
       handleOpenerr('Badly formatted Email address')
+      return;
+    }
+    if(email.split('@')[1] !== 'gmail.com'){
+      handleOpenerr('Please enter a valid GMAIL address')
       return;
     }
 
@@ -178,6 +182,9 @@ function Checkout({setCartbadge,loading,setLoading}) {
       .ot{
         margin: 2em;
       }
+      .ot2{
+        margin: 2em;
+      }
         
       </style>
     </head>
@@ -235,6 +242,12 @@ function Checkout({setCartbadge,loading,setLoading}) {
             <p> Whatsapp screenshot to this number: <b> 0320-8585354  </b> </p>
           </div>` : ''
   }
+  <div class="ot2"> 
+    <h3> Contact Info </h3>
+    <p> Email: ${email} </p>
+    <p> Phone Number: ${phone} </p>
+  </div>
+  
     <div class="address-container">
       <div class="address-section">
         <h2>Shipping Address</h2>

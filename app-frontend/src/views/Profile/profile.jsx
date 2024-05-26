@@ -183,6 +183,10 @@ function Profile({loading,setLoading}) {
       const emailInput = document.getElementById('newmail');
       // console.log(emailInput.validity.valid)
       if (emailInput.validity.valid) {
+        if(newmail.split('@')[1] !== 'gmail.com'){
+          handleOpenerr('Please enter a valid GMAIL address')
+          return;
+        }
         // console.log("valid email")
         const body = {email: newmail}
         const resp = await changemail(body);
