@@ -16,3 +16,16 @@ export function splitIntoChunks(arr,chunkSize){ //splits arrays into chunk array
 }
 
 export function capitalize(string) {  return string.charAt(0).toUpperCase() + string.slice(1); }
+
+function removeNonLatin1(str) {
+  // Regex to match characters outside Latin1 range (anything above \u00FF)
+  const regex = /[\u0080-\uFFFF]/g;
+  return str.replace(regex, "");
+}
+
+export function customBtoA(string){
+  const enc = new TextEncoder();
+  const data = enc.encode(removeNonLatin1(string));
+  const b64 = btoa(String.fromCharCode(...data));
+  return b64;
+}

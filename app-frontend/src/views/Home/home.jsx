@@ -12,8 +12,9 @@ import { Helmet } from 'react-helmet';
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 import { fetchinitialdata } from '../../api/internal';
 import {  useNavigate } from 'react-router-dom';
-import './home.css'
 import Loading from '@/lib/Loading';
+import { customBtoA } from '@/lib/utils';
+import './home.css'
 // import { works,halfworks } from '@/assets/randomdata';
 
 function Home({ suggestions,search,searchQuery,setSearch, setSearchQuery, setSearchRes, searchRes,navbarfootercolorscheme,pagecolorscheme,loading,setLoading, setTitles,setCartbadge}) {
@@ -104,11 +105,17 @@ function Home({ suggestions,search,searchQuery,setSearch, setSearchQuery, setSea
     setSearchQuery('')
     setSearchRes([])
     let prod = all.filter(dictionary => dictionary._id === result.id)[0]
-    navigate('/product', { state:{product: btoa(JSON.stringify(prod))} })
+    navigatetoProduct(prod)
   }
 
   function navigatetoProduct(result){ //from home page
-    navigate('/product', { state:{product: btoa(JSON.stringify(result))} })
+    try{
+      navigate('/product', { state:{product: btoa(JSON.stringify(result))} })
+    } catch(e) {
+      const cbtoa = customBtoA(JSON.stringify(result))
+      navigate('/product', { state:{product: cbtoa} })
+    }
+    // navigate('/product', { state:{product: btoa(JSON.stringify(result))} })
   }
 
   const handleAddItem = (e,prod) => {

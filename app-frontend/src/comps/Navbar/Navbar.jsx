@@ -105,7 +105,7 @@ function Navbar({loading, navbarfootercolorscheme, search, setSearch, searchQuer
                 onChange={(e)=>(setSearchQuery(e.target.value))}
                 className={`${colorScheme} headerbarr  flex text-center w-11/12 h-full px-8 text-black text-2xl placeholder-black rounded-md focus:outline-none`}
               />
-              <button id="closeButton" className={`headerbarr fixed right-16 top-16 right-1 top-12 focus:outline-none`} onClick={handleCloseSearch}>
+              <button id="closeButton" className={`headerbarr fixed right-14 top-12 right-1 top-12 focus:outline-none`} onClick={handleCloseSearch}>
                 <CloseIcon className="headerbarr h-12 w-12 h-8 w-8 text-white" />
               </button>
             </div>

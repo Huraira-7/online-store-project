@@ -11,8 +11,8 @@ import { Separator } from "@/components/ui/separator"
 import { Input } from "@/components/ui/input"
 import ClickAwayListener from 'react-click-away-listener';
 import Popper from '@mui/material/Popper';
-
 import './category.css'
+import { customBtoA } from '@/lib/utils';
 import Loading from '@/lib/Loading';
 
 
@@ -138,7 +138,12 @@ function Category({category,setLoading,loading}) {
   
 
   function showProduct(prod){
-    navigate('/product', { state:{product: btoa(JSON.stringify(prod))} })
+    try{
+      navigate('/product', { state:{product: btoa(JSON.stringify(prod))} })
+    } catch(e) {
+      const cbtoa = customBtoA(JSON.stringify(prod))
+      navigate('/product', { state:{product: cbtoa} })
+    }
   } 
 
   function resetPages(){
