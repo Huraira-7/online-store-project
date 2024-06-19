@@ -236,6 +236,7 @@ function Checkout({setCartbadge,loading,setLoading}) {
     ${paymentmethod === 'OT' ?  `<div class="ot">
             <h3> Online Transfer Details </h3>
             <p>Account Holder: Ansa Iqbal </p>
+            <p>Bank Name: Meezan Bank </p>
             <p>Branch Name: New Anarkali Bazaar Branch Lahore</p>
             <p> Account Number: <b> 02720107745960 </b> </p>
             <p> IBAN: <b> PK15MEZN0002720107745960 </b> </p>
@@ -269,7 +270,7 @@ function Checkout({setCartbadge,loading,setLoading}) {
     `
     handleOpenmsg('Your order has been placed successfully, you will receive an email shortly')
     // console.log(cart)
-    const message = `Customer Name: ${fname} ${lname} \n Customer Email: ${email} \n Customer Phone Number: ${phone} \n Customer Shipping Address: ${address}, ${city}, ${postcode} \n Customer Billing Address: ${diffaddress && billaddress!=='' ? billaddress : 'Same as Shipping Address'} \n Payment Method: ${paymentmethod === 'COD' ? 'Cash on Delivery' : 'Online Transfer'} \n ${paymentmethod !== 'COD' ? "Details: Account Holder: Ansa Iqbal\nBranch Name: New Anarkali Bazaar Branch Lahore\nAccount Number: 02720107745960\nIBAN: PK15MEZN0002720107745960\nWhatsapp screenshot to this number: 0320-8585354\n" : ""  } This email is to inform you that your order of  ${cart.map(item => ` ${item.qty}  ${item.title} , `).join('')} for Rs. ${tp} has been successfully placed at Bling Boutique \n Please expect it to be delivered within 3 to 5 working days \n`
+    const message = `Customer Name: ${fname} ${lname} \n Customer Email: ${email} \n Customer Phone Number: ${phone} \n Customer Shipping Address: ${address}, ${city}, ${postcode} \n Customer Billing Address: ${diffaddress && billaddress!=='' ? billaddress : 'Same as Shipping Address'} \n Payment Method: ${paymentmethod === 'COD' ? 'Cash on Delivery' : 'Online Transfer'} \n ${paymentmethod !== 'COD' ? "Details: Account Holder: Ansa Iqbal\nBank Name: Meezan Bank\nBranch Name: New Anarkali Bazaar Branch Lahore\nAccount Number: 02720107745960\nIBAN: PK15MEZN0002720107745960\nWhatsapp screenshot to this number: 0320-8585354\n" : ""  } This email is to inform you that your order of  ${cart.map(item => ` ${item.qty}  ${item.title} , `).join('')} for Rs. ${tp} has been successfully placed at Bling Boutique \n Please expect it to be delivered within 3 to 5 working days \n`
     const body = {message , msghtml :part1, msghtml2: part2, customer: email}
     // console.log(body)
     const resp = await sendorderconfirmationemail(body);
@@ -355,6 +356,7 @@ function Checkout({setCartbadge,loading,setLoading}) {
                 <div className='flex flex-col mt-8 items-left text-2xl max-[900px]:text-xl'>
                    <span className='text-center text-3xl max-[900px]:text-2xl mb-6'> Transfer Details </span>
                    <span className='text-wrap w-9/12'> Account Holder: Ansa Iqbal </span>
+                   <span className='text-wrap w-9/12'> Bank Name: Meezan Bank </span>
                    <span className='text-wrap w-9/12'> Branch Name: New Anarkali Bazaar Branch Lahore </span>
                    <span className='text-wrap w-9/12'> Account Number: <span className="font-semibold"> 02720107745960 </span> </span>
                    <span className='text-wrap w-9/12'> IBAN: <span className="font-semibold"> PK15MEZN0002720107745960 </span> </span>
