@@ -1,3 +1,5 @@
+Visit the website at: **https://www.blingboutique.site/**
+
 In order to run it locally , make changes in **api/internal.js** in frontend and **api/index.js** at backend.
 
 The commands will be **npm run dev** in frontend and **node api/index.js** at backend.
